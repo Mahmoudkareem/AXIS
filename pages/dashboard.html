@@ -1,11 +1,198 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXIS Dashboard</title>
+<link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
 
-<h1>AXIS Dashboard Works ✅</h1>
+<body class="dashboard-page">
 
+<div class="app-layout">
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div class="top-logo">
+                <img src="../assets/logo.png" alt="AXIS Logo">
+            </div>
+
+            <div class="date-box">📅 Tuesday, May 21, 2024</div>
+
+            <div class="top-actions">
+                <span class="icon-badge">🔔 <b>8</b></span>
+                <span>💬</span>
+
+                <div class="user-box">
+                    <div>
+                        <strong>Mahmoud Kareem</strong>
+                        <small>Lab Manager</small>
+                    </div>
+                    <div class="avatar">MK</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="welcome-section">
+            <div>
+                <h1>Dashboard</h1>
+            </div>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card red">
+                <div class="stat-icon">⏰</div>
+                <h3>Overdue Orders</h3>
+                <strong>5</strong>
+                <p>5 orders</p>
+                <span>View Details ›</span>
+            </div>
+
+            <div class="stat-card orange">
+                <div class="stat-icon">📋</div>
+                <h3>In Progress Orders</h3>
+                <strong>12</strong>
+                <p>12 orders</p>
+                <span>View Details ›</span>
+            </div>
+
+            <div class="stat-card green">
+                <div class="stat-icon">⚙️</div>
+                <h3>Completed Orders</h3>
+                <strong>18</strong>
+                <p>18 orders</p>
+                <span>View Details ›</span>
+            </div>
+
+            <div class="stat-card blue">
+                <div class="stat-icon">🗓️</div>
+                <h3>Today's Orders</h3>
+                <strong>24</strong>
+                <p>24 new orders</p>
+                <span>View Details ›</span>
+            </div>
+
+            <div class="stat-card purple">
+                <div class="stat-icon">💳</div>
+                <h3>Total Revenue</h3>
+                <strong>$45,231</strong>
+                <p>This Month</p>
+                <span>↗ 12.5% vs last month</span>
+            </div>
+        </section>
+
+        <section class="dashboard-bottom">
+            <div class="info-box">
+                <h2>Top Technicians</h2>
+
+                <div class="person-item">
+                    <span>Ahmed Khaled</span>
+                    <strong>58 Cases</strong>
+                </div>
+
+                <div class="person-item">
+                    <span>Mohammad Ali</span>
+                    <strong>44 Cases</strong>
+                </div>
+
+                <div class="person-item">
+                    <span>Yousef Omar</span>
+                    <strong>37 Cases</strong>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h2>Top Dentists</h2>
+
+                <div class="person-item">
+                    <span>Dr. Ahmad</span>
+                    <strong>125 Cases</strong>
+                </div>
+
+                <div class="person-item">
+                    <span>Dr. Samer</span>
+                    <strong>94 Cases</strong>
+                </div>
+
+                <div class="person-item">
+                    <span>Dr. Kareem</span>
+                    <strong>73 Cases</strong>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h2>Quick Notifications</h2>
+
+                <div class="notification-item">Order #102 is overdue</div>
+                <div class="notification-item">Inventory running low</div>
+                <div class="notification-item">5 orders ready for delivery</div>
+            </div>
+        </section>
+
+        <section class="charts-section">
+
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h2>Orders By Status</h2>
+                    <button>This Month</button>
+                </div>
+
+                <div class="status-chart">
+                    <div class="circle-chart">
+                        <span>79</span>
+                    </div>
+
+                    <div class="status-list">
+                        <p>🔵 New - 24</p>
+                        <p>🟠 In Progress - 18</p>
+                        <p>🟢 Review - 8</p>
+                        <p>🟣 Ready - 12</p>
+                        <p>🟢 Delivered - 17</p>
+                        <p>🔴 Overdue - 5</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-box large-chart">
+                <div class="chart-header">
+                    <h2>Orders Overview</h2>
+                    <button>Export Report</button>
+                </div>
+
+                <div class="fake-graph">
+                    <div class="line"></div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <aside class="right-sidebar">
+        <div class="sidebar-logo">
+            <img src="../assets/logo.png" alt="AXIS Logo">
+        </div>
+
+        <nav class="side-menu">
+            <a class="active">Dashboard 🏠</a>
+            <a>Order Management 📋</a>
+            <a>Doctors Management 👥</a>
+            <a>Patients Management 👤</a>
+            <a>Employees Management 👥</a>
+            <a>Inventory 📦</a>
+            <a>Quality Control 🛡️</a>
+            <a>Notifications 🔔</a>
+            <a>Roles & Permissions 🔒</a>
+            <a>Activity Logs 🕘</a>
+            <a>Settings ⚙️</a>
+        </nav>
+
+        <button class="logout-btn" onclick="logout()">Logout ↪</button>
+    </aside>
+
+</div>
+
+<script src="../js/auth.js"></script>
 </body>
 </html>
