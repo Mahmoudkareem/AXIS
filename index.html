@@ -11,7 +11,6 @@
 <body>
 
 <div class="login-container">
-
     <div class="login-card">
 
         <img src="assets/logo.png" alt="AXIS Logo" class="logo">
@@ -19,16 +18,14 @@
         <h1>AXIS</h1>
         <p>Dental Laboratory Management System</p>
 
-        <form>
-
+        <form onsubmit="login(event)">
             <label>Username</label>
-            <input type="text" placeholder="Enter Username">
+            <input id="username" type="text" placeholder="Enter Username">
 
             <label>Password</label>
-            <input type="password" placeholder="Enter Password">
+            <input id="password" type="password" placeholder="Enter Password">
 
             <button type="submit">Login</button>
-
         </form>
 
         <div class="language-switch">
@@ -36,8 +33,9 @@
         </div>
 
     </div>
-
 </div>
+
+<script src="js/auth.js"></script>
 
 </body>
 </html>
