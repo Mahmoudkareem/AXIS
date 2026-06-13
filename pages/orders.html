@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXIS Order Management</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div class="top-logo">
+    <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
+</div>
+
+            <div class="date-box">📅 Tuesday, May 21, 2024</div>
+
+            <div class="top-actions">
+                <span class="icon-badge">🔔 <b>8</b></span>
+                <span>💬</span>
+
+                <div class="user-box">
+                    <div>
+                        <strong>Mahmoud Kareem</strong>
+                        <small>Lab Manager</small>
+                    </div>
+                    <div class="avatar">MK</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="orders-header">
+            <div>
+                <h1>Order Management</h1>
+                <p>Manage dental laboratory orders and workflow</p>
+            </div>
+
+            <button class="primary-btn" onclick="openOrderModal()">+ New Order</button>
+        </section>
+
+        <section class="orders-toolbar">
+            <button>🖨️ Print</button>
+            <button>⬇️ Export</button>
+
+            <select>
+                <option>Date Range</option>
+                <option>Today</option>
+                <option>This Week</option>
+                <option>This Month</option>
+            </select>
+
+            <select>
+                <option>Status</option>
+                <option>New</option>
+                <option>In Progress</option>
+                <option>Review</option>
+                <option>Ready</option>
+                <option>Delivered</option>
+            </select>
+
+            <input type="text" placeholder="Search by patient name or order ID">
+        </section>
+
+        <section class="orders-table-box">
+            <div class="table-title">
+                <strong>Total Orders: 25</strong>
+            </div>
+
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Actions</th>
+                        <th>Status</th>
+                        <th>Order ID</th>
+                        <th>Patient Name</th>
+                        <th>Type of Work</th>
+                        <th>Order Date</th>
+                        <th>Due Date</th>
+                        <th>Doctor</th>
+                        <th>Technician</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td class="action-icons">⋮ 🗑️ ✏️ 🖨️</td>
+                        <td><span class="status new">New</span></td>
+                        <td>#1001</td>
+                        <td>Sarah Mohammed</td>
+                        <td>Zirconia Crown</td>
+                        <td>May 20, 2024</td>
+                        <td class="danger-text">May 25, 2024</td>
+                        <td>Dr. Ahmed</td>
+                        <td>Mohamed Ali</td>
+                        <td>0%</td>
+                    </tr>
+
+                    <tr>
+                        <td class="action-icons">⋮ 🗑️ ✏️ 🖨️</td>
+                        <td><span class="status progress">In Progress</span></td>
+                        <td>#1002</td>
+                        <td>Ahmed Gamal</td>
+                        <td>E-max Veneer</td>
+                        <td>May 19, 2024</td>
+                        <td>May 23, 2024</td>
+                        <td>Dr. Sara</td>
+                        <td>Ahmed Khaled</td>
+                        <td>60%</td>
+                    </tr>
+
+                    <tr>
+                        <td class="action-icons">⋮ 🗑️ ✏️ 🖨️</td>
+                        <td><span class="status review">Review</span></td>
+                        <td>#1003</td>
+                        <td>Nour Eldin</td>
+                        <td>Partial Denture</td>
+                        <td>May 18, 2024</td>
+                        <td>May 24, 2024</td>
+                        <td>Dr. Mohamed</td>
+                        <td>Laila Hassan</td>
+                        <td>75%</td>
+                    </tr>
+
+                    <tr>
+                        <td class="action-icons">⋮ 🗑️ ✏️ 🖨️</td>
+                        <td><span class="status completed">Ready</span></td>
+                        <td>#1004</td>
+                        <td>Fatima Ali</td>
+                        <td>Full Crown</td>
+                        <td>May 17, 2024</td>
+                        <td>May 22, 2024</td>
+                        <td>Dr. Ali</td>
+                        <td>Fatma Ali</td>
+                        <td>100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="modal" id="orderModal">
+            <div class="modal-content wide-modal">
+
+                <div class="modal-header">
+                    <h2>Add New Order</h2>
+                    <button type="button" onclick="closeOrderModal()">✕</button>
+                </div>
+
+                <form id="orderForm" class="order-form order-form-grid">
+
+                    <div class="form-group">
+                        <label>Patient Name</label>
+                        <input type="text" id="patientName" placeholder="Enter patient name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Doctor</label>
+                        <select id="doctorName" required>
+                            <option value="">Select Doctor</option>
+                            <option>Dr. Ahmed</option>
+                            <option>Dr. Samer</option>
+                            <option>Dr. Kareem</option>
+                            <option>Dr. Sara</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type Of Work</label>
+                        <select id="workType" required>
+                            <option value="">Select Type of Work</option>
+                            <option>Zirconia Crown</option>
+                            <option>E-max Crown</option>
+                            <option>Veneer</option>
+                            <option>Bridge</option>
+                            <option>Implant Crown</option>
+                            <option>Implant Bridge</option>
+                            <option>Partial Denture</option>
+                            <option>Complete Denture</option>
+                            <option>Night Guard</option>
+                            <option>Retainer</option>
+                            <option>Repair</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Technician</label>
+                        <select id="technicianName" required>
+                            <option value="">Select Technician</option>
+                            <option>Ahmed Khaled</option>
+                            <option>Mohammad Ali</option>
+                            <option>Yousef Omar</option>
+                            <option>Laila Hassan</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Delivery Date</label>
+                        <input type="date" id="deliveryDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="priority" required>
+                            <option value="">Select Priority</option>
+                            <option>Normal</option>
+                            <option>Urgent</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Case Images</label>
+                        <input type="file" id="caseImages" multiple>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea id="orderNotes" placeholder="Write notes here"></textarea>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="cancel-btn" onclick="closeOrderModal()">Cancel</button>
+                        <button type="submit" class="primary-btn">Save Order</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </main>
+
+    <aside class="right-sidebar">
+        <div class="animated-axis-logo">
+    AXIS
+    <span>DENTAL LABORATORY</span>
+</div>
+
+        <nav class="side-menu">
+            <a href="dashboard.html">Dashboard 🏠</a>
+            <a class="active" href="orders.html">Order Management 📋</a>
+            <a>Doctors Management 👥</a>
+            <a>Patients Management 👤</a>
+            <a>Employees Management 👥</a>
+            <a>Inventory 📦</a>
+            <a>Quality Control 🛡️</a>
+            <a>Notifications 🔔</a>
+            <a>Roles & Permissions 🔒</a>
+            <a>Activity Logs 🕘</a>
+            <a>Settings ⚙️</a>
+        </nav>
+
+        <button class="logout-btn" onclick="logout()">Logout ↪</button>
+    </aside>
+
+</div>
+
+<script src="../js/auth.js"></script>
+<script src="../js/orders.js"></script>
+
+</body>
+</html>

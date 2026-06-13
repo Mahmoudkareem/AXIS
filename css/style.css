@@ -253,6 +253,7 @@ width:140px;
 
 .top-logo img{
     width:145px;
+    animation:logoFloat 1.8s ease-in-out infinite;
 }
 
 .date-box{
@@ -425,7 +426,7 @@ width:140px;
 }
 
 .right-sidebar{
-    width:300px;
+    width:240px;
     background:#fff;
     padding:28px 22px;
     box-shadow:-5px 0 25px rgba(0,0,0,.05);
@@ -439,7 +440,8 @@ width:140px;
 }
 
 .right-sidebar .sidebar-logo img{
-    width:90px;
+    width:80px;
+    animation:logoFloat 2s ease-in-out infinite;
 }
 
 .side-menu{
@@ -449,7 +451,7 @@ width:140px;
 }
 
 .side-menu a{
-    padding:15px 18px;
+    padding:10px 14px;
     border-radius:12px;
     color:#15172b;
     font-weight:700;
@@ -651,5 +653,349 @@ width:140px;
 @media(max-width:1100px){
     .charts-section{
         grid-template-columns:1fr;
+    }
+}
+/* ===== Orders Page ===== */
+
+.orders-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:30px 0 20px;
+}
+
+.orders-header h1{
+    font-size:32px;
+    color:#15172b;
+}
+
+.orders-header p{
+    color:#777;
+    margin-top:6px;
+}
+
+.primary-btn{
+    background:linear-gradient(135deg,#D62846,#B83280,#8E2DE2);
+    color:white;
+    border:none;
+    padding:14px 24px;
+    border-radius:12px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.orders-toolbar{
+    background:#fff;
+    padding:20px;
+    border-radius:18px;
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.05);
+}
+
+.orders-toolbar button,
+.orders-toolbar input{
+    border:1px solid #eee;
+    background:white;
+    padding:13px 16px;
+    border-radius:12px;
+    font-weight:700;
+}
+
+.orders-toolbar input{
+    margin-left:auto;
+    min-width:320px;
+}
+
+.orders-table-box{
+    overflow-x:hidden;
+}
+
+.orders-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.orders-table th{
+    text-align:left;
+    padding:16px;
+    background:#f8f9fc;
+    color:#15172b;
+    font-size:14px;
+}
+
+.orders-table td{
+    padding:10px;
+    font-size:13px;
+}
+
+.status{
+    padding:7px 12px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.status.new{
+    background:#e8f2ff;
+    color:#2563eb;
+}
+
+.status.progress{
+    background:#fff2dc;
+    color:#f97316;
+}
+
+.status.review{
+    background:#f4e8ff;
+    color:#8E2DE2;
+}
+
+.status.completed{
+    background:#e3fff3;
+    color:#10b981;
+}
+
+.danger-text{
+    color:#D62846;
+    font-weight:800;
+}
+
+@media(max-width:700px){
+    .orders-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .orders-toolbar{
+        flex-direction:column;
+    }
+
+    .orders-toolbar input{
+        min-width:100%;
+        margin-left:0;
+    }
+}
+/* ===== Orders Fix ===== */
+
+.orders-toolbar button{
+    min-width:120px;
+    height:52px;
+    font-size:15px;
+}
+
+.orders-toolbar input{
+    height:52px;
+}
+
+.side-menu a{
+    text-decoration:none !important;
+}
+
+.orders-table td:last-child{
+    white-space:nowrap;
+}
+
+.orders-table td{
+    vertical-align:middle;
+}
+/* ===== Strong Orders Fix ===== */
+
+.orders-toolbar{
+    display:flex !important;
+    align-items:center !important;
+    gap:15px !important;
+    background:#fff !important;
+}
+
+.orders-toolbar button{
+    width:auto !important;
+    min-width:130px !important;
+    height:52px !important;
+    padding:0 18px !important;
+    background:#fff !important;
+    color:#15172b !important;
+    border:1px solid #eee !important;
+    border-radius:12px !important;
+    font-size:15px !important;
+    font-weight:800 !important;
+}
+
+.orders-toolbar select{
+    height:52px !important;
+    padding:0 16px !important;
+    border:1px solid #eee !important;
+    border-radius:12px !important;
+    background:#fff !important;
+    font-weight:700 !important;
+}
+
+.orders-toolbar input{
+    height:52px !important;
+    min-width:360px !important;
+    margin-left:auto !important;
+    border:1px solid #eee !important;
+    border-radius:12px !important;
+}
+
+.side-menu a{
+    text-decoration:none !important;
+}
+
+.orders-table td,
+.orders-table th{
+    padding:10px;
+    font-size:13px;
+}
+/* ===== Order Modal ===== */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    width:500px;
+    max-width:90%;
+    background:white;
+    border-radius:20px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.modal-header h2{
+    color:#15172b;
+}
+
+.modal-header button{
+    border:none;
+    background:none;
+    font-size:24px;
+    cursor:pointer;
+    color:#D62846;
+}
+
+.order-form{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.order-form input,
+.order-form select,
+.order-form textarea{
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.order-form textarea{
+    resize:none;
+    min-height:100px;
+}
+/* ===== Wide Order Modal ===== */
+
+.wide-modal{
+    width:820px;
+    max-width:94%;
+}
+
+.order-form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    font-size:13px;
+    font-weight:800;
+    color:#15172b;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    min-height:46px;
+    padding:0 12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.form-group textarea{
+    padding:12px;
+    min-height:90px;
+    resize:none;
+}
+
+.modal-actions{
+    grid-column:1 / 3;
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:5px;
+}
+
+.cancel-btn{
+    background:#f4f5f8;
+    color:#15172b;
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+@media(max-width:700px){
+    .order-form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .modal-actions{
+        grid-column:1;
+    }
+}
+/* ===== Prevent Horizontal Scroll ===== */
+
+html,
+body{
+    overflow-x:hidden;
+}
+
+/* ===== AXIS Logo Animation All Pages ===== */
+
+.top-logo,
+.sidebar-logo{
+    animation:axisLogoBounce 1.8s ease-in-out infinite !important;
+}
+
+@keyframes axisLogoBounce{
+    0%,100%{
+        transform:translateY(0) scale(1);
+    }
+
+    50%{
+        transform:translateY(-8px) scale(1.05);
     }
 }
