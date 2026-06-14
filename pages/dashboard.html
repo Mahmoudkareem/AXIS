@@ -20,9 +20,9 @@
 
             <div class="date-box">📅 Tuesday, May 21, 2024</div>
 
-<button class="theme-btn" onclick="toggleTheme()">🌙</button>
+            <button class="theme-btn" onclick="toggleTheme()">🌙</button>
 
-<div class="top-actions">
+            <div class="top-actions">
                 <span class="icon-badge">🔔 <b>8</b></span>
                 <span>💬</span>
 
@@ -46,41 +46,41 @@
             <div class="stat-card red">
                 <div class="stat-icon">⏰</div>
                 <h3>Overdue Orders</h3>
-                <strong>5</strong>
-                <p>5 orders</p>
+                <strong id="overdueOrders">0</strong>
+                <p id="overdueOrdersText">0 orders</p>
                 <span>View Details ›</span>
             </div>
 
             <div class="stat-card orange">
                 <div class="stat-icon">📋</div>
                 <h3>In Progress Orders</h3>
-                <strong>12</strong>
-                <p>12 orders</p>
+                <strong id="inProgressOrders">0</strong>
+                <p id="inProgressOrdersText">0 orders</p>
                 <span>View Details ›</span>
             </div>
 
             <div class="stat-card green">
                 <div class="stat-icon">⚙️</div>
                 <h3>Completed Orders</h3>
-                <strong>18</strong>
-                <p>18 orders</p>
+                <strong id="completedOrders">0</strong>
+                <p id="completedOrdersText">0 orders</p>
                 <span>View Details ›</span>
             </div>
 
             <div class="stat-card blue">
                 <div class="stat-icon">🗓️</div>
                 <h3>Today's Orders</h3>
-                <strong>24</strong>
-                <p>24 new orders</p>
+                <strong id="todayOrders">0</strong>
+                <p id="todayOrdersText">0 new orders</p>
                 <span>View Details ›</span>
             </div>
 
             <div class="stat-card purple">
                 <div class="stat-icon">💳</div>
                 <h3>Total Revenue</h3>
-                <strong>$45,231</strong>
+                <strong>$0</strong>
                 <p>This Month</p>
-                <span>↗ 12.5% vs last month</span>
+                <span>↗ 0% vs last month</span>
             </div>
         </section>
 
@@ -126,9 +126,9 @@
             <div class="info-box">
                 <h2>Quick Notifications</h2>
 
-                <div class="notification-item">Order #102 is overdue</div>
-                <div class="notification-item">Inventory running low</div>
-                <div class="notification-item">5 orders ready for delivery</div>
+                <div class="notification-item">Orders dashboard linked successfully</div>
+                <div class="notification-item">Order Management is ready</div>
+                <div class="notification-item">System ready for client demo</div>
             </div>
         </section>
 
@@ -142,16 +142,16 @@
 
                 <div class="status-chart">
                     <div class="circle-chart">
-                        <span>79</span>
+                        <span id="totalOrdersChart">0</span>
                     </div>
 
                     <div class="status-list">
-                        <p>🔵 New - 24</p>
-                        <p>🟠 In Progress - 18</p>
-                        <p>🟢 Review - 8</p>
-                        <p>🟣 Ready - 12</p>
-                        <p>🟢 Delivered - 17</p>
-                        <p>🔴 Overdue - 5</p>
+                        <p id="newStatusText">🔵 New - 0</p>
+                        <p id="progressStatusText">🟠 In Progress - 0</p>
+                        <p id="reviewStatusText">🟢 Review - 0</p>
+                        <p id="readyStatusText">🟣 Ready - 0</p>
+                        <p id="deliveredStatusText">🟢 Delivered - 0</p>
+                        <p id="overdueStatusText">🔴 Overdue - 0</p>
                     </div>
                 </div>
             </div>
@@ -177,25 +177,26 @@
         </div>
 
         <nav class="side-menu">
-           <a class="active" href="dashboard.html">Dashboard</a>
-<a href="orders.html">Order Management</a>
-<a>Doctors Management</a>
-<a>Patients Management</a>
-<a>Employees Management</a>
-<a>Inventory</a>
-<a>Quality Control</a>
-<a>Notifications</a>
-<a>Roles & Permissions</a>
-<a>Activity Logs</a>
-<a>Settings</a>
+            <a class="active" href="dashboard.html">Dashboard</a>
+            <a href="orders.html">Order Management</a>
+            <a>Doctors Management</a>
+            <a>Patients Management</a>
+            <a>Employees Management</a>
+            <a>Inventory</a>
+            <a>Quality Control</a>
+            <a>Notifications</a>
+            <a>Roles & Permissions</a>
+            <a>Activity Logs</a>
+            <a>Settings</a>
         </nav>
 
-        <button class="logout-btn" onclick="logout()">Logout ↪</button>
+        <button class="logout-btn" onclick="logout()">Logout</button>
     </aside>
 
 </div>
 
 <script src="../js/auth.js"></script>
 <script src="../js/theme.js"></script>
+<script src="../js/dashboard.js"></script>
 </body>
 </html>
