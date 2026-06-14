@@ -1,224 +1,250 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AXIS Inventory</title>
-<link rel="stylesheet" href="../css/style.css">
-</head>
+let inventoryItems = JSON.parse(localStorage.getItem("axisInventory")) || [];
+let editInventoryIndex = null;
 
-<body class="dashboard-page">
+const defaultItems = [
+    { name:"Zirconia Blocks", category:"Dental Materials", quantity:20, minimum:5, price:18 },
+    { name:"E-max Ingots", category:"Dental Materials", quantity:12, minimum:4, price:22 },
+    { name:"Resin", category:"Dental Materials", quantity:6, minimum:3, price:12 },
+    { name:"Stains", category:"Dental Materials", quantity:4, minimum:2, price:10 },
+    { name:"Gloves", category:"Safety", quantity:50, minimum:20, price:1 },
+    { name:"Masks", category:"Safety", quantity:40, minimum:15, price:1 },
+    { name:"Burs", category:"Tools", quantity:30, minimum:10, price:2 },
+    { name:"Medical Alcohol", category:"Liquids", quantity:10, minimum:4, price:3 }
+];
 
-<div class="app-layout">
+if(inventoryItems.length === 0){
+    inventoryItems = defaultItems.map(function(item){
+        return {
+            id: Date.now() + Math.random(),
+            name: item.name,
+            category: item.category,
+            quantity: item.quantity,
+            minimum: item.minimum,
+            price: item.price,
+            notes: "",
+            lastUpdated: new Date().toLocaleDateString()
+        };
+    });
 
-    <main class="main-content">
+    saveInventory();
+}
 
-        <header class="topbar">
-            <div class="top-logo">
-                <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
-            </div>
+function openInventoryModal(){
+    const modal = document.getElementById("inventoryModal");
+    if(modal){
+        modal.style.display = "flex";
+    }
+}
 
-            <div class="date-box" id="currentDate"></div>
+function closeInventoryModal(){
+    const modal = document.getElementById("inventoryModal");
+    const form = document.getElementById("inventoryForm");
 
-            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">العربية</button>
-            <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+    if(modal){
+        modal.style.display = "none";
+    }
 
-            <div class="top-actions">
-                <span class="icon-badge">🔔 <b>8</b></span>
-                <span>💬</span>
+    if(form){
+        form.reset();
+    }
 
-                <div class="user-box">
-                    <div>
-                        <strong>Mahmoud Kareem</strong>
-                        <small>Lab Manager</small>
-                    </div>
-                    <div class="avatar">MK</div>
-                </div>
-            </div>
-        </header>
+    editInventoryIndex = null;
+}
 
-        <section class="orders-header">
-            <div>
-                <h1 id="inventoryPageTitle">Inventory Management</h1>
-                <p id="inventoryPageDesc">Manage dental laboratory materials and stock levels</p>
-            </div>
+function saveInventory(){
+    localStorage.setItem("axisInventory", JSON.stringify(inventoryItems));
+}
 
-            <button class="primary-btn" id="addInventoryBtn" onclick="openInventoryModal()">+ Add Item</button>
-        </section>
+function getStockStatus(item){
+    if(Number(item.quantity) <= 0){
+        return "Out Of Stock";
+    }
 
-        <section class="stats-grid inventory-stats">
-            <div class="stat-card red">
-                <div class="stat-icon">⏰</div>
-                <h3 id="lowStockTitle">Low Stock</h3>
-                <strong id="lowStockItems">0</strong>
-                <p id="lowStockText">Need attention</p>
-                <span id="lowStockSpan">Reorder soon</span>
-            </div>
+    if(Number(item.quantity) <= Number(item.minimum)){
+        return "Low Stock";
+    }
 
-            <div class="stat-card orange">
-                <div class="stat-icon">📦</div>
-                <h3 id="totalItemsTitle">Total Items</h3>
-                <strong id="totalItems">0</strong>
-                <p id="totalItemsText">Inventory materials</p>
-                <span id="totalItemsSpan">Live stock tracking</span>
-            </div>
+    return "In Stock";
+}
 
-            <div class="stat-card purple">
-                <div class="stat-icon">🛒</div>
-                <h3 id="totalQuantityTitle">Total Quantity</h3>
-                <strong id="inventoryTotalQuantity">0</strong>
-                <p id="totalQuantityText">Units in stock</p>
-                <span id="totalQuantitySpan">Auto calculated</span>
-            </div>
+function getStockClass(status){
+    if(status === "In Stock"){
+        return "completed";
+    }
 
-            <div class="stat-card green">
-                <div class="stat-icon">💰</div>
-                <h3 id="inventoryValueTitle">Inventory Value</h3>
-                <strong id="inventoryValue">0 JD</strong>
-                <p id="inventoryValueText">Total stock value</p>
-                <span id="inventoryValueSpan">Auto calculated</span>
-            </div>
+    if(status === "Low Stock"){
+        return "progress";
+    }
 
-            <div class="stat-card blue">
-                <div class="stat-icon">📉</div>
-                <h3 id="outStockTitle">Out Of Stock</h3>
-                <strong id="outStockItems">0</strong>
-                <p id="outStockText">Unavailable items</p>
-                <span id="outStockSpan">Immediate action</span>
-            </div>
-        </section>
+    if(status === "Out Of Stock"){
+        return "new";
+    }
 
-        <section class="orders-toolbar inventory-toolbar">
-            <button id="inventoryPrintBtn" onclick="printInventory()">🖨️ Print</button>
-            <button id="inventoryExportBtn" onclick="exportInventory()">⬇️ Export</button>
+    return "new";
+}
 
-            <select id="stockFilter" onchange="filterInventory()">
-                <option value="All">All Stock</option>
-                <option value="In Stock">In Stock</option>
-                <option value="Low Stock">Low Stock</option>
-                <option value="Out Of Stock">Out Of Stock</option>
-            </select>
+function setInventoryText(id, value){
+    const element = document.getElementById(id);
 
-            <input
-                type="text"
-                id="inventorySearch"
-                placeholder="Search by item name or category"
-                onkeyup="filterInventory()"
-            >
-        </section>
+    if(element){
+        element.textContent = value;
+    }
+}
 
-        <section class="orders-table-box inventory-table-section">
-            <div class="table-title">
-                <strong id="inventoryTableTitle">Total Items: 0</strong>
-            </div>
+function renderInventory(){
+    const tableBody = document.getElementById("inventoryTableBody");
 
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th id="inventoryThActions">Actions</th>
-                        <th id="inventoryThStatus">Status</th>
-                        <th id="inventoryThItemName">Item Name</th>
-                        <th id="inventoryThCategory">Category</th>
-                        <th id="inventoryThQuantity">Quantity</th>
-                        <th id="inventoryThMinimum">Minimum Stock</th>
-                        <th id="inventoryThPrice">Unit Price</th>
-                        <th id="inventoryThValue">Total Value</th>
-                        <th id="inventoryThUpdated">Last Updated</th>
-                    </tr>
-                </thead>
+    if(!tableBody){
+        console.error("inventoryTableBody not found");
+        return;
+    }
 
-                <tbody id="inventoryTableBody"></tbody>
-            </table>
-        </section>
+    tableBody.innerHTML = "";
 
-        <div class="modal" id="inventoryModal">
-            <div class="modal-content wide-modal">
+    let totalValue = 0;
+    let totalQuantity = 0;
+    let lowStockCount = 0;
+    let outStockCount = 0;
 
-                <div class="modal-header">
-                    <h2 id="inventoryModalTitle">Add Inventory Item</h2>
-                    <button type="button" onclick="closeInventoryModal()">✕</button>
-                </div>
+    inventoryItems.forEach(function(item, index){
+        const status = getStockStatus(item);
+        const statusClass = getStockClass(status);
+        const itemValue = Number(item.quantity) * Number(item.price);
 
-                <form id="inventoryForm" class="order-form order-form-grid">
+        totalValue += itemValue;
+        totalQuantity += Number(item.quantity);
 
-                    <div class="form-group">
-                        <label id="itemNameLabel">Item Name</label>
-                        <input type="text" id="itemName" placeholder="Enter item name" required>
-                    </div>
+        if(status === "Low Stock"){
+            lowStockCount++;
+        }
 
-                    <div class="form-group">
-                        <label id="itemCategoryLabel">Category</label>
-                        <select id="itemCategory" required>
-                            <option value="">Select Category</option>
-                            <option value="Dental Materials">Dental Materials</option>
-                            <option value="Consumables">Consumables</option>
-                            <option value="Tools">Tools</option>
-                            <option value="Safety">Safety</option>
-                            <option value="Liquids">Liquids</option>
-                        </select>
-                    </div>
+        if(status === "Out Of Stock"){
+            outStockCount++;
+        }
 
-                    <div class="form-group">
-                        <label id="itemQuantityLabel">Quantity</label>
-                        <input type="number" id="itemQuantity" placeholder="Enter quantity" required>
-                    </div>
+        const row = document.createElement("tr");
 
-                    <div class="form-group">
-                        <label id="minimumStockLabel">Minimum Stock</label>
-                        <input type="number" id="minimumStock" placeholder="Minimum stock alert" required>
-                    </div>
+        row.innerHTML = `
+            <td class="action-icons">
+                <button onclick="deleteInventoryItem(${index})">🗑️</button>
+                <button onclick="editInventoryItem(${index})">✏️</button>
+            </td>
+            <td><span class="status ${statusClass}">${status}</span></td>
+            <td>${item.name}</td>
+            <td>${item.category}</td>
+            <td>${item.quantity}</td>
+            <td>${item.minimum}</td>
+            <td>${item.price} JD</td>
+            <td>${itemValue.toFixed(2)} JD</td>
+            <td>${item.lastUpdated}</td>
+        `;
 
-                    <div class="form-group">
-                        <label id="unitPriceLabel">Unit Price</label>
-                        <input type="number" id="unitPrice" placeholder="Price in JD" required>
-                    </div>
+        tableBody.appendChild(row);
+    });
 
-                    <div class="form-group">
-                        <label id="inventoryNotesLabel">Notes</label>
-                        <textarea id="inventoryNotes" placeholder="Write notes here"></textarea>
-                    </div>
+    setInventoryText("totalItems", inventoryItems.length);
+    setInventoryText("lowStockItems", lowStockCount);
+    setInventoryText("outStockItems", outStockCount);
+    setInventoryText("inventoryTotalQuantity", totalQuantity);
+    setInventoryText("inventoryValue", totalValue.toFixed(2) + " JD");
+    setInventoryText("inventoryTableTitle", "Total Items: " + inventoryItems.length);
 
-                    <div class="modal-actions">
-                        <button type="button" class="cancel-btn" id="inventoryCancelBtn" onclick="closeInventoryModal()">Cancel</button>
-                        <button type="submit" class="primary-btn" id="inventorySaveBtn">Save Item</button>
-                    </div>
+    filterInventory();
 
-                </form>
+    if(typeof applyLanguage === "function"){
+        applyLanguage();
+    }
+}
 
-            </div>
-        </div>
+function editInventoryItem(index){
+    editInventoryIndex = index;
+    const item = inventoryItems[index];
 
-    </main>
+    document.getElementById("itemName").value = item.name;
+    document.getElementById("itemCategory").value = item.category;
+    document.getElementById("itemQuantity").value = item.quantity;
+    document.getElementById("minimumStock").value = item.minimum;
+    document.getElementById("unitPrice").value = item.price;
+    document.getElementById("inventoryNotes").value = item.notes || "";
 
-    <aside class="right-sidebar">
+    openInventoryModal();
+}
 
-        <div class="page-title-box">
-            <h2 id="inventorySideTitle">INVENTORY</h2>
-        </div>
+function deleteInventoryItem(index){
+    const confirmDelete = confirm("Are you sure you want to delete this item?");
 
-        <nav class="side-menu">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="orders.html">Order Management</a>
-            <a>Doctors Management</a>
-            <a>Patients Management</a>
-            <a>Employees Management</a>
-            <a class="active" href="inventory.html">Inventory</a>
-            <a>Quality Control</a>
-            <a>Notifications</a>
-            <a>Roles & Permissions</a>
-            <a>Activity Logs</a>
-            <a>Settings</a>
-        </nav>
+    if(confirmDelete){
+        inventoryItems.splice(index, 1);
+        saveInventory();
+        renderInventory();
+    }
+}
 
-        <button class="logout-btn" onclick="logout()">Logout</button>
+const inventoryForm = document.getElementById("inventoryForm");
 
-    </aside>
+if(inventoryForm){
+    inventoryForm.addEventListener("submit", function(e){
+        e.preventDefault();
 
-</div>
+        const itemData = {
+            id: editInventoryIndex === null ? Date.now() : inventoryItems[editInventoryIndex].id,
+            name: document.getElementById("itemName").value,
+            category: document.getElementById("itemCategory").value,
+            quantity: Number(document.getElementById("itemQuantity").value),
+            minimum: Number(document.getElementById("minimumStock").value),
+            price: Number(document.getElementById("unitPrice").value),
+            notes: document.getElementById("inventoryNotes").value,
+            lastUpdated: new Date().toLocaleDateString()
+        };
 
-<script src="../js/auth.js"></script>
-<script src="../js/theme.js"></script>
-<script src="../js/inventory.js"></script>
+        if(editInventoryIndex === null){
+            inventoryItems.push(itemData);
+        }else{
+            inventoryItems[editInventoryIndex] = itemData;
+            editInventoryIndex = null;
+        }
 
-</body>
-</html>
+        saveInventory();
+        renderInventory();
+        closeInventoryModal();
+    });
+}
+
+function filterInventory(){
+    const searchInput = document.getElementById("inventorySearch");
+    const stockFilter = document.getElementById("stockFilter");
+
+    const searchValue = searchInput ? searchInput.value.toLowerCase() : "";
+    const selectedStatus = stockFilter ? stockFilter.value : "All";
+
+    const rows = document.querySelectorAll("#inventoryTableBody tr");
+
+    rows.forEach(function(row){
+        const rowText = row.innerText.toLowerCase();
+        const statusElement = row.querySelector(".status");
+        const statusText = statusElement ? statusElement.textContent : "";
+
+        const matchSearch = rowText.includes(searchValue);
+        const matchStatus = selectedStatus === "All" || statusText === selectedStatus;
+
+        row.style.display = matchSearch && matchStatus ? "" : "none";
+    });
+}
+
+function printInventory(){
+    window.print();
+}
+
+function exportInventory(){
+    alert("Export feature will be connected later.");
+}
+
+const inventoryModal = document.getElementById("inventoryModal");
+
+window.addEventListener("click", function(event){
+    if(event.target === inventoryModal){
+        closeInventoryModal();
+    }
+});
+
+renderInventory();

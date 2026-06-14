@@ -1223,3 +1223,26 @@ body.dashboard-page .right-sidebar{
     min-width:240px !important;
     flex-shrink:0 !important;
 }
+.inventory-stats{
+    grid-template-columns:repeat(5,1fr);
+}
+
+.inventory-table-section{
+    background:#fff;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,.05);
+    border:1px solid #eee;
+}
+
+@media(max-width:1200px){
+    .inventory-stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px){
+    .inventory-stats{
+        grid-template-columns:1fr;
+    }
+}
