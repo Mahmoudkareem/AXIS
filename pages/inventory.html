@@ -39,50 +39,50 @@
 
         <section class="orders-header">
             <div>
-                <h1>Inventory Management</h1>
-                <p>Manage dental laboratory materials and stock levels</p>
+                <h1 id="inventoryPageTitle">Inventory Management</h1>
+                <p id="inventoryPageDesc">Manage dental laboratory materials and stock levels</p>
             </div>
 
-            <button class="primary-btn" onclick="openInventoryModal()">+ Add Item</button>
+            <button class="primary-btn" id="addInventoryBtn" onclick="openInventoryModal()">+ Add Item</button>
         </section>
 
         <section class="stats-grid">
             <div class="stat-card blue">
                 <div class="stat-icon">📦</div>
-                <h3>Total Items</h3>
+                <h3 id="totalItemsTitle">Total Items</h3>
                 <strong id="totalItems">0</strong>
-                <p>Inventory materials</p>
-                <span>Live stock tracking</span>
+                <p id="totalItemsText">Inventory materials</p>
+                <span id="totalItemsSpan">Live stock tracking</span>
             </div>
 
             <div class="stat-card orange">
                 <div class="stat-icon">⚠️</div>
-                <h3>Low Stock</h3>
+                <h3 id="lowStockTitle">Low Stock</h3>
                 <strong id="lowStockItems">0</strong>
-                <p>Need attention</p>
-                <span>Reorder soon</span>
+                <p id="lowStockText">Need attention</p>
+                <span id="lowStockSpan">Reorder soon</span>
             </div>
 
             <div class="stat-card red">
                 <div class="stat-icon">❌</div>
-                <h3>Out Of Stock</h3>
+                <h3 id="outStockTitle">Out Of Stock</h3>
                 <strong id="outStockItems">0</strong>
-                <p>Unavailable items</p>
-                <span>Immediate action</span>
+                <p id="outStockText">Unavailable items</p>
+                <span id="outStockSpan">Immediate action</span>
             </div>
 
             <div class="stat-card purple">
                 <div class="stat-icon">💰</div>
-                <h3>Inventory Value</h3>
+                <h3 id="inventoryValueTitle">Inventory Value</h3>
                 <strong id="inventoryValue">0 JD</strong>
-                <p>Total stock value</p>
-                <span>Auto calculated</span>
+                <p id="inventoryValueText">Total stock value</p>
+                <span id="inventoryValueSpan">Auto calculated</span>
             </div>
         </section>
 
         <section class="orders-toolbar">
-            <button onclick="printInventory()">🖨️ Print</button>
-            <button onclick="exportInventory()">⬇️ Export</button>
+            <button id="inventoryPrintBtn" onclick="printInventory()">🖨️ Print</button>
+            <button id="inventoryExportBtn" onclick="exportInventory()">⬇️ Export</button>
 
             <select id="stockFilter" onchange="filterInventory()">
                 <option value="All">All Stock</option>
@@ -107,15 +107,15 @@
             <table class="orders-table">
                 <thead>
                     <tr>
-                        <th>Actions</th>
-                        <th>Status</th>
-                        <th>Item Name</th>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                        <th>Minimum Stock</th>
-                        <th>Unit Price</th>
-                        <th>Total Value</th>
-                        <th>Last Updated</th>
+                        <th id="inventoryThActions">Actions</th>
+                        <th id="inventoryThStatus">Status</th>
+                        <th id="inventoryThItemName">Item Name</th>
+                        <th id="inventoryThCategory">Category</th>
+                        <th id="inventoryThQuantity">Quantity</th>
+                        <th id="inventoryThMinimum">Minimum Stock</th>
+                        <th id="inventoryThPrice">Unit Price</th>
+                        <th id="inventoryThValue">Total Value</th>
+                        <th id="inventoryThUpdated">Last Updated</th>
                     </tr>
                 </thead>
 
@@ -127,52 +127,52 @@
             <div class="modal-content wide-modal">
 
                 <div class="modal-header">
-                    <h2>Add Inventory Item</h2>
+                    <h2 id="inventoryModalTitle">Add Inventory Item</h2>
                     <button type="button" onclick="closeInventoryModal()">✕</button>
                 </div>
 
                 <form id="inventoryForm" class="order-form order-form-grid">
 
                     <div class="form-group">
-                        <label>Item Name</label>
+                        <label id="itemNameLabel">Item Name</label>
                         <input type="text" id="itemName" placeholder="Enter item name" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Category</label>
+                        <label id="itemCategoryLabel">Category</label>
                         <select id="itemCategory" required>
                             <option value="">Select Category</option>
-                            <option>Dental Materials</option>
-                            <option>Consumables</option>
-                            <option>Tools</option>
-                            <option>Safety</option>
-                            <option>Liquids</option>
+                            <option value="Dental Materials">Dental Materials</option>
+                            <option value="Consumables">Consumables</option>
+                            <option value="Tools">Tools</option>
+                            <option value="Safety">Safety</option>
+                            <option value="Liquids">Liquids</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Quantity</label>
+                        <label id="itemQuantityLabel">Quantity</label>
                         <input type="number" id="itemQuantity" placeholder="Enter quantity" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Minimum Stock</label>
+                        <label id="minimumStockLabel">Minimum Stock</label>
                         <input type="number" id="minimumStock" placeholder="Minimum stock alert" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Unit Price</label>
+                        <label id="unitPriceLabel">Unit Price</label>
                         <input type="number" id="unitPrice" placeholder="Price in JD" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Notes</label>
+                        <label id="inventoryNotesLabel">Notes</label>
                         <textarea id="inventoryNotes" placeholder="Write notes here"></textarea>
                     </div>
 
                     <div class="modal-actions">
-                        <button type="button" class="cancel-btn" onclick="closeInventoryModal()">Cancel</button>
-                        <button type="submit" class="primary-btn">Save Item</button>
+                        <button type="button" class="cancel-btn" id="inventoryCancelBtn" onclick="closeInventoryModal()">Cancel</button>
+                        <button type="submit" class="primary-btn" id="inventorySaveBtn">Save Item</button>
                     </div>
 
                 </form>
@@ -185,7 +185,7 @@
     <aside class="right-sidebar">
 
         <div class="page-title-box">
-            <h2>INVENTORY</h2>
+            <h2 id="inventorySideTitle">INVENTORY</h2>
         </div>
 
         <nav class="side-menu">

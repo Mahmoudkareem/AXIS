@@ -26,7 +26,6 @@ let currentLang = localStorage.getItem("axisLang") || "en";
 const translations = {
     en: {
         langBtn: "العربية",
-
         dashboard: "Dashboard",
         orderManagement: "Order Management",
         doctorsManagement: "Doctors Management",
@@ -46,11 +45,8 @@ const translations = {
         todaysOrders: "Today's Orders",
         totalRevenue: "Total Revenue",
         viewDetails: "View Details ›",
-        newOrdersText: "new orders",
-        ordersText: "orders",
         thisMonth: "This Month",
         vsLastMonth: "↗ 0% vs last month",
-
         topTechnicians: "Top Technicians",
         topDentists: "Top Dentists",
         quickNotifications: "Quick Notifications",
@@ -62,17 +58,74 @@ const translations = {
         exportReport: "Export Report",
         thisMonthBtn: "This Month",
 
-        newStatus: "🔵 New - ",
-        progressStatus: "🟠 In Progress - ",
-        reviewStatus: "🟢 Review - ",
-        readyStatus: "🟣 Ready - ",
-        deliveredStatus: "🟢 Delivered - ",
-        overdueStatus: "🔴 Overdue - "
+        inventoryManagement: "Inventory Management",
+        inventoryDesc: "Manage dental laboratory materials and stock levels",
+        addItem: "+ Add Item",
+        totalItems: "Total Items",
+        inventoryMaterials: "Inventory materials",
+        liveStockTracking: "Live stock tracking",
+        lowStock: "Low Stock",
+        needAttention: "Need attention",
+        reorderSoon: "Reorder soon",
+        outOfStock: "Out Of Stock",
+        unavailableItems: "Unavailable items",
+        immediateAction: "Immediate action",
+        inventoryValue: "Inventory Value",
+        totalStockValue: "Total stock value",
+        autoCalculated: "Auto calculated",
+        print: "🖨️ Print",
+        export: "⬇️ Export",
+        allStock: "All Stock",
+        inStock: "In Stock",
+        searchInventory: "Search by item name or category",
+        totalItemsLabel: "Total Items: ",
+        actions: "Actions",
+        status: "Status",
+        itemName: "Item Name",
+        category: "Category",
+        quantity: "Quantity",
+        minimumStock: "Minimum Stock",
+        unitPrice: "Unit Price",
+        totalValue: "Total Value",
+        lastUpdated: "Last Updated",
+        addInventoryItem: "Add Inventory Item",
+        enterItemName: "Enter item name",
+        selectCategory: "Select Category",
+        dentalMaterials: "Dental Materials",
+        consumables: "Consumables",
+        tools: "Tools",
+        safety: "Safety",
+        liquids: "Liquids",
+        enterQuantity: "Enter quantity",
+        minimumStockAlert: "Minimum stock alert",
+        priceInJD: "Price in JD",
+        notes: "Notes",
+        writeNotes: "Write notes here",
+        cancel: "Cancel",
+        saveItem: "Save Item",
+
+        ordersPageTitle: "Order Management",
+        ordersPageDesc: "Manage dental laboratory orders and workflow",
+        newOrder: "+ New Order",
+        searchOrders: "Search by patient name or order ID",
+        totalOrdersLabel: "Total Orders: ",
+        orderId: "Order ID",
+        patientName: "Patient Name",
+        typeOfWork: "Type of Work",
+        orderDate: "Order Date",
+        dueDate: "Due Date",
+        doctor: "Doctor",
+        technician: "Technician",
+        progress: "Progress",
+        addNewOrder: "Add New Order",
+        deliveryDate: "Delivery Date",
+        priority: "Priority",
+        caseImages: "Case Images",
+        saveOrder: "Save Order"
     },
 
     ar: {
         langBtn: "English",
-
         dashboard: "لوحة التحكم",
         orderManagement: "إدارة الطلبات",
         doctorsManagement: "إدارة الأطباء",
@@ -92,11 +145,8 @@ const translations = {
         todaysOrders: "طلبات اليوم",
         totalRevenue: "إجمالي الإيرادات",
         viewDetails: "عرض التفاصيل ›",
-        newOrdersText: "طلبات جديدة",
-        ordersText: "طلبات",
         thisMonth: "هذا الشهر",
         vsLastMonth: "↗ 0% مقارنة بالشهر الماضي",
-
         topTechnicians: "أكثر الفنيين إنجازًا",
         topDentists: "أكثر الأطباء إرسالًا",
         quickNotifications: "تنبيهات سريعة",
@@ -108,21 +158,98 @@ const translations = {
         exportReport: "تصدير التقرير",
         thisMonthBtn: "هذا الشهر",
 
-        newStatus: "🔵 جديد - ",
-        progressStatus: "🟠 قيد العمل - ",
-        reviewStatus: "🟢 مراجعة - ",
-        readyStatus: "🟣 جاهز - ",
-        deliveredStatus: "🟢 تم التسليم - ",
-        overdueStatus: "🔴 متأخر - "
+        inventoryManagement: "إدارة المخزون",
+        inventoryDesc: "إدارة مواد مختبر الأسنان ومستويات المخزون",
+        addItem: "+ إضافة مادة",
+        totalItems: "إجمالي المواد",
+        inventoryMaterials: "مواد المخزون",
+        liveStockTracking: "تتبع مباشر للمخزون",
+        lowStock: "مخزون منخفض",
+        needAttention: "بحاجة للمتابعة",
+        reorderSoon: "إعادة الطلب قريبًا",
+        outOfStock: "نفد المخزون",
+        unavailableItems: "مواد غير متوفرة",
+        immediateAction: "إجراء فوري",
+        inventoryValue: "قيمة المخزون",
+        totalStockValue: "إجمالي قيمة المخزون",
+        autoCalculated: "يتم حسابها تلقائيًا",
+        print: "🖨️ طباعة",
+        export: "⬇️ تصدير",
+        allStock: "كل المخزون",
+        inStock: "متوفر",
+        searchInventory: "ابحث باسم المادة أو التصنيف",
+        totalItemsLabel: "إجمالي المواد: ",
+        actions: "الإجراءات",
+        status: "الحالة",
+        itemName: "اسم المادة",
+        category: "التصنيف",
+        quantity: "الكمية",
+        minimumStock: "الحد الأدنى",
+        unitPrice: "سعر الوحدة",
+        totalValue: "القيمة الإجمالية",
+        lastUpdated: "آخر تحديث",
+        addInventoryItem: "إضافة مادة للمخزون",
+        enterItemName: "أدخل اسم المادة",
+        selectCategory: "اختر التصنيف",
+        dentalMaterials: "مواد الأسنان",
+        consumables: "مستهلكات",
+        tools: "أدوات",
+        safety: "السلامة",
+        liquids: "سوائل",
+        enterQuantity: "أدخل الكمية",
+        minimumStockAlert: "حد التنبيه",
+        priceInJD: "السعر بالدينار",
+        notes: "ملاحظات",
+        writeNotes: "اكتب ملاحظات هنا",
+        cancel: "إلغاء",
+        saveItem: "حفظ المادة",
+
+        ordersPageTitle: "إدارة الطلبات",
+        ordersPageDesc: "إدارة طلبات المختبر وسير العمل",
+        newOrder: "+ طلب جديد",
+        searchOrders: "ابحث باسم المريض أو رقم الطلب",
+        totalOrdersLabel: "إجمالي الطلبات: ",
+        orderId: "رقم الطلب",
+        patientName: "اسم المريض",
+        typeOfWork: "نوع العمل",
+        orderDate: "تاريخ الطلب",
+        dueDate: "تاريخ التسليم",
+        doctor: "الطبيب",
+        technician: "الفني",
+        progress: "الإنجاز",
+        addNewOrder: "إضافة طلب جديد",
+        deliveryDate: "تاريخ التسليم",
+        priority: "الأولوية",
+        caseImages: "صور الحالة",
+        saveOrder: "حفظ الطلب"
     }
 };
 
 function setText(selector, text){
-    const elements = document.querySelectorAll(selector);
-
-    elements.forEach(function(element){
+    document.querySelectorAll(selector).forEach(function(element){
         element.textContent = text;
     });
+}
+
+function setById(id, text){
+    const element = document.getElementById(id);
+    if(element){
+        element.textContent = text;
+    }
+}
+
+function setPlaceholder(id, text){
+    const element = document.getElementById(id);
+    if(element){
+        element.placeholder = text;
+    }
+}
+
+function setOptionText(selectId, index, text){
+    const select = document.getElementById(selectId);
+    if(select && select.options[index]){
+        select.options[index].textContent = text;
+    }
 }
 
 function applyLanguage(){
@@ -153,14 +280,22 @@ function applyLanguage(){
 
     translateDashboard(t);
     translateOrdersPage(t);
-
+    translateInventoryPage(t);
     updateDate();
 }
 
 function translateDashboard(t){
+    if(!document.querySelector(".welcome-section")){
+        return;
+    }
+
     const pageTitle = document.querySelector(".welcome-section h1");
     if(pageTitle){
         pageTitle.textContent = t.dashboard;
+    }
+
+    if(document.getElementById("inventoryPageTitle")){
+        return;
     }
 
     const cardTitles = document.querySelectorAll(".stat-card h3");
@@ -213,6 +348,150 @@ function translateDashboard(t){
     }
 }
 
+function translateOrdersPage(t){
+    if(!document.getElementById("orderModal")){
+        return;
+    }
+
+    const pageTitle = document.querySelector(".orders-header h1");
+    if(pageTitle) pageTitle.textContent = t.ordersPageTitle;
+
+    const pageDesc = document.querySelector(".orders-header p");
+    if(pageDesc) pageDesc.textContent = t.ordersPageDesc;
+
+    const newOrderBtn = document.querySelector(".orders-header .primary-btn");
+    if(newOrderBtn) newOrderBtn.textContent = t.newOrder;
+
+    const toolbarBtns = document.querySelectorAll(".orders-toolbar button");
+    if(toolbarBtns.length >= 2){
+        toolbarBtns[0].textContent = t.print;
+        toolbarBtns[1].textContent = t.export;
+    }
+
+    setPlaceholder("searchInput", t.searchOrders);
+
+    const totalOrders = JSON.parse(localStorage.getItem("axisOrders")) || [];
+    const tableTitle = document.querySelector(".table-title strong");
+    if(tableTitle) tableTitle.textContent = t.totalOrdersLabel + totalOrders.length;
+
+    const headers = document.querySelectorAll(".orders-table th");
+    if(headers.length >= 10){
+        headers[0].textContent = t.actions;
+        headers[1].textContent = t.status;
+        headers[2].textContent = t.orderId;
+        headers[3].textContent = t.patientName;
+        headers[4].textContent = t.typeOfWork;
+        headers[5].textContent = t.orderDate;
+        headers[6].textContent = t.dueDate;
+        headers[7].textContent = t.doctor;
+        headers[8].textContent = t.technician;
+        headers[9].textContent = t.progress;
+    }
+
+    setById("inventorySideTitle", currentLang === "ar" ? "إدارة الطلبات" : "ORDER MANAGEMENT");
+
+    const modalTitle = document.querySelector("#orderModal .modal-header h2");
+    if(modalTitle) modalTitle.textContent = t.addNewOrder;
+
+    const labels = document.querySelectorAll("#orderModal .form-group label");
+    if(labels.length >= 8){
+        labels[0].textContent = t.patientName;
+        labels[1].textContent = t.doctor;
+        labels[2].textContent = t.typeOfWork;
+        labels[3].textContent = t.technician;
+        labels[4].textContent = t.deliveryDate;
+        labels[5].textContent = t.priority;
+        labels[6].textContent = t.caseImages;
+        labels[7].textContent = t.notes;
+    }
+
+    const cancelBtn = document.querySelector("#orderModal .cancel-btn");
+    if(cancelBtn) cancelBtn.textContent = t.cancel;
+
+    const saveBtn = document.querySelector("#orderModal .primary-btn");
+    if(saveBtn) saveBtn.textContent = t.saveOrder;
+}
+
+function translateInventoryPage(t){
+    if(!document.getElementById("inventoryPageTitle")){
+        return;
+    }
+
+    setById("inventoryPageTitle", t.inventoryManagement);
+    setById("inventoryPageDesc", t.inventoryDesc);
+    setById("addInventoryBtn", t.addItem);
+    setById("inventorySideTitle", currentLang === "ar" ? "المخزون" : "INVENTORY");
+
+    setById("totalItemsTitle", t.totalItems);
+    setById("totalItemsText", t.inventoryMaterials);
+    setById("totalItemsSpan", t.liveStockTracking);
+
+    setById("lowStockTitle", t.lowStock);
+    setById("lowStockText", t.needAttention);
+    setById("lowStockSpan", t.reorderSoon);
+
+    setById("outStockTitle", t.outOfStock);
+    setById("outStockText", t.unavailableItems);
+    setById("outStockSpan", t.immediateAction);
+
+    setById("inventoryValueTitle", t.inventoryValue);
+    setById("inventoryValueText", t.totalStockValue);
+    setById("inventoryValueSpan", t.autoCalculated);
+
+    setById("inventoryPrintBtn", t.print);
+    setById("inventoryExportBtn", t.export);
+
+    setOptionText("stockFilter", 0, t.allStock);
+    setOptionText("stockFilter", 1, t.inStock);
+    setOptionText("stockFilter", 2, t.lowStock);
+    setOptionText("stockFilter", 3, t.outOfStock);
+
+    setPlaceholder("inventorySearch", t.searchInventory);
+
+    const inventoryItems = JSON.parse(localStorage.getItem("axisInventory")) || [];
+    setById("inventoryTableTitle", t.totalItemsLabel + inventoryItems.length);
+
+    setById("inventoryThActions", t.actions);
+    setById("inventoryThStatus", t.status);
+    setById("inventoryThItemName", t.itemName);
+    setById("inventoryThCategory", t.category);
+    setById("inventoryThQuantity", t.quantity);
+    setById("inventoryThMinimum", t.minimumStock);
+    setById("inventoryThPrice", t.unitPrice);
+    setById("inventoryThValue", t.totalValue);
+    setById("inventoryThUpdated", t.lastUpdated);
+
+    setById("inventoryModalTitle", t.addInventoryItem);
+
+    setById("itemNameLabel", t.itemName);
+    setById("itemCategoryLabel", t.category);
+    setById("itemQuantityLabel", t.quantity);
+    setById("minimumStockLabel", t.minimumStock);
+    setById("unitPriceLabel", t.unitPrice);
+    setById("inventoryNotesLabel", t.notes);
+
+    setPlaceholder("itemName", t.enterItemName);
+    setPlaceholder("itemQuantity", t.enterQuantity);
+    setPlaceholder("minimumStock", t.minimumStockAlert);
+    setPlaceholder("unitPrice", t.priceInJD);
+    setPlaceholder("inventoryNotes", t.writeNotes);
+
+    setOptionText("itemCategory", 0, t.selectCategory);
+    setOptionText("itemCategory", 1, t.dentalMaterials);
+    setOptionText("itemCategory", 2, t.consumables);
+    setOptionText("itemCategory", 3, t.tools);
+    setOptionText("itemCategory", 4, t.safety);
+    setOptionText("itemCategory", 5, t.liquids);
+
+    setById("inventoryCancelBtn", t.cancel);
+    setById("inventorySaveBtn", t.saveItem);
+
+    const addBtn = document.getElementById("addInventoryBtn");
+    if(addBtn){
+        addBtn.textContent = t.addItem;
+    }
+}
+
 function toggleLanguage(){
     currentLang = currentLang === "en" ? "ar" : "en";
     localStorage.setItem("axisLang", currentLang);
@@ -225,7 +504,6 @@ function updateDate() {
     if (!dateBox) return;
 
     const now = new Date();
-
     const locale = currentLang === "ar" ? "ar-JO" : "en-US";
 
     dateBox.innerHTML =
@@ -240,109 +518,3 @@ function updateDate() {
 
 applyTheme();
 applyLanguage();
-function translateOrdersPage(t){
-
-    const pageTitle = document.querySelector(".orders-header h1");
-    if(pageTitle){
-        pageTitle.textContent = currentLang === "ar"
-            ? "إدارة الطلبات"
-            : "Order Management";
-    }
-
-    const pageDesc = document.querySelector(".orders-header p");
-    if(pageDesc){
-        pageDesc.textContent = currentLang === "ar"
-            ? "إدارة طلبات المختبر وسير العمل"
-            : "Manage dental laboratory orders and workflow";
-    }
-
-    const newOrderBtn = document.querySelector(".primary-btn");
-    if(newOrderBtn){
-        newOrderBtn.textContent = currentLang === "ar"
-            ? "+ طلب جديد"
-            : "+ New Order";
-    }
-
-    const toolbarBtns = document.querySelectorAll(".orders-toolbar button");
-
-    if(toolbarBtns.length >= 2){
-        toolbarBtns[0].textContent = currentLang === "ar"
-            ? "🖨️ طباعة"
-            : "🖨️ Print";
-
-        toolbarBtns[1].textContent = currentLang === "ar"
-            ? "⬇️ تصدير"
-            : "⬇️ Export";
-    }
-
-    const searchInput = document.getElementById("searchInput");
-
-    if(searchInput){
-        searchInput.placeholder = currentLang === "ar"
-            ? "ابحث باسم المريض أو رقم الطلب"
-            : "Search by patient name or order ID";
-    }
-
-    const tableTitle = document.querySelector(".table-title strong");
-
-    if(tableTitle){
-        const totalOrders = JSON.parse(localStorage.getItem("axisOrders")) || [];
-
-        tableTitle.textContent = currentLang === "ar"
-            ? `إجمالي الطلبات: ${totalOrders.length}`
-            : `Total Orders: ${totalOrders.length}`;
-    }
-
-    const headers = document.querySelectorAll(".orders-table th");
-
-    if(headers.length >= 10){
-
-        headers[0].textContent = currentLang === "ar" ? "الإجراءات" : "Actions";
-        headers[1].textContent = currentLang === "ar" ? "الحالة" : "Status";
-        headers[2].textContent = currentLang === "ar" ? "رقم الطلب" : "Order ID";
-        headers[3].textContent = currentLang === "ar" ? "اسم المريض" : "Patient Name";
-        headers[4].textContent = currentLang === "ar" ? "نوع العمل" : "Type of Work";
-        headers[5].textContent = currentLang === "ar" ? "تاريخ الطلب" : "Order Date";
-        headers[6].textContent = currentLang === "ar" ? "تاريخ التسليم" : "Due Date";
-        headers[7].textContent = currentLang === "ar" ? "الطبيب" : "Doctor";
-        headers[8].textContent = currentLang === "ar" ? "الفني" : "Technician";
-        headers[9].textContent = currentLang === "ar" ? "الإنجاز" : "Progress";
-    }
-
-    const modalTitle = document.querySelector(".modal-header h2");
-
-    if(modalTitle){
-        modalTitle.textContent = currentLang === "ar"
-            ? "إضافة طلب جديد"
-            : "Add New Order";
-    }
-
-    const labels = document.querySelectorAll(".form-group label");
-
-    if(labels.length >= 8){
-        labels[0].textContent = currentLang === "ar" ? "اسم المريض" : "Patient Name";
-        labels[1].textContent = currentLang === "ar" ? "الطبيب" : "Doctor";
-        labels[2].textContent = currentLang === "ar" ? "نوع العمل" : "Type Of Work";
-        labels[3].textContent = currentLang === "ar" ? "الفني" : "Technician";
-        labels[4].textContent = currentLang === "ar" ? "تاريخ التسليم" : "Delivery Date";
-        labels[5].textContent = currentLang === "ar" ? "الأولوية" : "Priority";
-        labels[6].textContent = currentLang === "ar" ? "صور الحالة" : "Case Images";
-        labels[7].textContent = currentLang === "ar" ? "ملاحظات" : "Notes";
-    }
-
-    const cancelBtn = document.querySelector(".cancel-btn");
-
-    if(cancelBtn){
-        cancelBtn.textContent = currentLang === "ar"
-            ? "إلغاء"
-            : "Cancel";
-    }
-
-    const saveBtn = document.querySelector(".modal-actions .primary-btn");
-
-    if(saveBtn){
-        saveBtn.textContent = currentLang === "ar"
-            ? "حفظ الطلب"
-            : "Save Order";
-    }
-}
