@@ -15,12 +15,14 @@
 
         <header class="topbar">
             <div class="top-logo">
-    <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
-</div>
+                <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
+            </div>
 
             <div class="date-box">📅 Tuesday, May 21, 2024</div>
 
-            <div class="top-actions">
+<button class="theme-btn" onclick="toggleTheme()">🌙</button>
+
+<div class="top-actions">
                 <span class="icon-badge">🔔 <b>8</b></span>
                 <span>💬</span>
 
@@ -54,16 +56,21 @@
                 <option>This Month</option>
             </select>
 
-            <select>
-                <option>Status</option>
-                <option>New</option>
-                <option>In Progress</option>
-                <option>Review</option>
-                <option>Ready</option>
-                <option>Delivered</option>
+            <select id="statusFilter" onchange="filterOrders()">
+                <option value="All">All Status</option>
+                <option value="New">New</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Review">Review</option>
+                <option value="Ready">Ready</option>
+                <option value="Delivered">Delivered</option>
             </select>
 
-            <input type="text" placeholder="Search by patient name or order ID">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search by patient name or order ID"
+                onkeyup="filterOrders()"
+            >
         </section>
 
         <section class="orders-table-box">
@@ -234,35 +241,33 @@
 
     </main>
 
-   <aside class="right-sidebar">
+    <aside class="right-sidebar">
 
-    <div class="page-title-box">
-        <h2>ORDER MANAGEMENT</h2>
-        <span>AXIS Dental Laboratory</span>
-    </div>
+        <div class="page-title-box">
+            <h2>ORDER MANAGEMENT</h2>
+        </div>
 
-    <nav class="side-menu">
-        <a href="dashboard.html">Dashboard</a>
-        <a class="active" href="orders.html">Order Management</a>
-        <a>Doctors Management</a>
-        <a>Patients Management</a>
-        <a>Employees Management</a>
-        <a>Inventory</a>
-        <a>Quality Control</a>
-        <a>Notifications</a>
-        <a>Roles & Permissions</a>
-        <a>Activity Logs</a>
-        <a>Settings</a>
-    </nav>
+        <nav class="side-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a class="active" href="orders.html">Order Management</a>
+            <a>Doctors Management</a>
+            <a>Patients Management</a>
+            <a>Employees Management</a>
+            <a>Inventory</a>
+            <a>Quality Control</a>
+            <a>Notifications</a>
+            <a>Roles & Permissions</a>
+            <a>Activity Logs</a>
+            <a>Settings</a>
+        </nav>
 
-    <button class="logout-btn" onclick="logout()">Logout</button>
+        <button class="logout-btn" onclick="logout()">Logout</button>
 
-</aside>
+    </aside>
 
 </div>
 
 <script src="../js/auth.js"></script>
 <script src="../js/orders.js"></script>
-
 </body>
 </html>

@@ -1057,3 +1057,139 @@ body{
         transform:translateY(-6px);
     }
 }
+.status-select{
+    border:none;
+    border-radius:8px;
+    padding:7px 10px;
+    font-weight:800;
+    font-size:12px;
+    outline:none;
+}
+
+.status-select.new{
+    background:#e8f2ff;
+    color:#2563eb;
+}
+
+.status-select.progress{
+    background:#fff2dc;
+    color:#f97316;
+}
+
+.status-select.review{
+    background:#f4e8ff;
+    color:#8E2DE2;
+}
+
+.status-select.completed{
+    background:#e3fff3;
+    color:#10b981;
+}
+.theme-btn{
+    border:none;
+    background:white;
+    padding:10px 14px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.dark-mode{
+    background:#111827 !important;
+    color:white !important;
+}
+
+.dark-mode .topbar,
+.dark-mode .orders-toolbar,
+.dark-mode .orders-table-box,
+.dark-mode .right-sidebar,
+.dark-mode .modal-content,
+.dark-mode .stat-card{
+    background:#1f2937 !important;
+    color:white !important;
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea{
+    background:#111827 !important;
+    color:white !important;
+}
+.dark-mode .orders-header,
+.dark-mode .orders-table-box,
+.dark-mode .orders-table,
+.dark-mode .orders-table th,
+.dark-mode .orders-table td,
+.dark-mode .table-title,
+.dark-mode .page-title-box{
+    background:#1f2937 !important;
+    color:#f9fafb !important;
+}
+
+.dark-mode .orders-table th{
+    background:#111827 !important;
+}
+
+.dark-mode .orders-header h1,
+.dark-mode .orders-header p,
+.dark-mode .table-title strong{
+    color:#f9fafb !important;
+}
+
+.dark-mode .orders-toolbar button,
+.dark-mode .theme-btn{
+    background:#111827 !important;
+    color:#f9fafb !important;
+    border:1px solid #374151 !important;
+}
+html.dark-mode,
+body.dark-mode,
+html.dark-mode body{
+    background:#111827 !important;
+}
+
+body.dark-mode .app-layout,
+body.dark-mode .main-content,
+html.dark-mode .app-layout,
+html.dark-mode .main-content{
+    background:#111827 !important;
+}
+
+body.dark-mode .topbar,
+body.dark-mode .orders-header,
+body.dark-mode .orders-toolbar,
+body.dark-mode .orders-table-box,
+body.dark-mode .right-sidebar,
+body.dark-mode .modal-content,
+body.dark-mode .stat-card,
+body.dark-mode .info-box,
+body.dark-mode .chart-box{
+    background:#1f2937 !important;
+    color:#f9fafb !important;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode label,
+body.dark-mode strong,
+body.dark-mode td,
+body.dark-mode th,
+body.dark-mode a{
+    color:#f9fafb !important;
+}
+
+body.dark-mode .orders-table th{
+    background:#111827 !important;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea,
+body.dark-mode button{
+    background:#111827 !important;
+    color:#f9fafb !important;
+    border-color:#374151 !important;
+}
