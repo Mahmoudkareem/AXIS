@@ -999,3 +999,61 @@ body{
         transform:translateY(-8px) scale(1.05);
     }
 }
+/* ===== AXIS LOGO ANIMATION ===== */
+
+.top-logo,
+.sidebar-logo{
+    animation:axisLogoBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes axisLogoBounce{
+    0%,100%{
+        transform:translateY(0) scale(1);
+    }
+
+    50%{
+        transform:translateY(-8px) scale(1.05);
+    }
+}
+/* ===== FORCE ALL AXIS LOGOS ANIMATION ===== */
+
+.top-logo img,
+.sidebar-logo img,
+.right-sidebar .sidebar-logo img{
+    width:150px !important;
+    animation:axisLogoBounce 1.8s ease-in-out infinite !important;
+}
+
+@keyframes axisLogoBounce{
+    0%,100%{
+        transform:translateY(0) scale(1);
+    }
+
+    50%{
+        transform:translateY(-8px) scale(1.05);
+    }
+}
+.page-title-box{
+    text-align:center;
+    margin-bottom:25px;
+    padding:20px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#D62846,#B83280,#8E2DE2);
+    color:white;
+}
+
+.page-title-box h2{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:1px;
+    animation:titleFloat 1.8s ease-in-out infinite;
+}
+
+@keyframes titleFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-6px);
+    }
+}
