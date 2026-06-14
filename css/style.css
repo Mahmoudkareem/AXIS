@@ -1192,4 +1192,34 @@ body.dark-mode button{
     background:#111827 !important;
     color:#f9fafb !important;
     border-color:#374151 !important;
+}   
+/* ===== FINAL LAYOUT FIX ===== */
+
+body.dashboard-page{
+    display:block !important;
+    justify-content:unset !important;
+    align-items:unset !important;
+    padding:0 !important;
+    min-height:100vh !important;
+    background:#f8f9fc !important;
+}
+
+body.dashboard-page .app-layout{
+    width:100% !important;
+    min-height:100vh !important;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:stretch !important;
+}
+
+body.dashboard-page .main-content{
+    flex:1 !important;
+    min-width:0 !important;
+    width:auto !important;
+}
+
+body.dashboard-page .right-sidebar{
+    width:240px !important;
+    min-width:240px !important;
+    flex-shrink:0 !important;
 }
