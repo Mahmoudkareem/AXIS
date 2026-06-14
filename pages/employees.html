@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXIS Employees</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div class="top-logo">
+                <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
+            </div>
+
+            <div class="date-box" id="currentDate"></div>
+
+            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">العربية</button>
+            <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+
+            <div class="top-actions">
+                <span class="icon-badge">🔔 <b>8</b></span>
+                <span>💬</span>
+
+                <div class="user-box">
+                    <div>
+                        <strong>Mahmoud Kareem</strong>
+                        <small>Lab Manager</small>
+                    </div>
+                    <div class="avatar">MK</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="orders-header">
+            <div>
+                <h1>Employees Management</h1>
+                <p>Manage employees, roles, status and performance</p>
+            </div>
+
+            <button class="primary-btn" onclick="openEmployeeModal()">+ Add Employee</button>
+        </section>
+
+        <section class="stats-grid">
+
+            <div class="stat-card blue">
+                <div class="stat-icon">👥</div>
+                <h3>Total Employees</h3>
+                <strong id="totalEmployees">0</strong>
+                <p>Registered employees</p>
+            </div>
+
+            <div class="stat-card green">
+                <div class="stat-icon">✅</div>
+                <h3>Active Employees</h3>
+                <strong id="activeEmployees">0</strong>
+                <p>Currently active</p>
+            </div>
+
+            <div class="stat-card orange">
+                <div class="stat-icon">🛠️</div>
+                <h3>Technicians</h3>
+                <strong id="technicianEmployees">0</strong>
+                <p>Lab technicians</p>
+            </div>
+
+            <div class="stat-card purple">
+                <div class="stat-icon">📊</div>
+                <h3>Completed Works</h3>
+                <strong id="completedWorks">0</strong>
+                <p>This month</p>
+            </div>
+
+        </section>
+
+        <section class="orders-toolbar">
+            <button onclick="exportEmployees()">⬇️ Export</button>
+
+            <select id="employeeStatusFilter" onchange="filterEmployees()">
+                <option value="All">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+
+            <input
+                type="text"
+                id="employeeSearch"
+                placeholder="Search employee..."
+                onkeyup="filterEmployees()"
+            >
+        </section>
+
+        <section class="orders-table-box">
+            <div class="table-title">
+                <strong id="employeeTableTitle">Total Employees: 0</strong>
+            </div>
+
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Actions</th>
+                        <th>Employee Name</th>
+                        <th>Username</th>
+                        <th>Phone</th>
+                        <th>Job Title</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Completed Works</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+
+                <tbody id="employeeTableBody"></tbody>
+            </table>
+        </section>
+
+        <div class="modal" id="employeeModal">
+            <div class="modal-content wide-modal">
+
+                <div class="modal-header">
+                    <h2>Add Employee</h2>
+                    <button type="button" onclick="closeEmployeeModal()">✕</button>
+                </div>
+
+                <form id="employeeForm" class="order-form order-form-grid">
+
+                    <div class="form-group">
+                        <label>Employee Name</label>
+                        <input type="text" id="employeeName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="employeeUsername" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="text" id="employeePassword" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="employeePhone">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Job Title</label>
+                        <input type="text" id="employeeJob" placeholder="Dental Technician">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select id="employeeRole">
+                            <option>Lab Manager</option>
+                            <option>Assistant Manager</option>
+                            <option>Technician</option>
+                            <option>Accountant</option>
+                            <option>Reception</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="employeeStatus">
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Completed Works</label>
+                        <input type="number" id="employeeWorks" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Monthly Rating</label>
+                        <input type="number" id="employeeRating" value="5" min="1" max="5">
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="cancel-btn" onclick="closeEmployeeModal()">Cancel</button>
+                        <button type="submit" class="primary-btn">Save Employee</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </main>
+
+    <aside class="right-sidebar">
+
+        <div class="page-title-box">
+            <h2>EMPLOYEES</h2>
+        </div>
+
+        <nav class="side-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="orders.html">Order Management</a>
+            <a href="doctors.html">Doctors Management</a>
+            <a href="patients.html">Patients Management</a>
+            <a class="active" href="employees.html">Employees Management</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="quality.html">Quality Control</a>
+            <a href="notifications.html">Notifications</a>
+            <a>Roles & Permissions</a>
+            <a>Activity Logs</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+
+        <button class="logout-btn" onclick="logout()">Logout</button>
+
+    </aside>
+
+</div>
+
+<script src="../js/auth.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/employees.js"></script>
+
+</body>
+</html>

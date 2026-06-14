@@ -73,6 +73,8 @@ const translations = {
         inventoryValue: "Inventory Value",
         totalStockValue: "Total stock value",
         autoCalculated: "Auto calculated",
+        totalQuantity: "Total Quantity",
+        unitsInStock: "Units in stock",
         print: "🖨️ Print",
         export: "⬇️ Export",
         allStock: "All Stock",
@@ -121,7 +123,52 @@ const translations = {
         deliveryDate: "Delivery Date",
         priority: "Priority",
         caseImages: "Case Images",
-        saveOrder: "Save Order"
+        saveOrder: "Save Order",
+
+        doctorsPageTitle: "Doctors Management",
+        doctorsPageDesc: "Manage dentists and financial records",
+        addDoctor: "+ Add Doctor",
+        totalDoctors: "Total Doctors",
+        registeredDoctors: "Registered doctors",
+        totalCases: "Total Cases",
+        allSubmittedCases: "All submitted cases",
+        totalRevenueDoctors: "Total Revenue",
+        paidAmount: "Paid amount",
+        outstanding: "Outstanding",
+        pendingPayments: "Pending payments",
+        searchDoctor: "Search doctor...",
+        totalDoctorsLabel: "Total Doctors: ",
+        doctorName: "Doctor Name",
+        phone: "Phone",
+        phoneNumber: "Phone Number",
+        address: "Address",
+        cases: "Cases",
+        totalDue: "Total Due",
+        totalPaid: "Total Paid",
+        remaining: "Remaining",
+        addDoctorTitle: "Add Doctor",
+        saveDoctor: "Save Doctor",
+        doctorsSideTitle: "DOCTORS",
+
+        patientsPageTitle: "Patients Management",
+        patientsPageDesc: "Manage patients and medical cases",
+        addPatient: "+ Add Patient",
+        totalPatients: "Total Patients",
+        registeredPatients: "Registered patients",
+        patientCases: "Patient cases",
+        linkedDoctors: "Linked Doctors",
+        assignedDoctors: "Assigned doctors",
+        withNotes: "With Notes",
+        specialNotes: "Special notes",
+        searchPatient: "Search patient...",
+        totalPatientsLabel: "Total Patients: ",
+        patientNamePage: "Patient Name",
+        caseType: "Case Type",
+        lastOrder: "Last Order",
+        addPatientTitle: "Add Patient",
+        lastOrderDate: "Last Order Date",
+        savePatient: "Save Patient",
+        patientsSideTitle: "PATIENTS"
     },
 
     ar: {
@@ -173,6 +220,8 @@ const translations = {
         inventoryValue: "قيمة المخزون",
         totalStockValue: "إجمالي قيمة المخزون",
         autoCalculated: "يتم حسابها تلقائيًا",
+        totalQuantity: "إجمالي الكمية",
+        unitsInStock: "وحدات بالمخزون",
         print: "🖨️ طباعة",
         export: "⬇️ تصدير",
         allStock: "كل المخزون",
@@ -221,7 +270,52 @@ const translations = {
         deliveryDate: "تاريخ التسليم",
         priority: "الأولوية",
         caseImages: "صور الحالة",
-        saveOrder: "حفظ الطلب"
+        saveOrder: "حفظ الطلب",
+
+        doctorsPageTitle: "إدارة الأطباء",
+        doctorsPageDesc: "إدارة الأطباء والسجلات المالية",
+        addDoctor: "+ إضافة طبيب",
+        totalDoctors: "إجمالي الأطباء",
+        registeredDoctors: "الأطباء المسجلين",
+        totalCases: "إجمالي الحالات",
+        allSubmittedCases: "كل الحالات المرسلة",
+        totalRevenueDoctors: "إجمالي الإيرادات",
+        paidAmount: "المبلغ المدفوع",
+        outstanding: "المستحقات",
+        pendingPayments: "مدفوعات معلقة",
+        searchDoctor: "ابحث عن طبيب...",
+        totalDoctorsLabel: "إجمالي الأطباء: ",
+        doctorName: "اسم الطبيب",
+        phone: "الهاتف",
+        phoneNumber: "رقم الهاتف",
+        address: "العنوان",
+        cases: "الحالات",
+        totalDue: "إجمالي المستحق",
+        totalPaid: "إجمالي المدفوع",
+        remaining: "المتبقي",
+        addDoctorTitle: "إضافة طبيب",
+        saveDoctor: "حفظ الطبيب",
+        doctorsSideTitle: "الأطباء",
+
+        patientsPageTitle: "إدارة المرضى",
+        patientsPageDesc: "إدارة المرضى والحالات الطبية",
+        addPatient: "+ إضافة مريض",
+        totalPatients: "إجمالي المرضى",
+        registeredPatients: "المرضى المسجلين",
+        patientCases: "حالات المرضى",
+        linkedDoctors: "الأطباء المرتبطون",
+        assignedDoctors: "الأطباء المعينون",
+        withNotes: "مع ملاحظات",
+        specialNotes: "ملاحظات خاصة",
+        searchPatient: "ابحث عن مريض...",
+        totalPatientsLabel: "إجمالي المرضى: ",
+        patientNamePage: "اسم المريض",
+        caseType: "نوع الحالة",
+        lastOrder: "آخر طلب",
+        addPatientTitle: "إضافة مريض",
+        lastOrderDate: "تاريخ آخر طلب",
+        savePatient: "حفظ المريض",
+        patientsSideTitle: "المرضى"
     }
 };
 
@@ -278,10 +372,12 @@ function applyLanguage(){
 
     setText(".logout-btn", t.logout);
 
-    translateDashboard(t);
-    translateOrdersPage(t);
-    translateInventoryPage(t);
-    updateDate();
+translateDashboard(t);
+translateOrdersPage(t);
+translateInventoryPage(t);
+translateEmployeesPage(t);
+
+updateDate();
 }
 
 function translateDashboard(t){
@@ -388,8 +484,6 @@ function translateOrdersPage(t){
         headers[9].textContent = t.progress;
     }
 
-    setById("inventorySideTitle", currentLang === "ar" ? "إدارة الطلبات" : "ORDER MANAGEMENT");
-
     const modalTitle = document.querySelector("#orderModal .modal-header h2");
     if(modalTitle) modalTitle.textContent = t.addNewOrder;
 
@@ -425,6 +519,10 @@ function translateInventoryPage(t){
     setById("totalItemsTitle", t.totalItems);
     setById("totalItemsText", t.inventoryMaterials);
     setById("totalItemsSpan", t.liveStockTracking);
+
+    setById("totalQuantityTitle", t.totalQuantity);
+    setById("totalQuantityText", t.unitsInStock);
+    setById("totalQuantitySpan", t.autoCalculated);
 
     setById("lowStockTitle", t.lowStock);
     setById("lowStockText", t.needAttention);
@@ -485,23 +583,242 @@ function translateInventoryPage(t){
 
     setById("inventoryCancelBtn", t.cancel);
     setById("inventorySaveBtn", t.saveItem);
-
-    const addBtn = document.getElementById("addInventoryBtn");
-    if(addBtn){
-        addBtn.textContent = t.addItem;
-    }
 }
 
+function translateDoctorsPage(t){
+    if(!document.getElementById("doctorTableBody")){
+        return;
+    }
+
+    const pageTitle = document.querySelector(".orders-header h1");
+    const pageDesc = document.querySelector(".orders-header p");
+    const addBtn = document.querySelector(".orders-header .primary-btn");
+
+    if(pageTitle) pageTitle.textContent = t.doctorsPageTitle;
+    if(pageDesc) pageDesc.textContent = t.doctorsPageDesc;
+    if(addBtn) addBtn.textContent = t.addDoctor;
+
+    setById("doctorsSideTitle", t.doctorsSideTitle);
+
+    const cards = document.querySelectorAll(".stat-card");
+
+    if(cards.length >= 4){
+        cards[0].querySelector("h3").textContent = t.totalDoctors;
+        cards[0].querySelector("p").textContent = t.registeredDoctors;
+
+        cards[1].querySelector("h3").textContent = t.totalCases;
+        cards[1].querySelector("p").textContent = t.allSubmittedCases;
+
+        cards[2].querySelector("h3").textContent = t.totalRevenueDoctors;
+        cards[2].querySelector("p").textContent = t.paidAmount;
+
+        cards[3].querySelector("h3").textContent = t.outstanding;
+        cards[3].querySelector("p").textContent = t.pendingPayments;
+    }
+
+    setPlaceholder("doctorSearch", t.searchDoctor);
+
+    const doctors = JSON.parse(localStorage.getItem("axisDoctors")) || [];
+    setById("doctorTableTitle", t.totalDoctorsLabel + doctors.length);
+
+    const headers = document.querySelectorAll(".orders-table th");
+
+    if(headers.length >= 8){
+        headers[0].textContent = t.actions;
+        headers[1].textContent = t.doctorName;
+        headers[2].textContent = t.phone;
+        headers[3].textContent = t.address;
+        headers[4].textContent = t.cases;
+        headers[5].textContent = t.totalDue;
+        headers[6].textContent = t.totalPaid;
+        headers[7].textContent = t.remaining;
+    }
+
+    const modalTitle = document.querySelector("#doctorModal .modal-header h2");
+    if(modalTitle) modalTitle.textContent = t.addDoctorTitle;
+
+    const labels = document.querySelectorAll("#doctorModal .form-group label");
+
+    if(labels.length >= 6){
+        labels[0].textContent = t.doctorName;
+        labels[1].textContent = t.phoneNumber;
+        labels[2].textContent = t.address;
+        labels[3].textContent = t.totalCases;
+        labels[4].textContent = t.totalDue;
+        labels[5].textContent = t.totalPaid;
+    }
+
+    const cancelBtn = document.querySelector("#doctorModal .cancel-btn");
+    if(cancelBtn) cancelBtn.textContent = t.cancel;
+
+    const saveBtn = document.querySelector("#doctorModal .primary-btn");
+    if(saveBtn) saveBtn.textContent = t.saveDoctor;
+}
+
+function translatePatientsPage(t){
+    if(!document.getElementById("patientTableBody")){
+        return;
+    }
+
+    const pageTitle = document.querySelector(".orders-header h1");
+    const pageDesc = document.querySelector(".orders-header p");
+    const addBtn = document.querySelector(".orders-header .primary-btn");
+
+    if(pageTitle) pageTitle.textContent = t.patientsPageTitle;
+    if(pageDesc) pageDesc.textContent = t.patientsPageDesc;
+    if(addBtn) addBtn.textContent = t.addPatient;
+
+    setById("patientsSideTitle", t.patientsSideTitle);
+
+    const cards = document.querySelectorAll(".stat-card");
+
+    if(cards.length >= 4){
+        cards[0].querySelector("h3").textContent = t.totalPatients;
+        cards[0].querySelector("p").textContent = t.registeredPatients;
+
+        cards[1].querySelector("h3").textContent = t.totalCases;
+        cards[1].querySelector("p").textContent = t.patientCases;
+
+        cards[2].querySelector("h3").textContent = t.linkedDoctors;
+        cards[2].querySelector("p").textContent = t.assignedDoctors;
+
+        cards[3].querySelector("h3").textContent = t.withNotes;
+        cards[3].querySelector("p").textContent = t.specialNotes;
+    }
+
+    setPlaceholder("patientSearch", t.searchPatient);
+
+    const patients = JSON.parse(localStorage.getItem("axisPatients")) || [];
+    setById("patientTableTitle", t.totalPatientsLabel + patients.length);
+
+    const headers = document.querySelectorAll(".orders-table th");
+
+    if(headers.length >= 7){
+        headers[0].textContent = t.actions;
+        headers[1].textContent = t.patientNamePage;
+        headers[2].textContent = t.phone;
+        headers[3].textContent = t.doctor;
+        headers[4].textContent = t.caseType;
+        headers[5].textContent = t.lastOrder;
+        headers[6].textContent = t.notes;
+    }
+
+    const modalTitle = document.querySelector("#patientModal .modal-header h2");
+    if(modalTitle) modalTitle.textContent = t.addPatientTitle;
+
+    const labels = document.querySelectorAll("#patientModal .form-group label");
+
+    if(labels.length >= 6){
+        labels[0].textContent = t.patientNamePage;
+        labels[1].textContent = t.phoneNumber;
+        labels[2].textContent = t.doctor;
+        labels[3].textContent = t.caseType;
+        labels[4].textContent = t.lastOrderDate;
+        labels[5].textContent = t.notes;
+    }
+
+    const cancelBtn = document.querySelector("#patientModal .cancel-btn");
+    if(cancelBtn) cancelBtn.textContent = t.cancel;
+
+    const saveBtn = document.querySelector("#patientModal .primary-btn");
+    if(saveBtn) saveBtn.textContent = t.savePatient;
+}
+function translateEmployeesPage(t){
+    if(!document.getElementById("employeeTableBody")){
+        return;
+    }
+
+    const isAr = currentLang === "ar";
+
+    const title = document.querySelector(".orders-header h1");
+    const desc = document.querySelector(".orders-header p");
+    const addBtn = document.querySelector(".orders-header .primary-btn");
+
+    if(title) title.textContent = isAr ? "إدارة الموظفين" : "Employees Management";
+    if(desc) desc.textContent = isAr ? "إدارة الموظفين والصلاحيات والحالة والأداء" : "Manage employees, roles, status and performance";
+    if(addBtn) addBtn.textContent = isAr ? "+ إضافة موظف" : "+ Add Employee";
+
+    const cards = document.querySelectorAll(".stat-card");
+
+    if(cards.length >= 4){
+        cards[0].querySelector("h3").textContent = isAr ? "إجمالي الموظفين" : "Total Employees";
+        cards[0].querySelector("p").textContent = isAr ? "الموظفين المسجلين" : "Registered employees";
+
+        cards[1].querySelector("h3").textContent = isAr ? "الموظفين الفعالين" : "Active Employees";
+        cards[1].querySelector("p").textContent = isAr ? "نشط حالياً" : "Currently active";
+
+        cards[2].querySelector("h3").textContent = isAr ? "الفنيين" : "Technicians";
+        cards[2].querySelector("p").textContent = isAr ? "فنيين المختبر" : "Lab technicians";
+
+        cards[3].querySelector("h3").textContent = isAr ? "الأعمال المنجزة" : "Completed Works";
+        cards[3].querySelector("p").textContent = isAr ? "هذا الشهر" : "This month";
+    }
+
+    const exportBtn = document.querySelector(".orders-toolbar button");
+    if(exportBtn) exportBtn.textContent = isAr ? "⬇️ تصدير" : "⬇️ Export";
+
+    setPlaceholder("employeeSearch", isAr ? "ابحث عن موظف..." : "Search employee...");
+
+    const filter = document.getElementById("employeeStatusFilter");
+    if(filter){
+        filter.options[0].textContent = isAr ? "كل الحالات" : "All Status";
+        filter.options[1].textContent = isAr ? "نشط" : "Active";
+        filter.options[2].textContent = isAr ? "غير نشط" : "Inactive";
+    }
+
+    const employees = JSON.parse(localStorage.getItem("axisEmployees")) || [];
+    setById("employeeTableTitle", isAr ? "إجمالي الموظفين: " + employees.length : "Total Employees: " + employees.length);
+
+    const headers = document.querySelectorAll(".orders-table th");
+    if(headers.length >= 9){
+        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
+        headers[1].textContent = isAr ? "اسم الموظف" : "Employee Name";
+        headers[2].textContent = isAr ? "اسم المستخدم" : "Username";
+        headers[3].textContent = isAr ? "الهاتف" : "Phone";
+        headers[4].textContent = isAr ? "المسمى الوظيفي" : "Job Title";
+        headers[5].textContent = isAr ? "الصلاحية" : "Role";
+        headers[6].textContent = isAr ? "الحالة" : "Status";
+        headers[7].textContent = isAr ? "الأعمال المنجزة" : "Completed Works";
+        headers[8].textContent = isAr ? "التقييم" : "Rating";
+    }
+
+    const modalTitle = document.querySelector("#employeeModal .modal-header h2");
+    if(modalTitle) modalTitle.textContent = isAr ? "إضافة موظف" : "Add Employee";
+
+    const labels = document.querySelectorAll("#employeeModal .form-group label");
+    if(labels.length >= 9){
+        labels[0].textContent = isAr ? "اسم الموظف" : "Employee Name";
+        labels[1].textContent = isAr ? "اسم المستخدم" : "Username";
+        labels[2].textContent = isAr ? "كلمة المرور" : "Password";
+        labels[3].textContent = isAr ? "رقم الهاتف" : "Phone Number";
+        labels[4].textContent = isAr ? "المسمى الوظيفي" : "Job Title";
+        labels[5].textContent = isAr ? "الصلاحية" : "Role";
+        labels[6].textContent = isAr ? "الحالة" : "Status";
+        labels[7].textContent = isAr ? "الأعمال المنجزة" : "Completed Works";
+        labels[8].textContent = isAr ? "التقييم الشهري" : "Monthly Rating";
+    }
+
+    const cancelBtn = document.querySelector("#employeeModal .cancel-btn");
+    if(cancelBtn) cancelBtn.textContent = isAr ? "إلغاء" : "Cancel";
+
+    const saveBtn = document.querySelector("#employeeModal .primary-btn");
+    if(saveBtn) saveBtn.textContent = isAr ? "حفظ الموظف" : "Save Employee";
+
+    const sideTitle = document.querySelector(".page-title-box h2");
+    if(sideTitle) sideTitle.textContent = isAr ? "الموظفين" : "EMPLOYEES";
+}
 function toggleLanguage(){
     currentLang = currentLang === "en" ? "ar" : "en";
     localStorage.setItem("axisLang", currentLang);
     applyLanguage();
 }
 
-function updateDate() {
+function updateDate(){
     const dateBox = document.getElementById("currentDate");
 
-    if (!dateBox) return;
+    if(!dateBox){
+        return;
+    }
 
     const now = new Date();
     const locale = currentLang === "ar" ? "ar-JO" : "en-US";
