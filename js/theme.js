@@ -346,41 +346,85 @@ function setOptionText(selectId, index, text){
     }
 }
 
-function applyLanguage(){
-    const t = translations[currentLang];
-
-    const langBtn = document.getElementById("langBtn");
-    if(langBtn){
-        langBtn.textContent = t.langBtn;
+function translateNotificationsPage(t){
+    if(!document.getElementById("notificationTableBody")){
+        return;
     }
 
-    const menuLinks = document.querySelectorAll(".side-menu a");
+    const isAr = currentLang === "ar";
 
-    if(menuLinks.length >= 11){
-        menuLinks[0].textContent = t.dashboard;
-        menuLinks[1].textContent = t.orderManagement;
-        menuLinks[2].textContent = t.doctorsManagement;
-        menuLinks[3].textContent = t.patientsManagement;
-        menuLinks[4].textContent = t.employeesManagement;
-        menuLinks[5].textContent = t.inventory;
-        menuLinks[6].textContent = t.qualityControl;
-        menuLinks[7].textContent = t.notifications;
-        menuLinks[8].textContent = t.rolesPermissions;
-        menuLinks[9].textContent = t.activityLogs;
-        menuLinks[10].textContent = t.settings;
+    const title = document.querySelector(".orders-header h1");
+    const desc = document.querySelector(".orders-header p");
+    const addBtn = document.querySelector(".orders-header .primary-btn");
+
+    if(title) title.textContent = isAr ? "الإشعارات" : "Notifications";
+    if(desc) desc.textContent = isAr ? "إدارة التنبيهات والإشعارات المهمة" : "Manage system alerts and important updates";
+    if(addBtn) addBtn.textContent = isAr ? "+ إضافة إشعار" : "+ Add Notification";
+
+    const cards = document.querySelectorAll(".stat-card");
+
+    if(cards.length >= 4){
+        cards[0].querySelector("h3").textContent = isAr ? "إجمالي الإشعارات" : "Total Notifications";
+        cards[0].querySelector("p").textContent = isAr ? "كل تنبيهات النظام" : "All system alerts";
+
+        cards[1].querySelector("h3").textContent = isAr ? "أولوية عالية" : "High Priority";
+        cards[1].querySelector("p").textContent = isAr ? "بحاجة للمتابعة" : "Need attention";
+
+        cards[2].querySelector("h3").textContent = isAr ? "تنبيهات المخزون" : "Stock Alerts";
+        cards[2].querySelector("p").textContent = isAr ? "تحذيرات المخزون" : "Inventory warnings";
+
+        cards[3].querySelector("h3").textContent = isAr ? "الإشعارات المكتملة" : "Completed Alerts";
+        cards[3].querySelector("p").textContent = isAr ? "تمت معالجتها" : "Resolved alerts";
     }
 
-    setText(".logout-btn", t.logout);
+    setPlaceholder("notificationSearch", isAr ? "ابحث عن إشعار..." : "Search notification...");
 
-translateDashboard(t);
-translateOrdersPage(t);
-translateInventoryPage(t);
-translateQualityPage(t);
-translateDoctorsPage(t);
-translatePatientsPage(t);
-translateEmployeesPage(t);
+    const filter = document.getElementById("notificationTypeFilter");
+    if(filter && filter.options.length >= 7){
+        filter.options[0].textContent = isAr ? "كل الإشعارات" : "All Notifications";
+        filter.options[1].textContent = isAr ? "طلب جاهز" : "Ready Order";
+        filter.options[2].textContent = isAr ? "طلب متأخر" : "Overdue Order";
+        filter.options[3].textContent = isAr ? "مخزون منخفض" : "Low Stock";
+        filter.options[4].textContent = isAr ? "دفعة مستحقة" : "Due Payment";
+        filter.options[5].textContent = isAr ? "حالة مرتجعة" : "Returned Case";
+        filter.options[6].textContent = isAr ? "تنبيه مدير" : "Manager Alert";
+    }
 
-updateDate();
+    const items = JSON.parse(localStorage.getItem("axisNotifications")) || [];
+    setById("notificationTableTitle", isAr ? "إجمالي الإشعارات: " + items.length : "Total Notifications: " + items.length);
+
+    const headers = document.querySelectorAll(".orders-table th");
+    if(headers.length >= 7){
+        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
+        headers[1].textContent = isAr ? "الحالة" : "Status";
+        headers[2].textContent = isAr ? "النوع" : "Type";
+        headers[3].textContent = isAr ? "العنوان" : "Title";
+        headers[4].textContent = isAr ? "الرسالة" : "Message";
+        headers[5].textContent = isAr ? "الأولوية" : "Priority";
+        headers[6].textContent = isAr ? "التاريخ" : "Date";
+    }
+
+    const modalTitle = document.querySelector("#notificationModal .modal-header h2");
+    if(modalTitle) modalTitle.textContent = isAr ? "إضافة إشعار" : "Add Notification";
+
+    const labels = document.querySelectorAll("#notificationModal .form-group label");
+    if(labels.length >= 6){
+        labels[0].textContent = isAr ? "نوع الإشعار" : "Notification Type";
+        labels[1].textContent = isAr ? "الأولوية" : "Priority";
+        labels[2].textContent = isAr ? "الحالة" : "Status";
+        labels[3].textContent = isAr ? "التاريخ" : "Date";
+        labels[4].textContent = isAr ? "العنوان" : "Title";
+        labels[5].textContent = isAr ? "الرسالة" : "Message";
+    }
+
+    const cancelBtn = document.querySelector("#notificationModal .cancel-btn");
+    if(cancelBtn) cancelBtn.textContent = isAr ? "إلغاء" : "Cancel";
+
+    const saveBtn = document.querySelector("#notificationModal .primary-btn");
+    if(saveBtn) saveBtn.textContent = isAr ? "حفظ الإشعار" : "Save Notification";
+
+    const sideTitle = document.querySelector(".page-title-box h2");
+    if(sideTitle) sideTitle.textContent = isAr ? "الإشعارات" : "NOTIFICATIONS";
 }
 
 function translateDashboard(t){
@@ -910,8 +954,112 @@ function translateQualityPage(t){
     if(saveBtn) saveBtn.textContent = isAr ? "حفظ الحالة" : "Save Case";
 
     const sideTitle = document.querySelector(".page-title-box h2");
-    if(sideTitle) sideTitle.textContent = isAr ? "الجودة" : "QUALITY";
+if(sideTitle) sideTitle.textContent = isAr ? "الجودة" : "QUALITY";
 }
+
+function translateNotificationsPage(t){
+    if(!document.getElementById("notificationTableBody")){
+        return;
+    }
+
+    const isAr = currentLang === "ar";
+    }
+
+    const isAr = currentLang === "ar";
+
+    const title = document.querySelector(".orders-header h1");
+    const desc = document.querySelector(".orders-header p");
+    const addBtn = document.querySelector(".orders-header .primary-btn");
+
+    if(title) title.textContent = isAr ? "الإشعارات" : "Notifications";
+    if(desc) desc.textContent = isAr ? "إدارة التنبيهات والإشعارات المهمة" : "Manage system alerts and important updates";
+    if(addBtn) addBtn.textContent = isAr ? "+ إضافة إشعار" : "+ Add Notification";
+
+    const cards = document.querySelectorAll(".stat-card");
+
+    if(cards.length >= 4){
+        cards[0].querySelector("h3").textContent = isAr ? "إجمالي الإشعارات" : "Total Notifications";
+        cards[0].querySelector("p").textContent = isAr ? "كل تنبيهات النظام" : "All system alerts";
+
+        cards[1].querySelector("h3").textContent = isAr ? "أولوية عالية" : "High Priority";
+        cards[1].querySelector("p").textContent = isAr ? "بحاجة للمتابعة" : "Need attention";
+
+        cards[2].querySelector("h3").textContent = isAr ? "تنبيهات المخزون" : "Stock Alerts";
+        cards[2].querySelector("p").textContent = isAr ? "تحذيرات المخزون" : "Inventory warnings";
+
+        cards[3].querySelector("h3").textContent = isAr ? "الإشعارات المكتملة" : "Completed Alerts";
+        cards[3].querySelector("p").textContent = isAr ? "تمت معالجتها" : "Resolved alerts";
+    }
+
+    setPlaceholder(
+        "notificationSearch",
+        isAr ? "ابحث عن إشعار..." : "Search notification..."
+    );
+
+    const filter = document.getElementById("notificationTypeFilter");
+
+    if(filter){
+        filter.options[0].textContent = isAr ? "كل الإشعارات" : "All Notifications";
+        filter.options[1].textContent = isAr ? "طلب جاهز" : "Ready Order";
+        filter.options[2].textContent = isAr ? "طلب متأخر" : "Overdue Order";
+        filter.options[3].textContent = isAr ? "مخزون منخفض" : "Low Stock";
+        filter.options[4].textContent = isAr ? "دفعة مستحقة" : "Due Payment";
+        filter.options[5].textContent = isAr ? "حالة مرتجعة" : "Returned Case";
+        filter.options[6].textContent = isAr ? "تنبيه مدير" : "Manager Alert";
+    }
+
+    const items = JSON.parse(localStorage.getItem("axisNotifications")) || [];
+
+    setById(
+        "notificationTableTitle",
+        isAr
+            ? "إجمالي الإشعارات: " + items.length
+            : "Total Notifications: " + items.length
+    );
+
+    const headers = document.querySelectorAll(".orders-table th");
+
+    if(headers.length >= 7){
+        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
+        headers[1].textContent = isAr ? "الحالة" : "Status";
+        headers[2].textContent = isAr ? "النوع" : "Type";
+        headers[3].textContent = isAr ? "العنوان" : "Title";
+        headers[4].textContent = isAr ? "الرسالة" : "Message";
+        headers[5].textContent = isAr ? "الأولوية" : "Priority";
+        headers[6].textContent = isAr ? "التاريخ" : "Date";
+    }
+
+    const modalTitle = document.querySelector("#notificationModal .modal-header h2");
+    if(modalTitle){
+        modalTitle.textContent = isAr ? "إضافة إشعار" : "Add Notification";
+    }
+
+    const labels = document.querySelectorAll("#notificationModal .form-group label");
+
+    if(labels.length >= 6){
+        labels[0].textContent = isAr ? "نوع الإشعار" : "Notification Type";
+        labels[1].textContent = isAr ? "الأولوية" : "Priority";
+        labels[2].textContent = isAr ? "الحالة" : "Status";
+        labels[3].textContent = isAr ? "التاريخ" : "Date";
+        labels[4].textContent = isAr ? "العنوان" : "Title";
+        labels[5].textContent = isAr ? "الرسالة" : "Message";
+    }
+
+    const cancelBtn = document.querySelector("#notificationModal .cancel-btn");
+    if(cancelBtn){
+        cancelBtn.textContent = isAr ? "إلغاء" : "Cancel";
+    }
+
+    const saveBtn = document.querySelector("#notificationModal .primary-btn");
+    if(saveBtn){
+        saveBtn.textContent = isAr ? "حفظ الإشعار" : "Save Notification";
+    }
+
+    const sideTitle = document.querySelector(".page-title-box h2");
+    if(sideTitle){
+        sideTitle.textContent = isAr ? "الإشعارات" : "NOTIFICATIONS";
+    }
+
 function toggleLanguage(){
     currentLang = currentLang === "en" ? "ar" : "en";
     localStorage.setItem("axisLang", currentLang);
