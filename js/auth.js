@@ -38,5 +38,6 @@ function login(event) {
 }
 function logout() {
     localStorage.removeItem("axisUser");
-    window.location.href = "/AXIS/";
+    localStorage.clear();
+    window.location.href = "https://mahmoudkareem.github.io/AXIS/index.html";
 }
