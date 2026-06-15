@@ -1462,3 +1462,51 @@ body.dashboard-page .right-sidebar{
         opacity:1;
     }
 }
+.axis-message-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999999;
+}
+
+.axis-message-box{
+    width:90%;
+    max-width:560px;
+    background:#ffffff;
+    padding:38px 30px;
+    border-radius:26px;
+    text-align:center;
+    box-shadow:0 25px 70px rgba(0,0,0,.30);
+    border-top:8px solid #D62846;
+    animation:axisPop .35s ease;
+}
+
+.axis-message-box h2{
+    font-size:32px;
+    margin-bottom:15px;
+    background:linear-gradient(135deg,#D62846,#B83280,#8E2DE2);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    font-weight:900;
+}
+
+.axis-message-box p{
+    font-size:18px;
+    line-height:1.9;
+    color:#4A4A4A;
+    font-weight:700;
+}
+
+@keyframes axisPop{
+    from{
+        transform:scale(.85);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}

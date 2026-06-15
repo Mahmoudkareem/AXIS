@@ -53,7 +53,7 @@ function login(event) {
 
     showAxisMessage(
       "تسجيل الدخول",
-      "أهلاً وسهلاً بك في نظام AXIS Dental Laboratory 🌟<br>نتمنى لك يوماً مليئاً بالإنجاز والنجاح.<br>شكراً لجهودك ودورك في تقديم أفضل خدمة لعملائنا.",
+      "أهلاً وسهلاً بك في نظام المختبر  🌟<br>نتمنى لك يوماً مليئاً بالإنجاز والنجاح<br>شكراً لجهودك ودورك في تقديم أفضل خدمة لعملائنا",
       function () {
         window.location.href = "pages/dashboard.html";
       }
@@ -69,7 +69,7 @@ function logout() {
 
   showAxisMessage(
     "تسجيل خروج",
-    "شكراً لجهودك اليوم 🙏<br>تم تسجيل خروجك بنجاح.<br>نتمنى لك وقتاً سعيداً ونراك قريباً.",
+    "شكراً لجهودك اليوم 🙏<br>تم تسجيل خروجك بنجاح<br>نتمنى لك وقتاً سعيداً ونراك قريباً",
     function () {
       window.location.href = "https://mahmoudkareem.github.io/AXIS/index.html";
     }
