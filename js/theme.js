@@ -372,9 +372,10 @@ function applyLanguage(){
 
     setText(".logout-btn", t.logout);
 
-    translateDashboard(t);
+translateDashboard(t);
 translateOrdersPage(t);
 translateInventoryPage(t);
+translateQualityPage(t);
 translateDoctorsPage(t);
 translatePatientsPage(t);
 translateEmployeesPage(t);
@@ -825,6 +826,91 @@ function translateEmployeesPage(t){
 
     const sideTitle = document.querySelector(".page-title-box h2");
     if(sideTitle) sideTitle.textContent = isAr ? "الموظفين" : "EMPLOYEES";
+}
+function translateQualityPage(t){
+    if(!document.getElementById("qualityTableBody")){
+        return;
+    }
+
+    const isAr = currentLang === "ar";
+
+    const title = document.querySelector(".orders-header h1");
+    const desc = document.querySelector(".orders-header p");
+    const addBtn = document.querySelector(".orders-header .primary-btn");
+
+    if(title) title.textContent = isAr ? "قسم الجودة" : "Quality Control";
+    if(desc) desc.textContent = isAr ? "إدارة الحالات المرتجعة وأداء الجودة" : "Manage returned cases and quality performance";
+    if(addBtn) addBtn.textContent = isAr ? "+ إضافة حالة مرتجعة" : "+ Add Returned Case";
+
+    const cards = document.querySelectorAll(".stat-card");
+
+    if(cards.length >= 4){
+        cards[0].querySelector("h3").textContent = isAr ? "الحالات المرتجعة" : "Total Returned Cases";
+        cards[0].querySelector("p").textContent = isAr ? "كل الحالات المرتجعة" : "All returned cases";
+
+        cards[1].querySelector("h3").textContent = isAr ? "الحالات المفتوحة" : "Open Cases";
+        cards[1].querySelector("p").textContent = isAr ? "بحاجة للمتابعة" : "Need follow up";
+
+        cards[2].querySelector("h3").textContent = isAr ? "الحالات المعالجة" : "Resolved Cases";
+        cards[2].querySelector("p").textContent = isAr ? "حالات مكتملة" : "Completed cases";
+
+        cards[3].querySelector("h3").textContent = isAr ? "متوسط نسبة الأخطاء" : "Average Error Rate";
+        cards[3].querySelector("p").textContent = isAr ? "متوسط الجودة" : "Quality average";
+    }
+
+    setPlaceholder("qualitySearch", isAr ? "ابحث عن حالة مرتجعة..." : "Search returned case...");
+
+    const filter = document.getElementById("qualityStatusFilter");
+    if(filter){
+        filter.options[0].textContent = isAr ? "كل الحالات" : "All Cases";
+        filter.options[1].textContent = isAr ? "مفتوحة" : "Open";
+        filter.options[2].textContent = isAr ? "قيد المراجعة" : "In Review";
+        filter.options[3].textContent = isAr ? "تمت المعالجة" : "Resolved";
+    }
+
+    const cases = JSON.parse(localStorage.getItem("axisQualityCases")) || [];
+    setById("qualityTableTitle", isAr ? "إجمالي الحالات المرتجعة: " + cases.length : "Total Returned Cases: " + cases.length);
+
+    const headers = document.querySelectorAll(".orders-table th");
+
+    if(headers.length >= 10){
+        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
+        headers[1].textContent = isAr ? "الحالة" : "Status";
+        headers[2].textContent = isAr ? "المريض" : "Patient";
+        headers[3].textContent = isAr ? "الطبيب" : "Doctor";
+        headers[4].textContent = isAr ? "الفني المسؤول" : "Technician";
+        headers[5].textContent = isAr ? "نوع العمل" : "Work Type";
+        headers[6].textContent = isAr ? "سبب الإرجاع" : "Return Reason";
+        headers[7].textContent = isAr ? "تاريخ الإرجاع" : "Return Date";
+        headers[8].textContent = isAr ? "نسبة الأخطاء" : "Error Rate";
+        headers[9].textContent = isAr ? "ملاحظات الجودة" : "Quality Notes";
+    }
+
+    const modalTitle = document.querySelector("#qualityModal .modal-header h2");
+    if(modalTitle) modalTitle.textContent = isAr ? "إضافة حالة مرتجعة" : "Add Returned Case";
+
+    const labels = document.querySelectorAll("#qualityModal .form-group label");
+
+    if(labels.length >= 9){
+        labels[0].textContent = isAr ? "اسم المريض" : "Patient Name";
+        labels[1].textContent = isAr ? "اسم الطبيب" : "Doctor Name";
+        labels[2].textContent = isAr ? "اسم الفني" : "Technician Name";
+        labels[3].textContent = isAr ? "نوع العمل" : "Work Type";
+        labels[4].textContent = isAr ? "سبب الإرجاع" : "Return Reason";
+        labels[5].textContent = isAr ? "تاريخ الإرجاع" : "Return Date";
+        labels[6].textContent = isAr ? "نسبة الأخطاء %" : "Error Rate %";
+        labels[7].textContent = isAr ? "حالة المعالجة" : "Processing Status";
+        labels[8].textContent = isAr ? "ملاحظات الجودة" : "Quality Notes";
+    }
+
+    const cancelBtn = document.querySelector("#qualityModal .cancel-btn");
+    if(cancelBtn) cancelBtn.textContent = isAr ? "إلغاء" : "Cancel";
+
+    const saveBtn = document.querySelector("#qualityModal .primary-btn");
+    if(saveBtn) saveBtn.textContent = isAr ? "حفظ الحالة" : "Save Case";
+
+    const sideTitle = document.querySelector(".page-title-box h2");
+    if(sideTitle) sideTitle.textContent = isAr ? "الجودة" : "QUALITY";
 }
 function toggleLanguage(){
     currentLang = currentLang === "en" ? "ar" : "en";

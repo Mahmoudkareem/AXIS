@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,33 +5,86 @@
 <title>AXIS Dental Laboratory</title>
 
 <link rel="stylesheet" href="css/style.css">
+
 </head>
+<body class="new-login-page">
 
-<body>
+<div class="login-bg-tooth"></div>
 
-<div class="login-container">
-    <div class="login-card">
+<div class="login-bg-lab"></div>
 
-        <img src="assets/logo.png" alt="AXIS Logo" class="logo">
+<div class="login-waves">
+    <div class="wave wave-one"></div>
+    <div class="wave wave-two"></div>
+</div>
 
-        <h1>AXIS</h1>
-        <p>Dental Laboratory Management System</p>
+<div class="premium-login-wrapper">
 
-        <form onsubmit="login(event)">
+    <div class="premium-login-card">
+
+        <img src="assets/logo.png" alt="AXIS Logo" class="premium-logo">
+
+        <p class="premium-subtitle">
+            Precision • Quality • Excellence
+        </p>
+
+        <form onsubmit="login(event)" class="premium-form">
+
             <label>Username</label>
-            <input id="username" type="text" placeholder="Enter Username">
+
+            <div class="premium-input">
+                <span>👤</span>
+                <input
+                    id="username"
+                    type="text"
+                    placeholder="Enter Username"
+                    required
+                >
+            </div>
 
             <label>Password</label>
-            <input id="password" type="password" placeholder="Enter Password">
 
-            <button type="submit">Login</button>
+            <div class="premium-input">
+                <span>🔒</span>
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Enter Password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="premium-login-btn">
+                Login
+            </button>
+
         </form>
 
-        <div class="language-switch">
-            English | العربية
+        <div class="premium-features">
+
+            <div>
+                <strong>Secure</strong>
+                <small>Your data is safe</small>
+            </div>
+
+            <div>
+                <strong>Accurate</strong>
+                <small>Every detail matters</small>
+            </div>
+
+            <div>
+                <strong>Efficient</strong>
+                <small>Better workflow</small>
+            </div>
+
+        </div>
+
+        <div class="powered-text">
+            Powered by The Mastermind for Smart Technologies
         </div>
 
     </div>
+
 </div>
 
 <script src="js/auth.js"></script>
