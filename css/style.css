@@ -1301,3 +1301,116 @@ body.dashboard-page .right-sidebar{
 .orders-table-box{
     border-radius:16px !important;
 }
+.doctors-toolbar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.doctors-toolbar{
+    display:flex;
+    justify-content:center !important;
+    align-items:center;
+}
+
+.doctors-toolbar input{
+    width:700px;
+    max-width:90%;
+    margin:0 auto;
+}
+.patients-toolbar{
+    display:flex;
+    justify-content:center !important;
+    align-items:center;
+}
+
+.patients-toolbar input{
+    width:700px;
+    max-width:90%;
+    margin:0 auto;
+}
+.employees-toolbar{
+    display:flex;
+    justify-content:center !important;
+    align-items:center;
+    gap:15px;
+}
+
+.employees-toolbar input{
+    width:600px;
+    max-width:80%;
+}
+.employees-toolbar{
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    gap:15px !important;
+}
+
+.employees-toolbar select{
+    height:52px !important;
+    min-width:150px !important;
+    margin:0 !important;
+}
+
+.employees-toolbar input{
+    width:600px !important;
+    max-width:70% !important;
+    min-width:300px !important;
+    margin:0 !important;
+}
+.employees-search-box{
+    background:#fff;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.05);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+}
+
+.employees-search-box select{
+    height:52px;
+    min-width:150px;
+    padding:0 16px;
+    border:1px solid #eee;
+    border-radius:12px;
+    background:#fff;
+    font-weight:700;
+}
+
+.employees-search-box{
+    background:#fff;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.05);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+}
+
+.employees-search-box select{
+    height:52px;
+    min-width:150px;
+    padding:0 16px;
+    border:1px solid #eee;
+    border-radius:12px;
+    background:#fff;
+    font-weight:700;
+}
+
+.employees-search-box input{
+    height:52px;
+    width:600px;
+    max-width:70%;
+    min-width:300px;
+    padding:0 16px;
+    border:1px solid #eee;
+    border-radius:12px;
+    font-weight:700;
+    margin:0;
+}

@@ -372,9 +372,11 @@ function applyLanguage(){
 
     setText(".logout-btn", t.logout);
 
-translateDashboard(t);
+    translateDashboard(t);
 translateOrdersPage(t);
 translateInventoryPage(t);
+translateDoctorsPage(t);
+translatePatientsPage(t);
 translateEmployeesPage(t);
 
 updateDate();
@@ -463,10 +465,27 @@ function translateOrdersPage(t){
         toolbarBtns[0].textContent = t.print;
         toolbarBtns[1].textContent = t.export;
     }
+setPlaceholder("searchInput", t.searchOrders);
+    const dateRangeSelect = document.querySelector(".orders-toolbar select");
 
-    setPlaceholder("searchInput", t.searchOrders);
+if(dateRangeSelect && dateRangeSelect.options.length >= 4){
+    dateRangeSelect.options[0].textContent = currentLang === "ar" ? "نطاق التاريخ" : "Date Range";
+    dateRangeSelect.options[1].textContent = currentLang === "ar" ? "اليوم" : "Today";
+    dateRangeSelect.options[2].textContent = currentLang === "ar" ? "هذا الأسبوع" : "This Week";
+    dateRangeSelect.options[3].textContent = currentLang === "ar" ? "هذا الشهر" : "This Month";
+}
 
-    const totalOrders = JSON.parse(localStorage.getItem("axisOrders")) || [];
+const statusSelect = document.getElementById("statusFilter");
+
+if(statusSelect && statusSelect.options.length >= 6){
+    statusSelect.options[0].textContent = currentLang === "ar" ? "كل الحالات" : "All Status";
+    statusSelect.options[1].textContent = currentLang === "ar" ? "جديد" : "New";
+    statusSelect.options[2].textContent = currentLang === "ar" ? "قيد العمل" : "In Progress";
+    statusSelect.options[3].textContent = currentLang === "ar" ? "مراجعة" : "Review";
+    statusSelect.options[4].textContent = currentLang === "ar" ? "جاهز" : "Ready";
+    statusSelect.options[5].textContent = currentLang === "ar" ? "تم التسليم" : "Delivered";
+}
+const totalOrders = JSON.parse(localStorage.getItem("axisOrders")) || [];
     const tableTitle = document.querySelector(".table-title strong");
     if(tableTitle) tableTitle.textContent = t.totalOrdersLabel + totalOrders.length;
 

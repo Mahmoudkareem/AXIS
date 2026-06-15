@@ -80,19 +80,16 @@
 
         </section>
 
-        <section class="orders-toolbar">
+        <section class="orders-toolbar doctors-toolbar">
 
-            <button onclick="printDoctors()">🖨️ Print</button>
-            <button onclick="exportDoctors()">⬇️ Export</button>
+    <input
+        type="text"
+        id="doctorSearch"
+        placeholder="ابحث عن طبيب..."
+        onkeyup="filterDoctors()"
+    >
 
-            <input
-                type="text"
-                id="doctorSearch"
-                placeholder="Search doctor..."
-                onkeyup="filterDoctors()"
-            >
-
-        </section>
+</section>
 
         <section class="orders-table-box">
 
