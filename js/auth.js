@@ -19,6 +19,25 @@ const users = [
   }
 ];
 
+function showAxisMessage(title, message, callback) {
+  const box = document.createElement("div");
+
+  box.className = "axis-message-overlay";
+
+  box.innerHTML = `
+    <div class="axis-message-box">
+      <h2>${title}</h2>
+      <p>${message}</p>
+    </div>
+  `;
+
+  document.body.appendChild(box);
+
+  setTimeout(function () {
+    if (callback) callback();
+  }, 2200);
+}
+
 function login(event) {
   event.preventDefault();
 
@@ -31,13 +50,28 @@ function login(event) {
 
   if (user) {
     localStorage.setItem("axisUser", JSON.stringify(user));
-    window.location.href = "pages/dashboard.html";
+
+    showAxisMessage(
+      "تسجيل الدخول",
+      "أهلاً وسهلاً بك في نظام AXIS Dental Laboratory 🌟<br>نتمنى لك يوماً مليئاً بالإنجاز والنجاح.<br>شكراً لجهودك ودورك في تقديم أفضل خدمة لعملائنا.",
+      function () {
+        window.location.href = "pages/dashboard.html";
+      }
+    );
+
   } else {
     alert("Invalid username or password");
   }
 }
+
 function logout() {
-    localStorage.removeItem("axisUser");
-    localStorage.clear();
-    window.location.href = "https://mahmoudkareem.github.io/AXIS/index.html";
+  localStorage.removeItem("axisUser");
+
+  showAxisMessage(
+    "تسجيل خروج",
+    "شكراً لجهودك اليوم 🙏<br>تم تسجيل خروجك بنجاح.<br>نتمنى لك وقتاً سعيداً ونراك قريباً.",
+    function () {
+      window.location.href = "https://mahmoudkareem.github.io/AXIS/index.html";
+    }
+  );
 }
