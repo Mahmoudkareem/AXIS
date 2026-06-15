@@ -36,3 +36,7 @@ function login(event) {
     alert("Invalid username or password");
   }
 }
+function logout() {
+    localStorage.removeItem("axisUser");
+    window.location.href = "../index.html";
+}
