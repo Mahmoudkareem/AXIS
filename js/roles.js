@@ -1,4 +1,4 @@
-const defaultPermissions = [
+const permissions = [
     {
         role: "Lab Manager",
         dashboard: true,
@@ -53,54 +53,42 @@ const defaultPermissions = [
     }
 ];
 
-let permissions = JSON.parse(localStorage.getItem("axisPermissions")) || defaultPermissions;
+function mark(value){
+    return value
+        ? '<span style="color:#16a34a;font-weight:900;">✔</span>'
+        : '<span style="color:#dc2626;font-weight:900;">✖</span>';
+}
 
 function renderPermissions(){
     const tbody = document.getElementById("rolesTableBody");
+
+    if(!tbody){
+        return;
+    }
+
     tbody.innerHTML = "";
 
-    permissions.forEach(function(item, index){
-        const isTechnician = item.role === "Technician";
-        const isFullAccess = item.role !== "Technician";
-
+    permissions.forEach(function(role){
         tbody.innerHTML += `
             <tr>
-                <td><strong>${item.role}</strong></td>
-
-                <td>${createCheckbox(index, "dashboard", item.dashboard, isFullAccess)}</td>
-                <td>${createCheckbox(index, "orders", item.orders, false)}</td>
-                <td>${createCheckbox(index, "doctors", item.doctors, isFullAccess || isTechnician)}</td>
-                <td>${createCheckbox(index, "patients", item.patients, isFullAccess || isTechnician)}</td>
-                <td>${createCheckbox(index, "employees", item.employees, isFullAccess || isTechnician)}</td>
-                <td>${createCheckbox(index, "inventory", item.inventory, isFullAccess || isTechnician)}</td>
-                <td>${createCheckbox(index, "quality", item.quality, isFullAccess || isTechnician)}</td>
-                <td>${createCheckbox(index, "notifications", item.notifications, isFullAccess || isTechnician)}</td>
-                <td>${createCheckbox(index, "roles", item.roles, isFullAccess || isTechnician)}</td>
-                <td>${createCheckbox(index, "settings", item.settings, isFullAccess || isTechnician)}</td>
+                <td><strong>${role.role}</strong></td>
+                <td>${mark(role.dashboard)}</td>
+                <td>${mark(role.orders)}</td>
+                <td>${mark(role.doctors)}</td>
+                <td>${mark(role.patients)}</td>
+                <td>${mark(role.employees)}</td>
+                <td>${mark(role.inventory)}</td>
+                <td>${mark(role.quality)}</td>
+                <td>${mark(role.notifications)}</td>
+                <td>${mark(role.roles)}</td>
+                <td>${mark(role.settings)}</td>
             </tr>
         `;
     });
 }
 
-function createCheckbox(index, key, checked, disabled){
-    return `
-        <input
-            type="checkbox"
-            ${checked ? "checked" : ""}
-            ${disabled ? "disabled" : ""}
-            onchange="updatePermission(${index}, '${key}', this.checked)"
-            style="width:20px;height:20px;accent-color:#B83280;"
-        >
-    `;
-}
-
-function updatePermission(index, key, value){
-    permissions[index][key] = value;
-}
-
 function savePermissions(){
     localStorage.setItem("axisPermissions", JSON.stringify(permissions));
-
     alert("Permissions saved successfully");
 }
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AXIS Roles & Permissions</title>
+<title>AXIS Activity Logs</title>
 <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -39,68 +39,80 @@
 
         <section class="orders-header">
             <div>
-                <h1>Roles & Permissions</h1>
-                <p>Manage access levels for system users</p>
+                <h1>Activity Logs</h1>
+                <p>Track system actions, user activities and changes</p>
             </div>
 
-            <!-- No button needed -->
         </section>
 
         <section class="stats-grid">
 
             <div class="stat-card blue">
-                <div class="stat-icon">👑</div>
-                <h3>Lab Manager</h3>
-                <strong>Full</strong>
-                <p>Full permissions</p>
+                <div class="stat-icon">📋</div>
+                <h3>Total Logs</h3>
+                <strong id="totalLogs">0</strong>
+                <p>All activities</p>
             </div>
 
             <div class="stat-card green">
-                <div class="stat-icon">🧑‍💼</div>
-                <h3>Assistant Manager</h3>
-                <strong>Full</strong>
-                <p>Full permissions</p>
-            </div>
-
-            <div class="stat-card purple">
-                <div class="stat-icon">💻</div>
-                <h3>Programmer</h3>
-                <strong>Full</strong>
-                <p>System developer access</p>
+                <div class="stat-icon">➕</div>
+                <h3>Add Actions</h3>
+                <strong id="addLogs">0</strong>
+                <p>Created records</p>
             </div>
 
             <div class="stat-card orange">
-                <div class="stat-icon">🛠️</div>
-                <h3>Technician</h3>
-                <strong>Orders</strong>
-                <p>Orders only</p>
+                <div class="stat-icon">✏️</div>
+                <h3>Edit Actions</h3>
+                <strong id="editLogs">0</strong>
+                <p>Updated records</p>
+            </div>
+
+            <div class="stat-card red">
+                <div class="stat-icon">🗑️</div>
+                <h3>Delete Actions</h3>
+                <strong id="deleteLogs">0</strong>
+                <p>Removed records</p>
             </div>
 
         </section>
 
+        <section class="orders-toolbar">
+            <select id="activityTypeFilter" onchange="filterActivityLogs()">
+                <option value="All">All Actions</option>
+                <option value="Add">Add</option>
+                <option value="Edit">Edit</option>
+                <option value="Delete">Delete</option>
+                <option value="Login">Login</option>
+                <option value="Logout">Logout</option>
+            </select>
+
+            <input
+                type="text"
+                id="activitySearch"
+                placeholder="Search activity..."
+                onkeyup="filterActivityLogs()"
+            >
+        </section>
+
         <section class="orders-table-box">
             <div class="table-title">
-                <strong>Permissions Matrix</strong>
+                <strong id="activityTableTitle">Total Logs: 0</strong>
             </div>
 
             <table class="orders-table">
                 <thead>
                     <tr>
-                        <th>Role</th>
-                        <th>Dashboard</th>
-                        <th>Orders</th>
-                        <th>Doctors</th>
-                        <th>Patients</th>
-                        <th>Employees</th>
-                        <th>Inventory</th>
-                        <th>Quality</th>
-                        <th>Notifications</th>
-                        <th>Roles</th>
-                        <th>Settings</th>
+                        <th>User</th>
+                        <th>Action Type</th>
+                        <th>Section</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Time</th>
                     </tr>
                 </thead>
 
-                <tbody id="rolesTableBody"></tbody>
+                <tbody id="activityTableBody"></tbody>
             </table>
         </section>
 
@@ -109,7 +121,7 @@
     <aside class="right-sidebar">
 
         <div class="page-title-box">
-            <h2>ROLES</h2>
+            <h2>ACTIVITY</h2>
         </div>
 
         <nav class="side-menu">
@@ -121,8 +133,8 @@
             <a href="inventory.html">Inventory</a>
             <a href="quality.html">Quality Control</a>
             <a href="notifications.html">Notifications</a>
-            <a class="active" href="roles.html">Roles & Permissions</a>
-            <a href="activity.html">Activity Logs</a>
+            <a href="roles.html">Roles & Permissions</a>
+            <a class="active" href="activity.html">Activity Logs</a>
             <a href="settings.html">Settings</a>
         </nav>
 
@@ -134,7 +146,7 @@
 
 <script src="../js/auth.js"></script>
 <script src="../js/theme.js"></script>
-<script src="../js/roles.js"></script>
+<script src="../js/activity.js"></script>
 
 </body>
 </html>
