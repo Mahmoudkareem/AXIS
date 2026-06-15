@@ -38,5 +38,5 @@ function login(event) {
 }
 function logout() {
     localStorage.removeItem("axisUser");
-    window.location.href = "../index.html";
+    window.location.href = "/AXIS/";
 }
