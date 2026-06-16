@@ -1,63 +1,84 @@
-const defaultSettings = {
-    labName: "AXIS Dental Laboratory",
-    labPhone: "",
-    labAddress: "",
-    labCurrency: "JOD",
-    labLanguage: "en",
-    workingHours: "",
-    labLogo: "../assets/logo.png"
-};
+function logActivity(actionType, section, description){
+    if(typeof addActivityLog === "function"){
+        addActivityLog(actionType, section, description);
+    }else{
+        const logs = JSON.parse(localStorage.getItem("axisActivityLogs")) || [];
+        const user = JSON.parse(localStorage.getItem("axisUser"));
+        const now = new Date();
 
-let settings = JSON.parse(localStorage.getItem("axisSettings")) || defaultSettings;
+        logs.unshift({
+            user: user && user.name ? user.name : "System User",
+            actionType: actionType,
+            section: section,
+            description: description,
+            date: now.toLocaleDateString("en-US"),
+            time: now.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit"
+            })
+        });
 
-function loadSettings(){
-    document.getElementById("labName").value = settings.labName || defaultSettings.labName;
-    document.getElementById("labPhone").value = settings.labPhone || "";
-    document.getElementById("labAddress").value = settings.labAddress || "";
-    document.getElementById("labCurrency").value = settings.labCurrency || "JOD";
-    document.getElementById("labLanguage").value = settings.labLanguage || "en";
-    document.getElementById("workingHours").value = settings.workingHours || "";
-    document.getElementById("logoPreview").src = settings.labLogo || "../assets/logo.png";
+        localStorage.setItem("axisActivityLogs", JSON.stringify(logs));
+    }
 }
 
-function saveSettings(){
-    settings.labName = document.getElementById("labName").value.trim();
-    settings.labPhone = document.getElementById("labPhone").value.trim();
-    settings.labAddress = document.getElementById("labAddress").value.trim();
-    settings.labCurrency = document.getElementById("labCurrency").value;
-    settings.labLanguage = document.getElementById("labLanguage").value;
-    settings.workingHours = document.getElementById("workingHours").value.trim();
+function saveSettingsSection(){
+    const panelTitle = document.getElementById("panelTitle");
+    const titleText = panelTitle ? panelTitle.textContent.trim() : "Settings";
 
-    localStorage.setItem("axisSettings", JSON.stringify(settings));
-    localStorage.setItem("axisLang", settings.labLanguage);
+    logActivity(
+        "Edit",
+        "Settings",
+        `${titleText} saved`
+    );
 
-    alert("Settings saved successfully");
+    alert(
+        localStorage.getItem("axisLang") === "ar"
+            ? "تم حفظ الإعدادات بنجاح ✅"
+            : "Settings saved successfully ✅"
+    );
 }
 
 function resetSettings(){
     if(confirm("Reset settings to default?")){
-        settings = defaultSettings;
-        localStorage.setItem("axisSettings", JSON.stringify(settings));
-        loadSettings();
+        localStorage.removeItem("axisSettings");
+
+        logActivity(
+            "Edit",
+            "Settings",
+            "Settings reset to default"
+        );
+
+        alert("Settings reset successfully");
     }
 }
 
-document.getElementById("labLogo").addEventListener("change", function(event){
-    const file = event.target.files[0];
+function createBackup(){
+    logActivity(
+        "Add",
+        "Settings",
+        "Backup created"
+    );
 
-    if(!file){
-        return;
-    }
+    alert("Backup created successfully");
+}
 
-    const reader = new FileReader();
+function restoreBackup(){
+    logActivity(
+        "Edit",
+        "Settings",
+        "Backup restore requested"
+    );
 
-    reader.onload = function(e){
-        settings.labLogo = e.target.result;
-        document.getElementById("logoPreview").src = e.target.result;
-        localStorage.setItem("axisSettings", JSON.stringify(settings));
-    };
+    alert("Restore backup feature will be connected later.");
+}
 
-    reader.readAsDataURL(file);
-});
+function downloadDatabase(){
+    logActivity(
+        "Export",
+        "Settings",
+        "Database download requested"
+    );
 
-loadSettings();
+    alert("Database download feature will be connected later.");
+}

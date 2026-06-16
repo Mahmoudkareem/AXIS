@@ -37,23 +37,41 @@ function setText(id, value){
     }
 }
 
-setText("todayOrders", todayOrders);
-setText("todayOrdersText", `${todayOrders} new orders`);
+function isArabic(){
+    return localStorage.getItem("axisLang") === "ar";
+}
 
-setText("inProgressOrders", inProgressOrders);
-setText("inProgressOrdersText", `${inProgressOrders} orders`);
+function orderWord(count){
+    return isArabic() ? "طلبات" : "orders";
+}
 
-setText("completedOrders", completedOrders);
-setText("completedOrdersText", `${completedOrders} orders`);
+function newOrderWord(count){
+    return isArabic() ? "طلبات جديدة" : "new orders";
+}
 
-setText("overdueOrders", overdueOrders);
-setText("overdueOrdersText", `${overdueOrders} orders`);
+function updateDashboardNumbers(){
+    setText("todayOrders", todayOrders);
+    setText("todayOrdersText", `${todayOrders} ${newOrderWord(todayOrders)}`);
 
-setText("totalOrdersChart", totalOrders);
+    setText("inProgressOrders", inProgressOrders);
+    setText("inProgressOrdersText", `${inProgressOrders} ${orderWord(inProgressOrders)}`);
 
-setText("newStatusText", `🔵 New - ${newOrders}`);
-setText("progressStatusText", `🟠 In Progress - ${inProgressOrders}`);
-setText("reviewStatusText", `🟢 Review - ${reviewOrders}`);
-setText("readyStatusText", `🟣 Ready - ${readyOrders}`);
-setText("deliveredStatusText", `🟢 Delivered - ${deliveredOrders}`);
-setText("overdueStatusText", `🔴 Overdue - ${overdueOrders}`);
+    setText("completedOrders", completedOrders);
+    setText("completedOrdersText", `${completedOrders} ${orderWord(completedOrders)}`);
+
+    setText("overdueOrders", overdueOrders);
+    setText("overdueOrdersText", `${overdueOrders} ${orderWord(overdueOrders)}`);
+
+    setText("totalOrdersChart", totalOrders);
+
+    setText("newStatusText", `🔵 ${isArabic() ? "جديد" : "New"} - ${newOrders}`);
+    setText("progressStatusText", `🟠 ${isArabic() ? "قيد العمل" : "In Progress"} - ${inProgressOrders}`);
+    setText("reviewStatusText", `🟢 ${isArabic() ? "مراجعة" : "Review"} - ${reviewOrders}`);
+    setText("readyStatusText", `🟣 ${isArabic() ? "جاهز" : "Ready"} - ${readyOrders}`);
+    setText("deliveredStatusText", `🟢 ${isArabic() ? "تم التسليم" : "Delivered"} - ${deliveredOrders}`);
+    setText("overdueStatusText", `🔴 ${isArabic() ? "متأخر" : "Overdue"} - ${overdueOrders}`);
+}
+
+updateDashboardNumbers();
+
+window.addEventListener("storage", updateDashboardNumbers);

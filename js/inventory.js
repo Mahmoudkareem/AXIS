@@ -12,6 +12,30 @@ const defaultItems = [
     { name:"Medical Alcohol", category:"Liquids", quantity:10, minimum:4, price:3 }
 ];
 
+function logActivity(actionType, section, description){
+    if(typeof addActivityLog === "function"){
+        addActivityLog(actionType, section, description);
+    }else{
+        const logs = JSON.parse(localStorage.getItem("axisActivityLogs")) || [];
+        const user = JSON.parse(localStorage.getItem("axisUser"));
+        const now = new Date();
+
+        logs.unshift({
+            user: user && user.name ? user.name : "System User",
+            actionType: actionType,
+            section: section,
+            description: description,
+            date: now.toLocaleDateString("en-US"),
+            time: now.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit"
+            })
+        });
+
+        localStorage.setItem("axisActivityLogs", JSON.stringify(logs));
+    }
+}
+
 if(inventoryItems.length === 0){
     inventoryItems = defaultItems.map(function(item){
         return {
@@ -174,8 +198,17 @@ function deleteInventoryItem(index){
     const confirmDelete = confirm("Are you sure you want to delete this item?");
 
     if(confirmDelete){
+        const deletedItem = inventoryItems[index];
+
         inventoryItems.splice(index, 1);
         saveInventory();
+
+        logActivity(
+            "Delete",
+            "Inventory",
+            `Inventory item ${deletedItem.name} deleted`
+        );
+
         renderInventory();
     }
 }
@@ -199,8 +232,32 @@ if(inventoryForm){
 
         if(editInventoryIndex === null){
             inventoryItems.push(itemData);
+
+            logActivity(
+                "Add",
+                "Inventory",
+                `New inventory item ${itemData.name} added with quantity ${itemData.quantity}`
+            );
+
         }else{
+            const oldItem = inventoryItems[editInventoryIndex];
+
             inventoryItems[editInventoryIndex] = itemData;
+
+            logActivity(
+                "Edit",
+                "Inventory",
+                `Inventory item ${oldItem.name} updated`
+            );
+
+            if(Number(oldItem.quantity) !== Number(itemData.quantity)){
+                logActivity(
+                    "Edit",
+                    "Inventory",
+                    `Inventory quantity for ${itemData.name} changed from ${oldItem.quantity} to ${itemData.quantity}`
+                );
+            }
+
             editInventoryIndex = null;
         }
 
@@ -232,10 +289,22 @@ function filterInventory(){
 }
 
 function printInventory(){
+    logActivity(
+        "Print",
+        "Inventory",
+        "Inventory list printed"
+    );
+
     window.print();
 }
 
 function exportInventory(){
+    logActivity(
+        "Export",
+        "Inventory",
+        "Inventory list export requested"
+    );
+
     alert("Export feature will be connected later.");
 }
 

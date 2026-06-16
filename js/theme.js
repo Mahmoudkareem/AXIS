@@ -26,7 +26,6 @@ const lang = {
     en: {
         langBtn: "العربية",
         logout: "Logout",
-
         menu: [
             "Dashboard",
             "Order Management",
@@ -41,11 +40,9 @@ const lang = {
             "Settings"
         ]
     },
-
     ar: {
         langBtn: "English",
         logout: "تسجيل الخروج",
-
         menu: [
             "لوحة التحكم",
             "إدارة الطلبات",
@@ -64,9 +61,7 @@ const lang = {
 
 function setText(selector, text){
     const element = document.querySelector(selector);
-    if(element){
-        element.textContent = text;
-    }
+    if(element) element.textContent = text;
 }
 
 function setAllText(selector, text){
@@ -77,9 +72,7 @@ function setAllText(selector, text){
 
 function setPlaceholder(id, text){
     const element = document.getElementById(id);
-    if(element){
-        element.placeholder = text;
-    }
+    if(element) element.placeholder = text;
 }
 
 function setOptionText(id, index, text){
@@ -89,20 +82,37 @@ function setOptionText(id, index, text){
     }
 }
 
+function setCard(index, title, desc){
+    const cards = document.querySelectorAll(".stat-card");
+
+    if(cards[index]){
+        const h3 = cards[index].querySelector("h3");
+        const p = cards[index].querySelector("p");
+
+        if(h3) h3.textContent = title;
+        if(p) p.textContent = desc;
+    }
+}
+
+function setModalLabels(modalSelector, labelsArray){
+    const labels = document.querySelectorAll(modalSelector + " .form-group label");
+
+    labels.forEach(function(label, index){
+        if(labelsArray[index]){
+            label.textContent = labelsArray[index];
+        }
+    });
+}
+
 function applyLanguage(){
     const isAr = currentLang === "ar";
     const t = lang[currentLang];
 
     const langBtn = document.getElementById("langBtn");
-    if(langBtn){
-        langBtn.textContent = t.langBtn;
-    }
+    if(langBtn) langBtn.textContent = t.langBtn;
 
-    const links = document.querySelectorAll(".side-menu a");
-    links.forEach(function(link, index){
-        if(t.menu[index]){
-            link.textContent = t.menu[index];
-        }
+    document.querySelectorAll(".side-menu a").forEach(function(link, index){
+        if(t.menu[index]) link.textContent = t.menu[index];
     });
 
     setAllText(".logout-btn", t.logout);
@@ -124,36 +134,32 @@ function applyLanguage(){
 
 /* Dashboard */
 function translateDashboard(isAr){
-    if(!document.querySelector(".welcome-section")){
-        return;
-    }
+    if(!document.querySelector(".welcome-section")) return;
 
     setText(".welcome-section h1", isAr ? "لوحة التحكم" : "Dashboard");
 
-    const cards = document.querySelectorAll(".stat-card h3");
+    setCard(0, isAr ? "الطلبات المتأخرة" : "Overdue Orders", isAr ? "طلبات" : "orders");
+    setCard(1, isAr ? "الطلبات قيد العمل" : "In Progress Orders", isAr ? "طلبات" : "orders");
+    setCard(2, isAr ? "الطلبات المكتملة" : "Completed Orders", isAr ? "طلبات" : "orders");
+    setCard(3, isAr ? "طلبات اليوم" : "Today's Orders", isAr ? "طلبات جديدة" : "new orders");
+    setCard(4, isAr ? "إجمالي الإيرادات" : "Total Revenue", isAr ? "هذا الشهر" : "This Month");
 
-    if(cards.length >= 5){
-        cards[0].textContent = isAr ? "الطلبات المتأخرة" : "Overdue Orders";
-        cards[1].textContent = isAr ? "الطلبات قيد العمل" : "In Progress Orders";
-        cards[2].textContent = isAr ? "الطلبات المكتملة" : "Completed Orders";
-        cards[3].textContent = isAr ? "طلبات اليوم" : "Today's Orders";
-        cards[4].textContent = isAr ? "إجمالي الإيرادات" : "Total Revenue";
+    const chartTitles = document.querySelectorAll(".chart-header h2");
+    if(chartTitles.length >= 2){
+        chartTitles[0].textContent = isAr ? "الطلبات حسب الحالة" : "Orders By Status";
+        chartTitles[1].textContent = isAr ? "نظرة عامة على الطلبات" : "Orders Overview";
     }
 
-    const infoTitles = document.querySelectorAll(".info-box h2");
-
-    if(infoTitles.length >= 3){
-        infoTitles[0].textContent = isAr ? "أفضل الفنيين" : "Top Technicians";
-        infoTitles[1].textContent = isAr ? "أفضل الأطباء" : "Top Dentists";
-        infoTitles[2].textContent = isAr ? "تنبيهات سريعة" : "Quick Notifications";
+    const chartBtns = document.querySelectorAll(".chart-header button");
+    if(chartBtns.length >= 2){
+        chartBtns[0].textContent = isAr ? "هذا الشهر" : "This Month";
+        chartBtns[1].textContent = isAr ? "تصدير التقرير" : "Export Report";
     }
 }
 
 /* Orders */
 function translateOrders(isAr){
-    if(!document.getElementById("orderModal")){
-        return;
-    }
+    if(!document.getElementById("orderModal")) return;
 
     setText(".orders-header h1", isAr ? "إدارة الطلبات" : "Order Management");
     setText(".orders-header p", isAr ? "إدارة طلبات مختبر الأسنان وسير العمل" : "Manage dental laboratory orders and workflow");
@@ -161,40 +167,12 @@ function translateOrders(isAr){
 
     setPlaceholder("searchInput", isAr ? "ابحث باسم المريض أو رقم الطلب" : "Search by patient name or order ID");
 
-    setOptionText("statusFilter", 0, isAr ? "كل الحالات" : "All Status");
-    setOptionText("statusFilter", 1, isAr ? "جديد" : "New");
-    setOptionText("statusFilter", 2, isAr ? "قيد العمل" : "In Progress");
-    setOptionText("statusFilter", 3, isAr ? "مراجعة" : "Review");
-    setOptionText("statusFilter", 4, isAr ? "جاهز" : "Ready");
-    setOptionText("statusFilter", 5, isAr ? "تم التسليم" : "Delivered");
-
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 10){
-        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
-        headers[1].textContent = isAr ? "الحالة" : "Status";
-        headers[2].textContent = isAr ? "رقم الطلب" : "Order ID";
-        headers[3].textContent = isAr ? "اسم المريض" : "Patient Name";
-        headers[4].textContent = isAr ? "نوع العمل" : "Type of Work";
-        headers[5].textContent = isAr ? "تاريخ الطلب" : "Order Date";
-        headers[6].textContent = isAr ? "تاريخ التسليم" : "Due Date";
-        headers[7].textContent = isAr ? "الطبيب" : "Doctor";
-        headers[8].textContent = isAr ? "الفني" : "Technician";
-        headers[9].textContent = isAr ? "الإنجاز" : "Progress";
-    }
-
     setText("#orderModal .modal-header h2", isAr ? "إضافة طلب جديد" : "Add New Order");
 
-    const labels = document.querySelectorAll("#orderModal .form-group label");
-    if(labels.length >= 8){
-        labels[0].textContent = isAr ? "اسم المريض" : "Patient Name";
-        labels[1].textContent = isAr ? "الطبيب" : "Doctor";
-        labels[2].textContent = isAr ? "نوع العمل" : "Type Of Work";
-        labels[3].textContent = isAr ? "الفني" : "Technician";
-        labels[4].textContent = isAr ? "تاريخ التسليم" : "Delivery Date";
-        labels[5].textContent = isAr ? "الأولوية" : "Priority";
-        labels[6].textContent = isAr ? "صور الحالة" : "Case Images";
-        labels[7].textContent = isAr ? "ملاحظات" : "Notes";
-    }
+    setModalLabels("#orderModal", isAr
+        ? ["اسم المريض", "الطبيب", "نوع العمل", "الفني", "تاريخ التسليم", "الأولوية", "صور الحالة", "ملاحظات"]
+        : ["Patient Name", "Doctor", "Type Of Work", "Technician", "Delivery Date", "Priority", "Case Images", "Notes"]
+    );
 
     setText("#orderModal .cancel-btn", isAr ? "إلغاء" : "Cancel");
     setText("#orderModal .primary-btn", isAr ? "حفظ الطلب" : "Save Order");
@@ -202,68 +180,68 @@ function translateOrders(isAr){
 
 /* Doctors */
 function translateDoctors(isAr){
-    if(!document.getElementById("doctorTableBody")){
-        return;
-    }
+    if(!document.getElementById("doctorTableBody")) return;
 
     setText(".orders-header h1", isAr ? "إدارة الأطباء" : "Doctors Management");
     setText(".orders-header p", isAr ? "إدارة الأطباء والسجلات المالية" : "Manage dentists and financial records");
     setText(".orders-header .primary-btn", isAr ? "+ إضافة طبيب" : "+ Add Doctor");
+
+    setCard(0, isAr ? "إجمالي الأطباء" : "Total Doctors", isAr ? "الأطباء المسجلون" : "Registered doctors");
+    setCard(1, isAr ? "إجمالي الحالات" : "Total Cases", isAr ? "جميع الحالات المرسلة" : "All submitted cases");
+    setCard(2, isAr ? "إجمالي الإيرادات" : "Total Revenue", isAr ? "المبلغ المدفوع" : "Paid amount");
+    setCard(3, isAr ? "المبالغ المتبقية" : "Outstanding", isAr ? "دفعات قيد الانتظار" : "Pending payments");
+
     setPlaceholder("doctorSearch", isAr ? "ابحث عن طبيب..." : "Search doctor...");
 
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 8){
-        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
-        headers[1].textContent = isAr ? "اسم الطبيب" : "Doctor Name";
-        headers[2].textContent = isAr ? "الهاتف" : "Phone";
-        headers[3].textContent = isAr ? "العنوان" : "Address";
-        headers[4].textContent = isAr ? "الحالات" : "Cases";
-        headers[5].textContent = isAr ? "إجمالي المستحق" : "Total Due";
-        headers[6].textContent = isAr ? "إجمالي المدفوع" : "Total Paid";
-        headers[7].textContent = isAr ? "المتبقي" : "Remaining";
-    }
-
     setText("#doctorModal .modal-header h2", isAr ? "إضافة طبيب" : "Add Doctor");
+
+    setModalLabels("#doctorModal", isAr
+        ? ["اسم الطبيب", "رقم الهاتف", "العنوان", "إجمالي الحالات", "الإجمالي المستحق", "إجمالي المدفوع"]
+        : ["Doctor Name", "Phone Number", "Address", "Total Cases", "Total Due", "Total Paid"]
+    );
+
     setText("#doctorModal .cancel-btn", isAr ? "إلغاء" : "Cancel");
     setText("#doctorModal .primary-btn", isAr ? "حفظ الطبيب" : "Save Doctor");
 }
 
 /* Patients */
 function translatePatients(isAr){
-    if(!document.getElementById("patientTableBody")){
-        return;
-    }
+    if(!document.getElementById("patientTableBody")) return;
 
     setText(".orders-header h1", isAr ? "إدارة المرضى" : "Patients Management");
     setText(".orders-header p", isAr ? "إدارة المرضى والحالات الطبية" : "Manage patients and medical cases");
     setText(".orders-header .primary-btn", isAr ? "+ إضافة مريض" : "+ Add Patient");
+
+    setCard(0, isAr ? "إجمالي المرضى" : "Total Patients", isAr ? "المرضى المسجلون" : "Registered patients");
+    setCard(1, isAr ? "إجمالي الحالات" : "Total Cases", isAr ? "حالات المرضى" : "Patient cases");
+    setCard(2, isAr ? "الأطباء المرتبطون" : "Linked Doctors", isAr ? "الأطباء المعينون" : "Assigned doctors");
+    setCard(3, isAr ? "مع ملاحظات" : "With Notes", isAr ? "ملاحظات خاصة" : "Special notes");
+
     setPlaceholder("patientSearch", isAr ? "ابحث عن مريض..." : "Search patient...");
 
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 7){
-        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
-        headers[1].textContent = isAr ? "اسم المريض" : "Patient Name";
-        headers[2].textContent = isAr ? "الهاتف" : "Phone";
-        headers[3].textContent = isAr ? "الطبيب" : "Doctor";
-        headers[4].textContent = isAr ? "نوع الحالة" : "Case Type";
-        headers[5].textContent = isAr ? "آخر طلب" : "Last Order";
-        headers[6].textContent = isAr ? "ملاحظات" : "Notes";
-    }
-
     setText("#patientModal .modal-header h2", isAr ? "إضافة مريض" : "Add Patient");
+
+    setModalLabels("#patientModal", isAr
+        ? ["اسم المريض", "رقم الهاتف", "الطبيب", "نوع الحالة", "تاريخ آخر طلب", "ملاحظات"]
+        : ["Patient Name", "Phone Number", "Doctor", "Case Type", "Last Order Date", "Notes"]
+    );
+
     setText("#patientModal .cancel-btn", isAr ? "إلغاء" : "Cancel");
     setText("#patientModal .primary-btn", isAr ? "حفظ المريض" : "Save Patient");
 }
 
 /* Employees */
 function translateEmployees(isAr){
-    if(!document.getElementById("employeeTableBody")){
-        return;
-    }
+    if(!document.getElementById("employeeTableBody")) return;
 
     setText(".orders-header h1", isAr ? "إدارة الموظفين" : "Employees Management");
     setText(".orders-header p", isAr ? "إدارة الموظفين والصلاحيات والحالة والأداء" : "Manage employees, roles, status and performance");
     setText(".orders-header .primary-btn", isAr ? "+ إضافة موظف" : "+ Add Employee");
+
+    setCard(0, isAr ? "إجمالي الموظفين" : "Total Employees", isAr ? "الموظفون المسجلون" : "Registered employees");
+    setCard(1, isAr ? "الموظفون النشطون" : "Active Employees", isAr ? "نشطون حالياً" : "Currently active");
+    setCard(2, isAr ? "الفنيون" : "Technicians", isAr ? "فنيو المختبر" : "Lab technicians");
+    setCard(3, isAr ? "الأعمال المنجزة" : "Completed Works", isAr ? "هذا الشهر" : "This month");
 
     setPlaceholder("employeeSearch", isAr ? "ابحث عن موظف..." : "Search employee...");
 
@@ -271,199 +249,180 @@ function translateEmployees(isAr){
     setOptionText("employeeStatusFilter", 1, isAr ? "نشط" : "Active");
     setOptionText("employeeStatusFilter", 2, isAr ? "غير نشط" : "Inactive");
 
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 9){
-        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
-        headers[1].textContent = isAr ? "اسم الموظف" : "Employee Name";
-        headers[2].textContent = isAr ? "اسم المستخدم" : "Username";
-        headers[3].textContent = isAr ? "الهاتف" : "Phone";
-        headers[4].textContent = isAr ? "المسمى الوظيفي" : "Job Title";
-        headers[5].textContent = isAr ? "الصلاحية" : "Role";
-        headers[6].textContent = isAr ? "الحالة" : "Status";
-        headers[7].textContent = isAr ? "الأعمال المنجزة" : "Completed Works";
-        headers[8].textContent = isAr ? "التقييم" : "Rating";
-    }
-
     setText("#employeeModal .modal-header h2", isAr ? "إضافة موظف" : "Add Employee");
+
+    setModalLabels("#employeeModal", isAr
+        ? ["اسم الموظف", "اسم المستخدم", "كلمة المرور", "رقم الهاتف", "المسمى الوظيفي", "الصلاحية", "الحالة", "الأعمال المنجزة", "التقييم الشهري"]
+        : ["Employee Name", "Username", "Password", "Phone Number", "Job Title", "Role", "Status", "Completed Works", "Monthly Rating"]
+    );
+
+    setOptionText("employeeStatus", 0, isAr ? "نشط" : "Active");
+    setOptionText("employeeStatus", 1, isAr ? "غير نشط" : "Inactive");
+
     setText("#employeeModal .cancel-btn", isAr ? "إلغاء" : "Cancel");
     setText("#employeeModal .primary-btn", isAr ? "حفظ الموظف" : "Save Employee");
 }
 
 /* Inventory */
 function translateInventory(isAr){
-    if(!document.getElementById("inventoryPageTitle")){
-        return;
-    }
+    if(!document.getElementById("inventoryTableBody") && !document.getElementById("inventoryPageTitle")) return;
 
     setText(".orders-header h1", isAr ? "إدارة المخزون" : "Inventory Management");
     setText(".orders-header p", isAr ? "إدارة مواد مختبر الأسنان ومستويات المخزون" : "Manage dental laboratory materials and stock levels");
     setText(".orders-header .primary-btn", isAr ? "+ إضافة مادة" : "+ Add Item");
 
+    setCard(0, isAr ? "إجمالي المواد" : "Total Items", isAr ? "مواد المخزون" : "Inventory items");
+    setCard(1, isAr ? "قيمة المخزون" : "Stock Value", isAr ? "القيمة الإجمالية" : "Total value");
+    setCard(2, isAr ? "مخزون منخفض" : "Low Stock", isAr ? "مواد تحتاج تزويد" : "Need restock");
+    setCard(3, isAr ? "مواد منتهية" : "Out of Stock", isAr ? "مواد غير متوفرة" : "Unavailable items");
+
     setPlaceholder("inventorySearch", isAr ? "ابحث باسم المادة أو التصنيف" : "Search by item name or category");
 
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 9){
-        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
-        headers[1].textContent = isAr ? "الحالة" : "Status";
-        headers[2].textContent = isAr ? "اسم المادة" : "Item Name";
-        headers[3].textContent = isAr ? "التصنيف" : "Category";
-        headers[4].textContent = isAr ? "الكمية" : "Quantity";
-        headers[5].textContent = isAr ? "الحد الأدنى" : "Minimum Stock";
-        headers[6].textContent = isAr ? "سعر الوحدة" : "Unit Price";
-        headers[7].textContent = isAr ? "القيمة الإجمالية" : "Total Value";
-        headers[8].textContent = isAr ? "آخر تحديث" : "Last Updated";
-    }
-
     setText("#inventoryModal .modal-header h2", isAr ? "إضافة مادة للمخزون" : "Add Inventory Item");
+
+    setModalLabels("#inventoryModal", isAr
+        ? ["اسم المادة", "التصنيف", "الكمية", "الحد الأدنى", "سعر الوحدة", "المورد", "تاريخ الشراء", "ملاحظات"]
+        : ["Item Name", "Category", "Quantity", "Minimum Stock", "Unit Price", "Supplier", "Purchase Date", "Notes"]
+    );
+
     setText("#inventoryModal .cancel-btn", isAr ? "إلغاء" : "Cancel");
     setText("#inventoryModal .primary-btn", isAr ? "حفظ المادة" : "Save Item");
 }
 
 /* Quality */
 function translateQuality(isAr){
-    if(!document.getElementById("qualityTableBody")){
-        return;
-    }
+    if(!document.getElementById("qualityTableBody")) return;
 
     setText(".orders-header h1", isAr ? "قسم الجودة" : "Quality Control");
     setText(".orders-header p", isAr ? "إدارة الحالات المرتجعة وأداء الجودة" : "Manage returned cases and quality performance");
     setText(".orders-header .primary-btn", isAr ? "+ إضافة حالة مرتجعة" : "+ Add Returned Case");
 
+    setCard(0, isAr ? "إجمالي المرتجعات" : "Total Returns", isAr ? "جميع الحالات المرتجعة" : "All returned cases");
+    setCard(1, isAr ? "قيد المعالجة" : "In Treatment", isAr ? "حالات قيد المعالجة" : "Cases in treatment");
+    setCard(2, isAr ? "تمت المعالجة" : "Resolved", isAr ? "حالات تمت معالجتها" : "Resolved cases");
+    setCard(3, isAr ? "نسبة الأخطاء" : "Error Rate", isAr ? "معدل الأخطاء" : "Quality errors");
+
     setPlaceholder("qualitySearch", isAr ? "ابحث عن حالة مرتجعة..." : "Search returned case...");
 
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 10){
-        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
-        headers[1].textContent = isAr ? "الحالة" : "Status";
-        headers[2].textContent = isAr ? "المريض" : "Patient";
-        headers[3].textContent = isAr ? "الطبيب" : "Doctor";
-        headers[4].textContent = isAr ? "الفني المسؤول" : "Technician";
-        headers[5].textContent = isAr ? "نوع العمل" : "Work Type";
-        headers[6].textContent = isAr ? "سبب الإرجاع" : "Return Reason";
-        headers[7].textContent = isAr ? "تاريخ الإرجاع" : "Return Date";
-        headers[8].textContent = isAr ? "نسبة الأخطاء" : "Error Rate";
-        headers[9].textContent = isAr ? "ملاحظات الجودة" : "Quality Notes";
-    }
-
     setText("#qualityModal .modal-header h2", isAr ? "إضافة حالة مرتجعة" : "Add Returned Case");
+
+    setModalLabels("#qualityModal", isAr
+        ? ["اسم المريض", "الطبيب", "الفني", "نوع العمل", "سبب الإرجاع", "تاريخ الإرجاع", "حالة المعالجة", "نسبة الخطأ", "ملاحظات الجودة"]
+        : ["Patient Name", "Doctor", "Technician", "Work Type", "Return Reason", "Return Date", "Processing Status", "Error Rate", "Quality Notes"]
+    );
+
     setText("#qualityModal .cancel-btn", isAr ? "إلغاء" : "Cancel");
     setText("#qualityModal .primary-btn", isAr ? "حفظ الحالة" : "Save Case");
 }
 
 /* Notifications */
 function translateNotifications(isAr){
-    if(!document.getElementById("notificationTableBody")){
-        return;
-    }
+    if(!document.getElementById("notificationTableBody")) return;
 
     setText(".orders-header h1", isAr ? "الإشعارات" : "Notifications");
-    setText(".orders-header p", isAr ? "إدارة التنبيهات والإشعارات المهمة" : "Manage system alerts and important updates");
+    setText(".orders-header p", isAr ? "إدارة تنبيهات النظام والتحديثات المهمة" : "Manage system alerts and important updates");
     setText(".orders-header .primary-btn", isAr ? "+ إضافة إشعار" : "+ Add Notification");
+
+    setCard(0, isAr ? "إجمالي الإشعارات" : "Total Notifications", isAr ? "جميع تنبيهات النظام" : "All system alerts");
+    setCard(1, isAr ? "أولوية عالية" : "High Priority", isAr ? "تحتاج متابعة" : "Need attention");
+    setCard(2, isAr ? "تنبيهات المخزون" : "Stock Alerts", isAr ? "تحذيرات المخزون" : "Inventory warnings");
+    setCard(3, isAr ? "تنبيهات مكتملة" : "Completed Alerts", isAr ? "تنبيهات تمت معالجتها" : "Resolved alerts");
 
     setPlaceholder("notificationSearch", isAr ? "ابحث عن إشعار..." : "Search notification...");
 
-    setOptionText("notificationTypeFilter", 0, isAr ? "كل الإشعارات" : "All Notifications");
-    setOptionText("notificationTypeFilter", 1, isAr ? "طلب جاهز" : "Ready Order");
-    setOptionText("notificationTypeFilter", 2, isAr ? "طلب متأخر" : "Overdue Order");
-    setOptionText("notificationTypeFilter", 3, isAr ? "مخزون منخفض" : "Low Stock");
-    setOptionText("notificationTypeFilter", 4, isAr ? "دفعة مستحقة" : "Due Payment");
-    setOptionText("notificationTypeFilter", 5, isAr ? "حالة مرتجعة" : "Returned Case");
-    setOptionText("notificationTypeFilter", 6, isAr ? "تنبيه مدير" : "Manager Alert");
-
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 7){
-        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
-        headers[1].textContent = isAr ? "الحالة" : "Status";
-        headers[2].textContent = isAr ? "النوع" : "Type";
-        headers[3].textContent = isAr ? "العنوان" : "Title";
-        headers[4].textContent = isAr ? "الرسالة" : "Message";
-        headers[5].textContent = isAr ? "الأولوية" : "Priority";
-        headers[6].textContent = isAr ? "التاريخ" : "Date";
-    }
-
     setText("#notificationModal .modal-header h2", isAr ? "إضافة إشعار" : "Add Notification");
+
+    setModalLabels("#notificationModal", isAr
+        ? ["نوع الإشعار", "الأولوية", "الحالة", "التاريخ", "العنوان", "الرسالة"]
+        : ["Notification Type", "Priority", "Status", "Date", "Title", "Message"]
+    );
+
     setText("#notificationModal .cancel-btn", isAr ? "إلغاء" : "Cancel");
     setText("#notificationModal .primary-btn", isAr ? "حفظ الإشعار" : "Save Notification");
 }
 
 /* Roles */
 function translateRoles(isAr){
-    if(!document.getElementById("rolesTableBody")){
-        return;
-    }
+    if(!document.getElementById("rolesTableBody")) return;
 
     setText(".orders-header h1", isAr ? "الصلاحيات" : "Roles & Permissions");
     setText(".orders-header p", isAr ? "إدارة مستويات الوصول لمستخدمي النظام" : "Manage access levels for system users");
+    setText(".orders-header .primary-btn", isAr ? "+ إضافة رتبة" : "+ Add Role");
 
-    const btn = document.querySelector(".orders-header .primary-btn");
-    if(btn){
-        btn.textContent = isAr ? "حفظ الصلاحيات" : "Save Permissions";
-    }
-
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 11){
-        headers[0].textContent = isAr ? "الدور" : "Role";
-        headers[1].textContent = isAr ? "لوحة التحكم" : "Dashboard";
-        headers[2].textContent = isAr ? "الطلبات" : "Orders";
-        headers[3].textContent = isAr ? "الأطباء" : "Doctors";
-        headers[4].textContent = isAr ? "المرضى" : "Patients";
-        headers[5].textContent = isAr ? "الموظفين" : "Employees";
-        headers[6].textContent = isAr ? "المخزون" : "Inventory";
-        headers[7].textContent = isAr ? "الجودة" : "Quality";
-        headers[8].textContent = isAr ? "الإشعارات" : "Notifications";
-        headers[9].textContent = isAr ? "الصلاحيات" : "Roles";
-        headers[10].textContent = isAr ? "الإعدادات" : "Settings";
-    }
+    setCard(0, isAr ? "مدير المختبر" : "Lab Manager", isAr ? "صلاحيات كاملة" : "Full permissions");
+    setCard(1, isAr ? "مساعد المدير" : "Assistant Manager", isAr ? "صلاحيات كاملة" : "Full permissions");
+    setCard(2, isAr ? "مبرمج" : "Programmer", isAr ? "وصول مطور النظام" : "System developer access");
+    setCard(3, isAr ? "فني" : "Technician", isAr ? "الطلبات فقط" : "Orders only");
 }
 
 /* Activity */
 function translateActivity(isAr){
-    if(!document.getElementById("activityTableBody")){
-        return;
-    }
+    if(!document.getElementById("activityTableBody")) return;
 
     setText(".orders-header h1", isAr ? "سجل العمليات" : "Activity Logs");
     setText(".orders-header p", isAr ? "تتبع عمليات النظام ونشاط المستخدمين" : "Track system actions, user activities and changes");
 
-    setPlaceholder("activitySearch", isAr ? "ابحث في السجل..." : "Search activity...");
+    setCard(0, isAr ? "إجمالي العمليات" : "Total Logs", isAr ? "كل العمليات" : "All actions");
+    setCard(1, isAr ? "عمليات اليوم" : "Today Logs", isAr ? "عمليات اليوم" : "Today actions");
+    setCard(2, isAr ? "المستخدمون النشطون" : "Active Users", isAr ? "مستخدمون نشطون" : "Active users");
+    setCard(3, isAr ? "آخر عملية" : "Last Action", isAr ? "آخر تحديث" : "Latest update");
 
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 6){
-        headers[0].textContent = isAr ? "المستخدم" : "User";
-        headers[1].textContent = isAr ? "نوع العملية" : "Action Type";
-        headers[2].textContent = isAr ? "القسم" : "Section";
-        headers[3].textContent = isAr ? "الوصف" : "Description";
-        headers[4].textContent = isAr ? "التاريخ" : "Date";
-        headers[5].textContent = isAr ? "الوقت" : "Time";
-    }
+    setPlaceholder("activitySearch", isAr ? "ابحث في السجل..." : "Search activity...");
 }
 
 /* Settings */
 function translateSettings(isAr){
-    if(!document.getElementById("settingsForm")){
-        return;
-    }
+    if(!document.querySelector(".settings-boxes")) return;
 
     setText(".orders-header h1", isAr ? "الإعدادات" : "Settings");
-    setText(".orders-header p", isAr ? "إدارة معلومات المختبر وتفضيلات النظام" : "Manage laboratory information and system preferences");
-    setText(".orders-header .primary-btn", isAr ? "حفظ الإعدادات" : "Save Settings");
+    setText(
+        ".orders-header p",
+        isAr
+            ? "اختر قسم الإعدادات لإدارة تفضيلات نظام AXIS"
+            : "Choose a settings section to manage AXIS system preferences"
+    );
 
-    setText(".table-title strong", isAr ? "إعدادات المختبر" : "Laboratory Settings");
+    setText(".page-title-box h2", isAr ? "الإعدادات" : "SETTINGS");
 
-    const labels = document.querySelectorAll("#settingsForm .form-group label");
-    if(labels.length >= 8){
-        labels[0].textContent = isAr ? "اسم المختبر" : "Laboratory Name";
-        labels[1].textContent = isAr ? "رقم الهاتف" : "Phone Number";
-        labels[2].textContent = isAr ? "العنوان" : "Address";
-        labels[3].textContent = isAr ? "العملة" : "Currency";
-        labels[4].textContent = isAr ? "اللغة الافتراضية" : "Default Language";
-        labels[5].textContent = isAr ? "ساعات العمل" : "Working Hours";
-        labels[6].textContent = isAr ? "شعار المختبر" : "Laboratory Logo";
-        labels[7].textContent = isAr ? "معاينة الشعار الحالي" : "Current Logo Preview";
-    }
+    const boxes = document.querySelectorAll(".settings-box");
 
-    setText("#settingsForm .cancel-btn", isAr ? "إعادة ضبط" : "Reset");
-    setText("#settingsForm .primary-btn", isAr ? "حفظ الإعدادات" : "Save Settings");
+    const boxText = isAr ? [
+        ["إعدادات المختبر", "اسم المختبر، الشعار، التواصل وساعات الدوام"],
+        ["المستخدمون والصلاحيات", "المستخدمون، كلمات المرور، الحسابات والرتب"],
+        ["اللغة والنظام", "اللغة، العملة، تنسيق التاريخ والوقت"],
+        ["إعدادات الطلبات", "أرقام الطلبات، مدة التسليم وحالات الطلب"],
+        ["الإشعارات", "تنبيهات الطلبات والمخزون والبريد الإلكتروني"],
+        ["إعدادات الحسابات", "الضريبة، العملة، شروط الدفع والفواتير"],
+        ["إعدادات الطباعة", "الفواتير، أوراق الطلبات وتذييل الطباعة"],
+        ["النسخ الاحتياطي", "إنشاء، استعادة وتنزيل قاعدة البيانات"],
+        ["الأمان", "تسجيل الخروج التلقائي، حماية الدخول والسجلات"],
+        ["الواجهة", "الوضع، الألوان، حجم الخط وشكل البطاقات"],
+        ["الإعدادات المتقدمة", "الإصدار، السيرفر، واتساب وسجل الأخطاء"],
+        ["حول AXIS", "معلومات النظام وبيانات المطور"]
+    ] : [
+        ["Laboratory Settings", "Lab name, logo, contact and working hours"],
+        ["Users & Permissions", "Users, passwords, accounts and roles"],
+        ["Language & System", "Language, currency, date and time format"],
+        ["Orders Settings", "Order numbers, delivery days and statuses"],
+        ["Notifications", "Order alerts, stock alerts and email alerts"],
+        ["Accounts Settings", "Tax, currency, payment terms and invoices"],
+        ["Printing Settings", "Invoices, order papers and print footer"],
+        ["Backup", "Create, restore and download database"],
+        ["Security", "Auto logout, login protection and logs"],
+        ["Interface", "Theme, colors, font size and cards style"],
+        ["Advanced Settings", "Version, server, WhatsApp and error logs"],
+        ["About AXIS", "System information and developer details"]
+    ];
+
+    boxes.forEach(function(box, index){
+        const h3 = box.querySelector("h3");
+        const p = box.querySelector("p");
+
+        if(boxText[index]){
+            if(h3) h3.textContent = boxText[index][0];
+            if(p) p.textContent = boxText[index][1];
+        }
+    });
 }
 
 function toggleLanguage(){
@@ -474,10 +433,7 @@ function toggleLanguage(){
 
 function updateDate(){
     const dateBox = document.getElementById("currentDate");
-
-    if(!dateBox){
-        return;
-    }
+    if(!dateBox) return;
 
     const now = new Date();
     const locale = currentLang === "ar" ? "ar-JO" : "en-US";

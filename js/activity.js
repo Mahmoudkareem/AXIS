@@ -31,11 +31,19 @@ function addActivityLog(actionType, section, description){
 
     activityLogs.unshift(log);
     saveActivityLogs();
-    renderActivityLogs();
+
+    if(document.getElementById("activityTableBody")){
+        renderActivityLogs();
+    }
 }
 
 function renderActivityLogs(list = activityLogs){
     const tbody = document.getElementById("activityTableBody");
+
+    if(!tbody){
+        return;
+    }
+
     tbody.innerHTML = "";
 
     list.forEach(function(log){
@@ -58,6 +66,7 @@ function getActionClass(actionType){
     if(actionType === "Add") return "new";
     if(actionType === "Edit") return "review";
     if(actionType === "Delete") return "progress";
+    if(actionType === "Print") return "completed";
     if(actionType === "Login") return "completed";
     if(actionType === "Logout") return "completed";
 
@@ -70,16 +79,25 @@ function updateActivityStats(){
     const edit = activityLogs.filter(log => log.actionType === "Edit").length;
     const del = activityLogs.filter(log => log.actionType === "Delete").length;
 
-    document.getElementById("totalLogs").textContent = total;
-    document.getElementById("addLogs").textContent = add;
-    document.getElementById("editLogs").textContent = edit;
-    document.getElementById("deleteLogs").textContent = del;
-    document.getElementById("activityTableTitle").textContent = "Total Logs: " + total;
+    const totalLogs = document.getElementById("totalLogs");
+    const addLogs = document.getElementById("addLogs");
+    const editLogs = document.getElementById("editLogs");
+    const deleteLogs = document.getElementById("deleteLogs");
+    const activityTableTitle = document.getElementById("activityTableTitle");
+
+    if(totalLogs) totalLogs.textContent = total;
+    if(addLogs) addLogs.textContent = add;
+    if(editLogs) editLogs.textContent = edit;
+    if(deleteLogs) deleteLogs.textContent = del;
+    if(activityTableTitle) activityTableTitle.textContent = "Total Logs: " + total;
 }
 
 function filterActivityLogs(){
-    const searchValue = document.getElementById("activitySearch").value.toLowerCase();
-    const typeValue = document.getElementById("activityTypeFilter").value;
+    const searchInput = document.getElementById("activitySearch");
+    const typeFilter = document.getElementById("activityTypeFilter");
+
+    const searchValue = searchInput ? searchInput.value.toLowerCase() : "";
+    const typeValue = typeFilter ? typeFilter.value : "All";
 
     const filtered = activityLogs.filter(function(log){
         const matchesSearch =
@@ -99,4 +117,6 @@ function filterActivityLogs(){
     renderActivityLogs(filtered);
 }
 
-renderActivityLogs();
+if(document.getElementById("activityTableBody")){
+    renderActivityLogs();
+}

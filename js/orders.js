@@ -23,6 +23,31 @@ function saveOrders() {
     localStorage.setItem("axisOrders", JSON.stringify(orders));
 }
 
+function logActivity(actionType, section, description){
+    if(typeof addActivityLog === "function"){
+        addActivityLog(actionType, section, description);
+    }else{
+        const logs = JSON.parse(localStorage.getItem("axisActivityLogs")) || [];
+        const user = JSON.parse(localStorage.getItem("axisUser"));
+
+        const now = new Date();
+
+        logs.unshift({
+            user: user && user.name ? user.name : "System User",
+            actionType: actionType,
+            section: section,
+            description: description,
+            date: now.toLocaleDateString("en-US"),
+            time: now.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit"
+            })
+        });
+
+        localStorage.setItem("axisActivityLogs", JSON.stringify(logs));
+    }
+}
+
 function formatDate(dateValue) {
     if (!dateValue) return "";
 
@@ -123,10 +148,21 @@ function filterOrders() {
 }
 
 function changeStatus(index, newStatus) {
+    const oldStatus = orders[index].status || "New";
+
     orders[index].status = newStatus;
     orders[index].progress = getProgressByStatus(newStatus);
 
     saveOrders();
+
+    if(oldStatus !== newStatus){
+        logActivity(
+            "Edit",
+            "Orders",
+            `Order ${orders[index].id} status changed from ${oldStatus} to ${newStatus}`
+        );
+    }
+
     renderOrders();
 }
 
@@ -134,8 +170,17 @@ function deleteOrder(index) {
     const confirmDelete = confirm("Are you sure you want to delete this order?");
 
     if (confirmDelete) {
+        const deletedOrder = orders[index];
+
         orders.splice(index, 1);
         saveOrders();
+
+        logActivity(
+            "Delete",
+            "Orders",
+            `Order ${deletedOrder.id} for patient ${deletedOrder.patientName} deleted`
+        );
+
         renderOrders();
     }
 }
@@ -158,6 +203,12 @@ function editOrder(index) {
 function printOrder(index) {
     const order = orders[index];
 
+    logActivity(
+        "Print",
+        "Orders",
+        `Order ${order.id} for patient ${order.patientName} printed`
+    );
+
     const urgentChecked = order.priority === "Urgent" ? "✓" : "";
     const normalChecked = order.priority === "Normal" ? "✓" : "";
     const lowChecked = order.priority === "Low" ? "✓" : "";
@@ -169,233 +220,47 @@ function printOrder(index) {
         <html>
         <head>
             <title>Print ${order.id}</title>
-
             <style>
-                *{
-                    box-sizing:border-box;
-                    font-family:Arial, sans-serif;
-                }
-
-                @page{
-                    size:A4;
-                    margin:0;
-                }
-
-                body{
-                    margin:0;
-                    background:white;
-                }
-
-                .print-page{
-                    width:794px;
-                    height:1123px;
-                    margin:0 auto;
-                    background:white;
-                    padding:38px 48px;
-                    position:relative;
-                    overflow:hidden;
-                }
-
-                .corner{
-                    position:absolute;
-                    right:-125px;
-                    top:-125px;
-                    width:340px;
-                    height:340px;
-                    background:linear-gradient(135deg,#D62846,#B83280,#8E2DE2);
-                    border-radius:50%;
-                    opacity:.95;
-                }
-
-                .bottom-left{
-                    position:absolute;
-                    left:-145px;
-                    bottom:-145px;
-                    width:310px;
-                    height:310px;
-                    background:linear-gradient(135deg,#D62846,#8E2DE2);
-                    border-radius:50%;
-                    opacity:.95;
-                }
-
-                .print-logo{
-                    width:220px;
-                    margin-bottom:25px;
-                }
-
-                .order-id{
-                    position:absolute;
-                    right:48px;
-                    top:145px;
-                    border:2px solid #c53193;
-                    border-radius:22px;
-                    padding:10px 24px;
-                    font-weight:800;
-                    color:#c53193;
-                    font-size:14px;
-                }
-
-                .field{
-                    display:grid;
-                    grid-template-columns:145px 1fr;
-                    align-items:center;
-                    margin:15px 0;
-                    gap:18px;
-                }
-
-                .field label{
-                    font-weight:900;
-                    letter-spacing:1px;
-                    color:#222;
-                    font-size:13px;
-                }
-
-                .line{
-                    border-bottom:2px solid #ddd;
-                    min-height:24px;
-                    font-size:15px;
-                    padding-bottom:4px;
-                }
-
-                .priority-box{
-                    border:2px solid #d44ca4;
-                    border-radius:14px;
-                    padding:16px;
-                    margin-top:18px;
-                }
-
-                .priority-title{
-                    color:#d62871;
-                    font-weight:900;
-                    letter-spacing:2px;
-                    margin-bottom:14px;
-                    font-size:13px;
-                }
-
-                .priority-options{
-                    display:flex;
-                    justify-content:space-between;
-                }
-
-                .check{
-                    display:flex;
-                    align-items:center;
-                    gap:8px;
-                    font-weight:800;
-                    color:#8E2DE2;
-                    font-size:13px;
-                }
-
-                .square{
-                    width:22px;
-                    height:22px;
-                    border:2px solid #d44ca4;
-                    display:inline-flex;
-                    align-items:center;
-                    justify-content:center;
-                    font-weight:900;
-                }
-
-                .notes-box{
-                    border:2px solid #d44ca4;
-                    border-radius:14px;
-                    padding:16px;
-                    margin-top:18px;
-                    min-height:130px;
-                }
-
-                .notes-title{
-                    color:#d62871;
-                    font-weight:900;
-                    letter-spacing:2px;
-                    margin-bottom:12px;
-                    font-size:13px;
-                }
-
-                .notes-content{
-                    line-height:1.6;
-                    color:#333;
-                    white-space:pre-wrap;
-                    font-size:14px;
-                }
-
-                .signatures{
-                    display:flex;
-                    justify-content:space-around;
-                    margin-top:45px;
-                    text-align:center;
-                    color:#c53193;
-                    font-size:10px;
-                    letter-spacing:2px;
-                    font-weight:800;
-                }
-
-                .signature-line{
-                    width:210px;
-                    border-top:2px solid #ddd;
-                    padding-top:10px;
-                }
-
-                @media print{
-                    html,
-                    body{
-                        width:210mm;
-                        height:297mm;
-                        overflow:hidden;
-                    }
-
-                    .print-page{
-                        margin:0;
-                        width:210mm;
-                        height:297mm;
-                    }
-                }
+                *{box-sizing:border-box;font-family:Arial, sans-serif;}
+                @page{size:A4;margin:0;}
+                body{margin:0;background:white;}
+                .print-page{width:794px;height:1123px;margin:0 auto;background:white;padding:38px 48px;position:relative;overflow:hidden;}
+                .corner{position:absolute;right:-125px;top:-125px;width:340px;height:340px;background:linear-gradient(135deg,#D62846,#B83280,#8E2DE2);border-radius:50%;opacity:.95;}
+                .bottom-left{position:absolute;left:-145px;bottom:-145px;width:310px;height:310px;background:linear-gradient(135deg,#D62846,#8E2DE2);border-radius:50%;opacity:.95;}
+                .print-logo{width:220px;margin-bottom:25px;}
+                .order-id{position:absolute;right:48px;top:145px;border:2px solid #c53193;border-radius:22px;padding:10px 24px;font-weight:800;color:#c53193;font-size:14px;}
+                .field{display:grid;grid-template-columns:145px 1fr;align-items:center;margin:15px 0;gap:18px;}
+                .field label{font-weight:900;letter-spacing:1px;color:#222;font-size:13px;}
+                .line{border-bottom:2px solid #ddd;min-height:24px;font-size:15px;padding-bottom:4px;}
+                .priority-box{border:2px solid #d44ca4;border-radius:14px;padding:16px;margin-top:18px;}
+                .priority-title{color:#d62871;font-weight:900;letter-spacing:2px;margin-bottom:14px;font-size:13px;}
+                .priority-options{display:flex;justify-content:space-between;}
+                .check{display:flex;align-items:center;gap:8px;font-weight:800;color:#8E2DE2;font-size:13px;}
+                .square{width:22px;height:22px;border:2px solid #d44ca4;display:inline-flex;align-items:center;justify-content:center;font-weight:900;}
+                .notes-box{border:2px solid #d44ca4;border-radius:14px;padding:16px;margin-top:18px;min-height:130px;}
+                .notes-title{color:#d62871;font-weight:900;letter-spacing:2px;margin-bottom:12px;font-size:13px;}
+                .notes-content{line-height:1.6;color:#333;white-space:pre-wrap;font-size:14px;}
+                .signatures{display:flex;justify-content:space-around;margin-top:45px;text-align:center;color:#c53193;font-size:10px;letter-spacing:2px;font-weight:800;}
+                .signature-line{width:210px;border-top:2px solid #ddd;padding-top:10px;}
+                @media print{html,body{width:210mm;height:297mm;overflow:hidden;}.print-page{margin:0;width:210mm;height:297mm;}}
             </style>
         </head>
-
         <body>
             <div class="print-page">
-
                 <div class="corner"></div>
                 <div class="bottom-left"></div>
-
                 <img class="print-logo" src="../assets/logo-print.png" alt="AXIS Logo">
-
                 <div class="order-id">ORDER ID: ${order.id}</div>
 
-                <div class="field">
-                    <label>PATIENT:</label>
-                    <div class="line">${order.patientName || ""}</div>
-                </div>
-
-                <div class="field">
-                    <label>DOCTOR:</label>
-                    <div class="line">${order.doctorName || ""}</div>
-                </div>
-
-                <div class="field">
-                    <label>TECHNICIAN:</label>
-                    <div class="line">${order.technicianName || ""}</div>
-                </div>
-
-                <div class="field">
-                    <label>WORK TYPE:</label>
-                    <div class="line">${order.workType || ""}</div>
-                </div>
-
-                <div class="field">
-                    <label>ORDER DATE:</label>
-                    <div class="line">${order.orderDate || ""}</div>
-                </div>
-
-                <div class="field">
-                    <label>DELIVERY DATE:</label>
-                    <div class="line">${order.deliveryDate || ""}</div>
-                </div>
+                <div class="field"><label>PATIENT:</label><div class="line">${order.patientName || ""}</div></div>
+                <div class="field"><label>DOCTOR:</label><div class="line">${order.doctorName || ""}</div></div>
+                <div class="field"><label>TECHNICIAN:</label><div class="line">${order.technicianName || ""}</div></div>
+                <div class="field"><label>WORK TYPE:</label><div class="line">${order.workType || ""}</div></div>
+                <div class="field"><label>ORDER DATE:</label><div class="line">${order.orderDate || ""}</div></div>
+                <div class="field"><label>DELIVERY DATE:</label><div class="line">${order.deliveryDate || ""}</div></div>
 
                 <div class="priority-box">
                     <div class="priority-title">PRIORITY:</div>
-
                     <div class="priority-options">
                         <div class="check"><span class="square">${urgentChecked}</span>URGENT</div>
                         <div class="check"><span class="square">${normalChecked}</span>NORMAL</div>
@@ -412,7 +277,6 @@ function printOrder(index) {
                     <div class="signature-line">DOCTOR SIGNATURE</div>
                     <div class="signature-line">TECHNICIAN SIGNATURE</div>
                 </div>
-
             </div>
 
             <script>
@@ -449,7 +313,17 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
         };
 
         orders.push(newOrder);
+
+        logActivity(
+            "Add",
+            "Orders",
+            `New order ${newOrder.id} added for patient ${newOrder.patientName}`
+        );
+
     } else {
+        const orderId = orders[editIndex].id;
+        const oldPatientName = orders[editIndex].patientName;
+
         orders[editIndex].patientName = document.getElementById("patientName").value;
         orders[editIndex].doctorName = document.getElementById("doctorName").value;
         orders[editIndex].workType = document.getElementById("workType").value;
@@ -458,6 +332,12 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
         orders[editIndex].deliveryDate = formatDate(deliveryDateInput);
         orders[editIndex].priority = document.getElementById("priority").value;
         orders[editIndex].notes = document.getElementById("orderNotes").value;
+
+        logActivity(
+            "Edit",
+            "Orders",
+            `Order ${orderId} for patient ${oldPatientName} updated`
+        );
 
         editIndex = null;
     }

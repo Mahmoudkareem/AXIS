@@ -1,6 +1,30 @@
 let notifications = JSON.parse(localStorage.getItem("axisNotifications")) || [];
 let editNotificationIndex = null;
 
+function logActivity(actionType, section, description){
+    if(typeof addActivityLog === "function"){
+        addActivityLog(actionType, section, description);
+    }else{
+        const logs = JSON.parse(localStorage.getItem("axisActivityLogs")) || [];
+        const user = JSON.parse(localStorage.getItem("axisUser"));
+        const now = new Date();
+
+        logs.unshift({
+            user: user && user.name ? user.name : "System User",
+            actionType: actionType,
+            section: section,
+            description: description,
+            date: now.toLocaleDateString("en-US"),
+            time: now.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit"
+            })
+        });
+
+        localStorage.setItem("axisActivityLogs", JSON.stringify(logs));
+    }
+}
+
 function saveNotifications(){
     localStorage.setItem("axisNotifications", JSON.stringify(notifications));
 }
@@ -27,6 +51,10 @@ function openNotificationModal(index = null){
         const today = new Date().toISOString().split("T")[0];
         document.getElementById("notificationDate").value = today;
     }
+
+    if(typeof applyLanguage === "function"){
+        applyLanguage();
+    }
 }
 
 function closeNotificationModal(){
@@ -35,33 +63,79 @@ function closeNotificationModal(){
     editNotificationIndex = null;
 }
 
-document.getElementById("notificationForm").addEventListener("submit", function(event){
-    event.preventDefault();
+const notificationForm = document.getElementById("notificationForm");
 
-    const notificationItem = {
-        type: document.getElementById("notificationType").value,
-        priority: document.getElementById("notificationPriority").value,
-        status: document.getElementById("notificationStatus").value,
-        date: document.getElementById("notificationDate").value,
-        title: document.getElementById("notificationTitle").value.trim(),
-        message: document.getElementById("notificationMessage").value.trim()
-    };
+if(notificationForm){
+    notificationForm.addEventListener("submit", function(event){
+        event.preventDefault();
 
-    if(editNotificationIndex !== null){
-        notifications[editNotificationIndex] = notificationItem;
-    }else{
-        notifications.push(notificationItem);
-    }
+        const notificationItem = {
+            type: document.getElementById("notificationType").value,
+            priority: document.getElementById("notificationPriority").value,
+            status: document.getElementById("notificationStatus").value,
+            date: document.getElementById("notificationDate").value,
+            title: document.getElementById("notificationTitle").value.trim(),
+            message: document.getElementById("notificationMessage").value.trim()
+        };
 
-    saveNotifications();
-    closeNotificationModal();
-    renderNotifications();
-});
+        if(editNotificationIndex !== null){
+            const oldNotification = notifications[editNotificationIndex];
+
+            notifications[editNotificationIndex] = notificationItem;
+
+            logActivity(
+                "Edit",
+                "Notifications",
+                `Notification "${oldNotification.title}" updated`
+            );
+
+            if(oldNotification.status !== notificationItem.status){
+                logActivity(
+                    "Edit",
+                    "Notifications",
+                    `Notification "${notificationItem.title}" status changed from ${oldNotification.status} to ${notificationItem.status}`
+                );
+            }
+
+            if(oldNotification.priority !== notificationItem.priority){
+                logActivity(
+                    "Edit",
+                    "Notifications",
+                    `Notification "${notificationItem.title}" priority changed from ${oldNotification.priority} to ${notificationItem.priority}`
+                );
+            }
+
+            editNotificationIndex = null;
+
+        }else{
+            notifications.push(notificationItem);
+
+            logActivity(
+                "Add",
+                "Notifications",
+                `New notification "${notificationItem.title}" added`
+            );
+        }
+
+        saveNotifications();
+        closeNotificationModal();
+        renderNotifications();
+    });
+}
 
 function deleteNotification(index){
     if(confirm("Delete this notification?")){
+        const deletedNotification = notifications[index];
+
         notifications.splice(index, 1);
         saveNotifications();
+
+        logActivity(
+            "Delete",
+            "Notifications",
+            `Notification "${deletedNotification.title}" deleted`
+        );
+
         renderNotifications();
     }
 }
@@ -81,6 +155,11 @@ function getPriorityClass(priority){
 
 function renderNotifications(list = notifications){
     const tbody = document.getElementById("notificationTableBody");
+
+    if(!tbody){
+        return;
+    }
+
     tbody.innerHTML = "";
 
     list.forEach(function(item, index){
@@ -104,6 +183,10 @@ function renderNotifications(list = notifications){
     });
 
     updateNotificationStats();
+
+    if(typeof applyLanguage === "function"){
+        applyLanguage();
+    }
 }
 
 function updateNotificationStats(){
@@ -120,8 +203,11 @@ function updateNotificationStats(){
 }
 
 function filterNotifications(){
-    const searchValue = document.getElementById("notificationSearch").value.toLowerCase();
-    const typeValue = document.getElementById("notificationTypeFilter").value;
+    const searchInput = document.getElementById("notificationSearch");
+    const typeFilter = document.getElementById("notificationTypeFilter");
+
+    const searchValue = searchInput ? searchInput.value.toLowerCase() : "";
+    const typeValue = typeFilter ? typeFilter.value : "All";
 
     const filtered = notifications.filter(function(item){
         const matchesSearch =
@@ -140,62 +226,22 @@ function filterNotifications(){
     renderNotifications(filtered);
 }
 
-renderNotifications();
-function translateNotificationsLocal(){
-    const isAr = localStorage.getItem("axisLang") === "ar";
+function exportNotifications(){
+    logActivity(
+        "Export",
+        "Notifications",
+        "Notifications list export requested"
+    );
 
-    const title = document.querySelector(".orders-header h1");
-    const desc = document.querySelector(".orders-header p");
-    const addBtn = document.querySelector(".orders-header .primary-btn");
-
-    if(title) title.textContent = isAr ? "الإشعارات" : "Notifications";
-    if(desc) desc.textContent = isAr ? "إدارة التنبيهات والإشعارات المهمة" : "Manage system alerts and important updates";
-    if(addBtn) addBtn.textContent = isAr ? "+ إضافة إشعار" : "+ Add Notification";
-
-    const cards = document.querySelectorAll(".stat-card");
-
-    if(cards.length >= 4){
-        cards[0].querySelector("h3").textContent = isAr ? "إجمالي الإشعارات" : "Total Notifications";
-        cards[0].querySelector("p").textContent = isAr ? "كل تنبيهات النظام" : "All system alerts";
-        cards[1].querySelector("h3").textContent = isAr ? "أولوية عالية" : "High Priority";
-        cards[1].querySelector("p").textContent = isAr ? "بحاجة للمتابعة" : "Need attention";
-        cards[2].querySelector("h3").textContent = isAr ? "تنبيهات المخزون" : "Stock Alerts";
-        cards[2].querySelector("p").textContent = isAr ? "تحذيرات المخزون" : "Inventory warnings";
-        cards[3].querySelector("h3").textContent = isAr ? "الإشعارات المكتملة" : "Completed Alerts";
-        cards[3].querySelector("p").textContent = isAr ? "تمت معالجتها" : "Resolved alerts";
-    }
-
-    const search = document.getElementById("notificationSearch");
-    if(search) search.placeholder = isAr ? "ابحث عن إشعار..." : "Search notification...";
-
-    const filter = document.getElementById("notificationTypeFilter");
-    if(filter && filter.options.length >= 7){
-        filter.options[0].textContent = isAr ? "كل الإشعارات" : "All Notifications";
-        filter.options[1].textContent = isAr ? "طلب جاهز" : "Ready Order";
-        filter.options[2].textContent = isAr ? "طلب متأخر" : "Overdue Order";
-        filter.options[3].textContent = isAr ? "مخزون منخفض" : "Low Stock";
-        filter.options[4].textContent = isAr ? "دفعة مستحقة" : "Due Payment";
-        filter.options[5].textContent = isAr ? "حالة مرتجعة" : "Returned Case";
-        filter.options[6].textContent = isAr ? "تنبيه مدير" : "Manager Alert";
-    }
-
-    const headers = document.querySelectorAll(".orders-table th");
-    if(headers.length >= 7){
-        headers[0].textContent = isAr ? "الإجراءات" : "Actions";
-        headers[1].textContent = isAr ? "الحالة" : "Status";
-        headers[2].textContent = isAr ? "النوع" : "Type";
-        headers[3].textContent = isAr ? "العنوان" : "Title";
-        headers[4].textContent = isAr ? "الرسالة" : "Message";
-        headers[5].textContent = isAr ? "الأولوية" : "Priority";
-        headers[6].textContent = isAr ? "التاريخ" : "Date";
-    }
-
-    const items = JSON.parse(localStorage.getItem("axisNotifications")) || [];
-    const tableTitle = document.getElementById("notificationTableTitle");
-    if(tableTitle) tableTitle.textContent = isAr ? "إجمالي الإشعارات: " + items.length : "Total Notifications: " + items.length;
-
-    const sideTitle = document.querySelector(".page-title-box h2");
-    if(sideTitle) sideTitle.textContent = isAr ? "الإشعارات" : "NOTIFICATIONS";
+    alert("Export notifications feature will be connected later.");
 }
-const sideTitle = document.querySelector(".page-title-box h2");
-if(sideTitle) sideTitle.textContent = isAr ? "الإشعارات" : "NOTIFICATIONS";
+
+const notificationModal = document.getElementById("notificationModal");
+
+window.addEventListener("click", function(event){
+    if(event.target === notificationModal){
+        closeNotificationModal();
+    }
+});
+
+renderNotifications();

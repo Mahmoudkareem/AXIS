@@ -28,6 +28,30 @@ const defaultPatients = [
     }
 ];
 
+function logActivity(actionType, section, description){
+    if(typeof addActivityLog === "function"){
+        addActivityLog(actionType, section, description);
+    }else{
+        const logs = JSON.parse(localStorage.getItem("axisActivityLogs")) || [];
+        const user = JSON.parse(localStorage.getItem("axisUser"));
+        const now = new Date();
+
+        logs.unshift({
+            user: user && user.name ? user.name : "System User",
+            actionType: actionType,
+            section: section,
+            description: description,
+            date: now.toLocaleDateString("en-US"),
+            time: now.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit"
+            })
+        });
+
+        localStorage.setItem("axisActivityLogs", JSON.stringify(logs));
+    }
+}
+
 if(patients.length === 0){
     patients = defaultPatients;
     savePatients();
@@ -88,6 +112,10 @@ function renderPatients(){
     document.getElementById("patientTableTitle").textContent = "Total Patients: " + patients.length;
 
     filterPatients();
+
+    if(typeof applyLanguage === "function"){
+        applyLanguage();
+    }
 }
 
 function editPatient(index){
@@ -106,35 +134,64 @@ function editPatient(index){
 
 function deletePatient(index){
     if(confirm("Are you sure you want to delete this patient?")){
+        const deletedPatient = patients[index];
+
         patients.splice(index, 1);
         savePatients();
+
+        logActivity(
+            "Delete",
+            "Patients",
+            `Patient ${deletedPatient.name} deleted`
+        );
+
         renderPatients();
     }
 }
 
-document.getElementById("patientForm").addEventListener("submit", function(e){
-    e.preventDefault();
+const patientForm = document.getElementById("patientForm");
 
-    const patientData = {
-        name: document.getElementById("patientName").value,
-        phone: document.getElementById("patientPhone").value,
-        doctor: document.getElementById("patientDoctor").value,
-        caseType: document.getElementById("patientCaseType").value,
-        lastOrder: document.getElementById("patientLastOrder").value,
-        notes: document.getElementById("patientNotes").value
-    };
+if(patientForm){
+    patientForm.addEventListener("submit", function(e){
+        e.preventDefault();
 
-    if(editPatientIndex === null){
-        patients.push(patientData);
-    }else{
-        patients[editPatientIndex] = patientData;
-        editPatientIndex = null;
-    }
+        const patientData = {
+            name: document.getElementById("patientName").value,
+            phone: document.getElementById("patientPhone").value,
+            doctor: document.getElementById("patientDoctor").value,
+            caseType: document.getElementById("patientCaseType").value,
+            lastOrder: document.getElementById("patientLastOrder").value,
+            notes: document.getElementById("patientNotes").value
+        };
 
-    savePatients();
-    renderPatients();
-    closePatientModal();
-});
+        if(editPatientIndex === null){
+            patients.push(patientData);
+
+            logActivity(
+                "Add",
+                "Patients",
+                `New patient ${patientData.name} added`
+            );
+
+        }else{
+            const oldPatient = patients[editPatientIndex];
+
+            patients[editPatientIndex] = patientData;
+
+            logActivity(
+                "Edit",
+                "Patients",
+                `Patient ${oldPatient.name} updated`
+            );
+
+            editPatientIndex = null;
+        }
+
+        savePatients();
+        renderPatients();
+        closePatientModal();
+    });
+}
 
 function filterPatients(){
     const searchInput = document.getElementById("patientSearch");
@@ -149,6 +206,12 @@ function filterPatients(){
 }
 
 function exportPatients(){
+    logActivity(
+        "Export",
+        "Patients",
+        "Patients list export requested"
+    );
+
     alert("Export patients feature will be connected later.");
 }
 

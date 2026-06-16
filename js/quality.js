@@ -1,6 +1,30 @@
 let qualityCases = JSON.parse(localStorage.getItem("axisQualityCases")) || [];
 let editQualityIndex = null;
 
+function logActivity(actionType, section, description){
+    if(typeof addActivityLog === "function"){
+        addActivityLog(actionType, section, description);
+    }else{
+        const logs = JSON.parse(localStorage.getItem("axisActivityLogs")) || [];
+        const user = JSON.parse(localStorage.getItem("axisUser"));
+        const now = new Date();
+
+        logs.unshift({
+            user: user && user.name ? user.name : "System User",
+            actionType: actionType,
+            section: section,
+            description: description,
+            date: now.toLocaleDateString("en-US"),
+            time: now.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit"
+            })
+        });
+
+        localStorage.setItem("axisActivityLogs", JSON.stringify(logs));
+    }
+}
+
 function saveQualityCases(){
     localStorage.setItem("axisQualityCases", JSON.stringify(qualityCases));
 }
@@ -35,36 +59,74 @@ function closeQualityModal(){
     editQualityIndex = null;
 }
 
-document.getElementById("qualityForm").addEventListener("submit", function(event){
-    event.preventDefault();
+const qualityForm = document.getElementById("qualityForm");
 
-    const qualityItem = {
-        patient: document.getElementById("qualityPatient").value.trim(),
-        doctor: document.getElementById("qualityDoctor").value.trim(),
-        technician: document.getElementById("qualityTechnician").value.trim(),
-        workType: document.getElementById("qualityWorkType").value,
-        reason: document.getElementById("qualityReason").value,
-        returnDate: document.getElementById("qualityReturnDate").value,
-        errorRate: Number(document.getElementById("qualityErrorRate").value),
-        status: document.getElementById("qualityStatus").value,
-        notes: document.getElementById("qualityNotes").value.trim()
-    };
+if(qualityForm){
+    qualityForm.addEventListener("submit", function(event){
+        event.preventDefault();
 
-    if(editQualityIndex !== null){
-        qualityCases[editQualityIndex] = qualityItem;
-    }else{
-        qualityCases.push(qualityItem);
-    }
+        const qualityItem = {
+            patient: document.getElementById("qualityPatient").value.trim(),
+            doctor: document.getElementById("qualityDoctor").value.trim(),
+            technician: document.getElementById("qualityTechnician").value.trim(),
+            workType: document.getElementById("qualityWorkType").value,
+            reason: document.getElementById("qualityReason").value,
+            returnDate: document.getElementById("qualityReturnDate").value,
+            errorRate: Number(document.getElementById("qualityErrorRate").value),
+            status: document.getElementById("qualityStatus").value,
+            notes: document.getElementById("qualityNotes").value.trim()
+        };
 
-    saveQualityCases();
-    closeQualityModal();
-    renderQualityCases();
-});
+        if(editQualityIndex !== null){
+            const oldCase = qualityCases[editQualityIndex];
+
+            qualityCases[editQualityIndex] = qualityItem;
+
+            logActivity(
+                "Edit",
+                "Quality",
+                `Returned case for patient ${oldCase.patient} updated`
+            );
+
+            if(oldCase.status !== qualityItem.status){
+                logActivity(
+                    "Edit",
+                    "Quality",
+                    `Returned case for patient ${qualityItem.patient} status changed from ${oldCase.status} to ${qualityItem.status}`
+                );
+            }
+
+            editQualityIndex = null;
+
+        }else{
+            qualityCases.push(qualityItem);
+
+            logActivity(
+                "Add",
+                "Quality",
+                `New returned case added for patient ${qualityItem.patient}`
+            );
+        }
+
+        saveQualityCases();
+        closeQualityModal();
+        renderQualityCases();
+    });
+}
 
 function deleteQualityCase(index){
     if(confirm("Delete this returned case?")){
+        const deletedCase = qualityCases[index];
+
         qualityCases.splice(index, 1);
         saveQualityCases();
+
+        logActivity(
+            "Delete",
+            "Quality",
+            `Returned case for patient ${deletedCase.patient} deleted`
+        );
+
         renderQualityCases();
     }
 }
@@ -78,6 +140,11 @@ function getQualityStatusClass(status){
 
 function renderQualityCases(list = qualityCases){
     const tbody = document.getElementById("qualityTableBody");
+
+    if(!tbody){
+        return;
+    }
+
     tbody.innerHTML = "";
 
     list.forEach(function(item, index){
@@ -103,6 +170,10 @@ function renderQualityCases(list = qualityCases){
     });
 
     updateQualityStats();
+
+    if(typeof applyLanguage === "function"){
+        applyLanguage();
+    }
 }
 
 function updateQualityStats(){
@@ -122,8 +193,11 @@ function updateQualityStats(){
 }
 
 function filterQuality(){
-    const searchValue = document.getElementById("qualitySearch").value.toLowerCase();
-    const statusValue = document.getElementById("qualityStatusFilter").value;
+    const searchInput = document.getElementById("qualitySearch");
+    const statusFilter = document.getElementById("qualityStatusFilter");
+
+    const searchValue = searchInput ? searchInput.value.toLowerCase() : "";
+    const statusValue = statusFilter ? statusFilter.value : "All";
 
     const filtered = qualityCases.filter(function(item){
         const matchesSearch =
@@ -141,5 +215,23 @@ function filterQuality(){
 
     renderQualityCases(filtered);
 }
+
+function exportQuality(){
+    logActivity(
+        "Export",
+        "Quality",
+        "Quality cases export requested"
+    );
+
+    alert("Export quality feature will be connected later.");
+}
+
+const qualityModal = document.getElementById("qualityModal");
+
+window.addEventListener("click", function(event){
+    if(event.target === qualityModal){
+        closeQualityModal();
+    }
+});
 
 renderQualityCases();

@@ -28,6 +28,30 @@ const defaultDoctors = [
     }
 ];
 
+function logActivity(actionType, section, description){
+    if(typeof addActivityLog === "function"){
+        addActivityLog(actionType, section, description);
+    }else{
+        const logs = JSON.parse(localStorage.getItem("axisActivityLogs")) || [];
+        const user = JSON.parse(localStorage.getItem("axisUser"));
+        const now = new Date();
+
+        logs.unshift({
+            user: user && user.name ? user.name : "System User",
+            actionType: actionType,
+            section: section,
+            description: description,
+            date: now.toLocaleDateString("en-US"),
+            time: now.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit"
+            })
+        });
+
+        localStorage.setItem("axisActivityLogs", JSON.stringify(logs));
+    }
+}
+
 if(doctors.length === 0){
     doctors = defaultDoctors;
     saveDoctors();
@@ -91,6 +115,10 @@ function renderDoctors(){
     document.getElementById("doctorTableTitle").textContent = "Total Doctors: " + doctors.length;
 
     filterDoctors();
+
+    if(typeof applyLanguage === "function"){
+        applyLanguage();
+    }
 }
 
 function editDoctor(index){
@@ -109,35 +137,80 @@ function editDoctor(index){
 
 function deleteDoctor(index){
     if(confirm("Are you sure you want to delete this doctor?")){
+        const deletedDoctor = doctors[index];
+
         doctors.splice(index, 1);
         saveDoctors();
+
+        logActivity(
+            "Delete",
+            "Doctors",
+            `Doctor ${deletedDoctor.name} deleted`
+        );
+
         renderDoctors();
     }
 }
 
-document.getElementById("doctorForm").addEventListener("submit", function(e){
-    e.preventDefault();
+const doctorForm = document.getElementById("doctorForm");
 
-    const doctorData = {
-        name: document.getElementById("doctorName").value,
-        phone: document.getElementById("doctorPhone").value,
-        address: document.getElementById("doctorAddress").value,
-        cases: Number(document.getElementById("doctorCases").value),
-        due: Number(document.getElementById("doctorDue").value),
-        paid: Number(document.getElementById("doctorPaid").value)
-    };
+if(doctorForm){
+    doctorForm.addEventListener("submit", function(e){
+        e.preventDefault();
 
-    if(editDoctorIndex === null){
-        doctors.push(doctorData);
-    }else{
-        doctors[editDoctorIndex] = doctorData;
-        editDoctorIndex = null;
-    }
+        const doctorData = {
+            name: document.getElementById("doctorName").value,
+            phone: document.getElementById("doctorPhone").value,
+            address: document.getElementById("doctorAddress").value,
+            cases: Number(document.getElementById("doctorCases").value),
+            due: Number(document.getElementById("doctorDue").value),
+            paid: Number(document.getElementById("doctorPaid").value)
+        };
 
-    saveDoctors();
-    renderDoctors();
-    closeDoctorModal();
-});
+        if(editDoctorIndex === null){
+            doctors.push(doctorData);
+
+            logActivity(
+                "Add",
+                "Doctors",
+                `New doctor ${doctorData.name} added`
+            );
+
+        }else{
+            const oldDoctor = doctors[editDoctorIndex];
+
+            doctors[editDoctorIndex] = doctorData;
+
+            logActivity(
+                "Edit",
+                "Doctors",
+                `Doctor ${oldDoctor.name} updated`
+            );
+
+            if(Number(oldDoctor.paid) !== Number(doctorData.paid)){
+                logActivity(
+                    "Edit",
+                    "Doctors",
+                    `Doctor ${doctorData.name} paid amount changed from ${oldDoctor.paid} JD to ${doctorData.paid} JD`
+                );
+            }
+
+            if(Number(oldDoctor.due) !== Number(doctorData.due)){
+                logActivity(
+                    "Edit",
+                    "Doctors",
+                    `Doctor ${doctorData.name} due amount changed from ${oldDoctor.due} JD to ${doctorData.due} JD`
+                );
+            }
+
+            editDoctorIndex = null;
+        }
+
+        saveDoctors();
+        renderDoctors();
+        closeDoctorModal();
+    });
+}
 
 function filterDoctors(){
     const searchInput = document.getElementById("doctorSearch");
@@ -152,10 +225,22 @@ function filterDoctors(){
 }
 
 function printDoctors(){
+    logActivity(
+        "Print",
+        "Doctors",
+        "Doctors list printed"
+    );
+
     window.print();
 }
 
 function exportDoctors(){
+    logActivity(
+        "Export",
+        "Doctors",
+        "Doctors list export requested"
+    );
+
     alert("Export feature will be connected later.");
 }
 

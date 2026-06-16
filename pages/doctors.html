@@ -39,11 +39,11 @@
 
         <section class="orders-header">
             <div>
-                <h1>Doctors Management</h1>
-                <p>Manage dentists and financial records</p>
+                <h1 data-en="Doctors Management" data-ar="إدارة الأطباء">Doctors Management</h1>
+                <p data-en="Manage dentists and financial records" data-ar="إدارة الأطباء والسجلات المالية">Manage dentists and financial records</p>
             </div>
 
-            <button class="primary-btn" onclick="openDoctorModal()">
+            <button class="primary-btn" onclick="openDoctorModal()" data-en="+ Add Doctor" data-ar="+ إضافة طبيب">
                 + Add Doctor
             </button>
         </section>
@@ -52,44 +52,42 @@
 
             <div class="stat-card blue">
                 <div class="stat-icon">👨‍⚕️</div>
-                <h3>Total Doctors</h3>
+                <h3 data-en="Total Doctors" data-ar="إجمالي الأطباء">Total Doctors</h3>
                 <strong id="totalDoctors">0</strong>
-                <p>Registered doctors</p>
+                <p data-en="Registered doctors" data-ar="الأطباء المسجلون">Registered doctors</p>
             </div>
 
             <div class="stat-card green">
                 <div class="stat-icon">📋</div>
-                <h3>Total Cases</h3>
+                <h3 data-en="Total Cases" data-ar="إجمالي الحالات">Total Cases</h3>
                 <strong id="totalCases">0</strong>
-                <p>All submitted cases</p>
+                <p data-en="All submitted cases" data-ar="جميع الحالات المرسلة">All submitted cases</p>
             </div>
 
             <div class="stat-card purple">
                 <div class="stat-icon">💰</div>
-                <h3>Total Revenue</h3>
+                <h3 data-en="Total Revenue" data-ar="إجمالي الإيرادات">Total Revenue</h3>
                 <strong id="totalRevenue">0 JD</strong>
-                <p>Paid amount</p>
+                <p data-en="Paid amount" data-ar="المبلغ المدفوع">Paid amount</p>
             </div>
 
             <div class="stat-card orange">
                 <div class="stat-icon">🧾</div>
-                <h3>Outstanding</h3>
+                <h3 data-en="Outstanding" data-ar="المبالغ المتبقية">Outstanding</h3>
                 <strong id="totalDue">0 JD</strong>
-                <p>Pending payments</p>
+                <p data-en="Pending payments" data-ar="دفعات قيد الانتظار">Pending payments</p>
             </div>
 
         </section>
 
         <section class="orders-toolbar doctors-toolbar">
-
-    <input
-        type="text"
-        id="doctorSearch"
-        placeholder="ابحث عن طبيب..."
-        onkeyup="filterDoctors()"
-    >
-
-</section>
+            <input
+                type="text"
+                id="doctorSearch"
+                placeholder="ابحث عن طبيب..."
+                onkeyup="filterDoctors()"
+            >
+        </section>
 
         <section class="orders-table-box">
 
@@ -103,14 +101,14 @@
 
                 <thead>
                     <tr>
-                        <th>Actions</th>
-                        <th>Doctor Name</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Cases</th>
-                        <th>Total Due</th>
-                        <th>Total Paid</th>
-                        <th>Remaining</th>
+                        <th data-en="Actions" data-ar="الإجراءات">Actions</th>
+                        <th data-en="Doctor Name" data-ar="اسم الطبيب">Doctor Name</th>
+                        <th data-en="Phone" data-ar="الهاتف">Phone</th>
+                        <th data-en="Address" data-ar="العنوان">Address</th>
+                        <th data-en="Cases" data-ar="الحالات">Cases</th>
+                        <th data-en="Total Due" data-ar="الإجمالي المستحق">Total Due</th>
+                        <th data-en="Total Paid" data-ar="إجمالي المدفوع">Total Paid</th>
+                        <th data-en="Remaining" data-ar="المتبقي">Remaining</th>
                     </tr>
                 </thead>
 
@@ -125,51 +123,48 @@
             <div class="modal-content wide-modal">
 
                 <div class="modal-header">
-                    <h2>Add Doctor</h2>
+                    <h2 data-en="Add Doctor" data-ar="إضافة طبيب">Add Doctor</h2>
                     <button onclick="closeDoctorModal()">✕</button>
                 </div>
 
                 <form id="doctorForm" class="order-form order-form-grid">
 
                     <div class="form-group">
-                        <label>Doctor Name</label>
+                        <label data-en="Doctor Name" data-ar="اسم الطبيب">Doctor Name</label>
                         <input type="text" id="doctorName" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Phone Number</label>
+                        <label data-en="Phone Number" data-ar="رقم الهاتف">Phone Number</label>
                         <input type="text" id="doctorPhone" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Address</label>
+                        <label data-en="Address" data-ar="العنوان">Address</label>
                         <input type="text" id="doctorAddress">
                     </div>
 
                     <div class="form-group">
-                        <label>Total Cases</label>
+                        <label data-en="Total Cases" data-ar="إجمالي الحالات">Total Cases</label>
                         <input type="number" id="doctorCases" value="0">
                     </div>
 
                     <div class="form-group">
-                        <label>Total Due</label>
+                        <label data-en="Total Due" data-ar="الإجمالي المستحق">Total Due</label>
                         <input type="number" id="doctorDue" value="0">
                     </div>
 
                     <div class="form-group">
-                        <label>Total Paid</label>
+                        <label data-en="Total Paid" data-ar="إجمالي المدفوع">Total Paid</label>
                         <input type="number" id="doctorPaid" value="0">
                     </div>
 
                     <div class="modal-actions">
-                        <button type="button"
-                                class="cancel-btn"
-                                onclick="closeDoctorModal()">
+                        <button type="button" class="cancel-btn" onclick="closeDoctorModal()" data-en="Cancel" data-ar="إلغاء">
                             Cancel
                         </button>
 
-                        <button type="submit"
-                                class="primary-btn">
+                        <button type="submit" class="primary-btn" data-en="Save Doctor" data-ar="حفظ الطبيب">
                             Save Doctor
                         </button>
                     </div>
@@ -185,7 +180,7 @@
     <aside class="right-sidebar">
 
         <div class="page-title-box">
-            <h2 id="doctorsSideTitle">DOCTORS</h2>
+            <h2 id="doctorsSideTitle" data-en="DOCTORS" data-ar="الأطباء">DOCTORS</h2>
         </div>
 
         <nav class="side-menu">
@@ -195,11 +190,11 @@
             <a href="patients.html">Patients Management</a>
             <a href="employees.html">Employees Management</a>
             <a href="inventory.html">Inventory</a>
-            <a>Quality Control</a>
-            <a>Notifications</a>
-            <a>Roles & Permissions</a>
-            <a>Activity Logs</a>
-            <a>Settings</a>
+            <a href="quality.html">Quality Control</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="roles.html">Roles & Permissions</a>
+            <a href="activity.html">Activity Logs</a>
+            <a href="settings.html">Settings</a>
         </nav>
 
         <button class="logout-btn" onclick="logout()">
@@ -212,6 +207,7 @@
 
 <script src="../js/auth.js"></script>
 <script src="../js/theme.js"></script>
+<script src="../js/activity.js"></script>
 <script src="../js/doctors.js"></script>
 
 </body>

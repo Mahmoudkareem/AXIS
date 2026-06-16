@@ -43,11 +43,10 @@
                 <p>Manage access levels for system users</p>
             </div>
 
-            <!-- No button needed -->
+            <button class="primary-btn" onclick="openRoleModal()">+ Add Role</button>
         </section>
 
         <section class="stats-grid">
-
             <div class="stat-card blue">
                 <div class="stat-icon">👑</div>
                 <h3>Lab Manager</h3>
@@ -75,7 +74,6 @@
                 <strong>Orders</strong>
                 <p>Orders only</p>
             </div>
-
         </section>
 
         <section class="orders-table-box">
@@ -86,6 +84,7 @@
             <table class="orders-table">
                 <thead>
                     <tr>
+                        <th>Actions</th>
                         <th>Role</th>
                         <th>Dashboard</th>
                         <th>Orders</th>
@@ -103,6 +102,46 @@
                 <tbody id="rolesTableBody"></tbody>
             </table>
         </section>
+
+        <div class="modal" id="roleModal">
+            <div class="modal-content wide-modal">
+
+                <div class="modal-header">
+                    <h2 id="roleModalTitle">Add New Role</h2>
+                    <button type="button" onclick="closeRoleModal()">✕</button>
+                </div>
+
+                <form id="roleForm" class="order-form">
+
+                    <input type="hidden" id="editRoleIndex">
+
+                    <div class="form-group">
+                        <label>Role Name</label>
+                        <input type="text" id="roleName" placeholder="Example: Accountant" required>
+                    </div>
+
+                    <div class="permissions-grid">
+                        <label><input type="checkbox" value="Dashboard"> Dashboard</label>
+                        <label><input type="checkbox" value="Orders"> Orders</label>
+                        <label><input type="checkbox" value="Doctors"> Doctors</label>
+                        <label><input type="checkbox" value="Patients"> Patients</label>
+                        <label><input type="checkbox" value="Employees"> Employees</label>
+                        <label><input type="checkbox" value="Inventory"> Inventory</label>
+                        <label><input type="checkbox" value="Quality"> Quality</label>
+                        <label><input type="checkbox" value="Notifications"> Notifications</label>
+                        <label><input type="checkbox" value="Roles"> Roles</label>
+                        <label><input type="checkbox" value="Settings"> Settings</label>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="cancel-btn" onclick="closeRoleModal()">Cancel</button>
+                        <button type="submit" class="primary-btn">Save Role</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
 
     </main>
 
@@ -134,6 +173,7 @@
 
 <script src="../js/auth.js"></script>
 <script src="../js/theme.js"></script>
+<script src="../js/activity.js"></script>
 <script src="../js/roles.js"></script>
 
 </body>
