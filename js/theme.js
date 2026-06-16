@@ -37,6 +37,7 @@ const lang = {
             "Notifications",
             "Roles & Permissions",
             "Activity Logs",
+            "Appointments",
             "Settings"
         ]
     },
@@ -54,6 +55,7 @@ const lang = {
             "الإشعارات",
             "الصلاحيات",
             "سجل العمليات",
+            "المواعيد",
             "الإعدادات"
         ]
     }
@@ -128,7 +130,7 @@ function applyLanguage(){
     translateRoles(isAr);
     translateActivity(isAr);
     translateSettings(isAr);
-
+    translateDoctorPortal(isAr);
     updateDate();
 }
 
@@ -424,29 +426,3 @@ function translateSettings(isAr){
         }
     });
 }
-
-function toggleLanguage(){
-    currentLang = currentLang === "en" ? "ar" : "en";
-    localStorage.setItem("axisLang", currentLang);
-    applyLanguage();
-}
-
-function updateDate(){
-    const dateBox = document.getElementById("currentDate");
-    if(!dateBox) return;
-
-    const now = new Date();
-    const locale = currentLang === "ar" ? "ar-JO" : "en-US";
-
-    dateBox.innerHTML =
-        "📅 " +
-        now.toLocaleDateString(locale, {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
-}
-
-applyTheme();
-applyLanguage();

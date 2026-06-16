@@ -28,6 +28,26 @@
             Precision • Quality • Excellence
         </p>
 
+        <div class="login-type-selector">
+
+            <button
+                type="button"
+                id="employeeBtn"
+                class="login-type-btn active"
+                onclick="selectLoginType('employee')">
+                🏢 AXIS STAFF
+            </button>
+
+            <button
+                type="button"
+                id="doctorBtn"
+                class="login-type-btn"
+                onclick="selectLoginType('doctor')">
+                🦷 DOCTOR
+            </button>
+
+        </div>
+
         <form onsubmit="login(event)" class="premium-form">
 
             <label>Username</label>
@@ -88,6 +108,30 @@
 </div>
 
 <script src="js/auth.js"></script>
+
+<script>
+let loginType = localStorage.getItem("axisLoginType") || "employee";
+
+function selectLoginType(type){
+    loginType = type;
+
+    localStorage.setItem("axisLoginType", type);
+
+    const employeeBtn = document.getElementById("employeeBtn");
+    const doctorBtn = document.getElementById("doctorBtn");
+
+    employeeBtn.classList.remove("active");
+    doctorBtn.classList.remove("active");
+
+    if(type === "employee"){
+        employeeBtn.classList.add("active");
+    }else{
+        doctorBtn.classList.add("active");
+    }
+}
+
+selectLoginType(loginType);
+</script>
 
 </body>
 </html>
