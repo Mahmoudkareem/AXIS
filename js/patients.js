@@ -113,9 +113,6 @@ function renderPatients(){
 
     filterPatients();
 
-    if(typeof applyLanguage === "function"){
-        applyLanguage();
-    }
 }
 
 function editPatient(index){

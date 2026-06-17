@@ -134,9 +134,6 @@ function renderEmployees(){
 
     filterEmployees();
 
-    if(typeof applyLanguage === "function"){
-        applyLanguage();
-    }
 }
 
 function editEmployee(index){

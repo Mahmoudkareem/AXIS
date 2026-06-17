@@ -129,9 +129,15 @@ function applyLanguage(){
     translateNotifications(isAr);
     translateRoles(isAr);
     translateActivity(isAr);
+
+    if(typeof translateAppointments === "function"){
+        translateAppointments(isAr);
+    }
+    translateActivity(isAr);
+    translateAppointments(isAr);
     translateSettings(isAr);
-    translateDoctorPortal(isAr);
-    updateDate();
+
+    if(typeof updateDate === "function") updateDate();
 }
 
 /* Dashboard */
@@ -359,6 +365,8 @@ function translateRoles(isAr){
 
 /* Activity */
 function translateActivity(isAr){
+    
+    
     if(!document.getElementById("activityTableBody")) return;
 
     setText(".orders-header h1", isAr ? "سجل العمليات" : "Activity Logs");
@@ -426,3 +434,70 @@ function translateSettings(isAr){
         }
     });
 }
+function toggleLanguage(){
+    currentLang = currentLang === "en" ? "ar" : "en";
+
+    localStorage.setItem("axisLang", currentLang);
+
+    applyLanguage();
+}
+function translateAppointments(isAr){
+    // Appointments Page
+
+    const title = document.querySelector(".appointments-header h1");
+    if(title){
+        title.textContent = isAr ? "المواعيد" : "Appointments";
+    }
+
+    const subtitle = document.querySelector(".appointments-header p");
+    if(subtitle){
+        subtitle.textContent = isAr
+            ? "إدارة مواعيد الأطباء والزيارات"
+            : "Manage doctor appointments and visits";
+    }
+}
+function translateAppointments(isAr){
+    if(!document.getElementById("adminAppointmentTableBody")) return;
+
+    setText(".orders-header h1", isAr ? "المواعيد" : "Doctor Appointments");
+    setText(".orders-header p", isAr ? "مراجعة وقبول أو رفض طلبات مواعيد الأطباء" : "Review, approve or reject doctors appointment requests");
+
+    setText(".page-title-box h2", isAr ? "المواعيد" : "APPOINTMENTS");
+
+    const cards = document.querySelectorAll(".stat-card");
+
+    if(cards[0]){
+        cards[0].querySelector("h3").textContent = isAr ? "إجمالي الطلبات" : "Total Requests";
+        cards[0].querySelector("p").textContent = isAr ? "كل طلبات المواعيد" : "All appointment requests";
+    }
+
+    if(cards[1]){
+        cards[1].querySelector("h3").textContent = isAr ? "قيد الانتظار" : "Pending";
+        cards[1].querySelector("p").textContent = isAr ? "بانتظار المراجعة" : "Waiting for review";
+    }
+
+    if(cards[2]){
+        cards[2].querySelector("h3").textContent = isAr ? "تمت الموافقة" : "Approved";
+        cards[2].querySelector("p").textContent = isAr ? "مواعيد مقبولة" : "Accepted appointments";
+    }
+
+    if(cards[3]){
+        cards[3].querySelector("h3").textContent = isAr ? "مرفوضة" : "Rejected";
+        cards[3].querySelector("p").textContent = isAr ? "طلبات مرفوضة" : "Declined requests";
+    }
+}
+function updateDate(){
+    const currentDate = document.getElementById("currentDate");
+
+    if(!currentDate) return;
+
+    const now = new Date();
+
+    currentDate.innerHTML =
+        now.toLocaleDateString() +
+        " | " +
+        now.toLocaleTimeString();
+}
+
+setInterval(updateDate, 1000);
+updateDate();

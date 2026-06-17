@@ -2907,3 +2907,22 @@ body.new-login-page{
         grid-column:1 !important;
     }
 }
+.top-actions{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lang-btn,
+.theme-btn{
+    margin: 0;
+}
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.user-box{
+    margin-right:15px;
+}

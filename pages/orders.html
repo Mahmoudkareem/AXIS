@@ -14,28 +14,25 @@
     <main class="main-content">
 
         <header class="topbar">
-            <div class="top-logo">
-                <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
+    <div class="top-logo">
+        <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
+    </div>
+
+    <div class="date-box" id="currentDate"></div>
+
+    <div class="top-actions">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">العربية</button>
+        <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+
+        <div class="user-box">
+            <div>
+                <strong>Mahmoud Kareem</strong>
+                <small>Lab Manager</small>
             </div>
-
-            <div class="date-box" id="currentDate"></div>
-
-            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">العربية</button>
-            <button class="theme-btn" onclick="toggleTheme()">🌙</button>
-
-            <div class="top-actions">
-                <span class="icon-badge">🔔 <b>8</b></span>
-                <span>💬</span>
-
-                <div class="user-box">
-                    <div>
-                        <strong>Mahmoud Kareem</strong>
-                        <small>Lab Manager</small>
-                    </div>
-                    <div class="avatar">MK</div>
-                </div>
-            </div>
-        </header>
+            <div class="avatar">MK</div>
+        </div>
+    </div>
+</header>
 
         <section class="orders-header">
             <div>
@@ -47,32 +44,32 @@
         </section>
 
         <section class="orders-toolbar">
-            <button>🖨️ Print</button>
-            <button>⬇️ Export</button>
+    <button>🖨️ Print</button>
+    <button onclick="exportOrders()">⬇️ Export</button>
 
-            <select>
-                <option>Date Range</option>
-                <option>Today</option>
-                <option>This Week</option>
-                <option>This Month</option>
-            </select>
+    <select id="dateRangeFilter" onchange="filterOrders()">
+        <option value="All">Date Range</option>
+        <option value="Today">Today</option>
+        <option value="This Week">This Week</option>
+        <option value="This Month">This Month</option>
+    </select>
 
-            <select id="statusFilter" onchange="filterOrders()">
-                <option value="All">All Status</option>
-                <option value="New">New</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Review">Review</option>
-                <option value="Ready">Ready</option>
-                <option value="Delivered">Delivered</option>
-            </select>
+    <select id="statusFilter" onchange="filterOrders()">
+        <option value="All">All Status</option>
+        <option value="New">New</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Review">Review</option>
+        <option value="Ready">Ready</option>
+        <option value="Delivered">Delivered</option>
+    </select>
 
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search by patient name or order ID"
-                onkeyup="filterOrders()"
-            >
-        </section>
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search by patient name or order ID"
+        onkeyup="filterOrders()"
+    >
+</section>
 
         <section class="orders-table-box">
             <div class="table-title">
@@ -250,18 +247,19 @@
         </div>
 
         <nav class="side-menu">
-            <a href="dashboard.html">Dashboard</a>
-            <a class="active" href="orders.html">Order Management</a>
-            <a href="doctors.html">Doctors Management</a>
-            <a href="patients.html">Patients Management</a>
-            <a href="employees.html">Employees Management</a>
-            <a href="inventory.html">Inventory</a>
-            <a href="quality.html">Quality Control</a>
-            <a href="notifications.html">Notifications</a>
-            <a href="roles.html">Roles & Permissions</a>
-            <a href="activity.html">Activity Logs</a>
-            <a href="settings.html">Settings</a>
-        </nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a class="active" href="orders.html">Order Management</a>
+    <a href="doctors.html">Doctors Management</a>
+    <a href="patients.html">Patients Management</a>
+    <a href="employees.html">Employees Management</a>
+    <a href="inventory.html">Inventory</a>
+    <a href="quality.html">Quality Control</a>
+    <a href="notifications.html">Notifications</a>
+    <a href="roles.html">Roles & Permissions</a>
+    <a href="activity.html">Activity Logs</a>
+    <a href="doctor-appointments.html">Appointments</a>
+    <a href="settings.html">Settings</a>
+</nav>
 
         <button class="logout-btn" onclick="logout()">Logout</button>
 

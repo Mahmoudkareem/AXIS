@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -18,22 +19,23 @@
         <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
     </div>
 
-    <div class="date-box" id="currentDate"></div>
+```
+<div class="date-box" id="currentDate"></div>
 
+<div class="top-actions">
     <button class="lang-btn" onclick="toggleDoctorLanguage()" id="doctorLangBtn">العربية</button>
     <button class="theme-btn" onclick="toggleTheme()">🌙</button>
 
-    <div class="top-actions">
-        <span class="icon-badge">🔔 <b id="doctorAlerts">0</b></span>
-
-        <div class="user-box">
-            <div>
-                <strong id="doctorNameTop">Doctor</strong>
-                <small id="doctorPortalText">Doctor Portal</small>
-            </div>
-            <div class="avatar">DR</div>
+    <div class="user-box">
+        <div>
+            <strong id="doctorNameTop">Doctor</strong>
+            <small id="doctorPortalText">Doctor Portal</small>
         </div>
+        <div class="avatar">DR</div>
     </div>
+</div>
+```
+
 </header>
 
 <section class="doctor-appointment-title">
@@ -43,88 +45,94 @@
 
 <section class="doctor-appointment-top">
 
-    <div class="doctor-box">
-        <div class="doctor-box-title">
-            <h2 id="appointmentStatusTitle">Appointment Status</h2>
-            <span>📅</span>
-        </div>
-
-        <div id="appointmentStatusBox">
-            <div class="appointment-status-design">
-                <strong>⏳ Appointment request is pending review</strong>
-                <p>Date: 2026-06-25</p>
-                <p>Time: 10:20</p>
-            </div>
-        </div>
+```
+<div class="doctor-box">
+    <div class="doctor-box-title">
+        <h2 id="appointmentStatusTitle">Appointment Status</h2>
+        <span>📅</span>
     </div>
 
-    <div class="doctor-box">
-        <div class="doctor-box-title">
-            <h2 id="appointmentInstructionsTitle">Appointment Instructions</h2>
-            <span>ⓘ</span>
+    <div id="appointmentStatusBox">
+        <div class="appointment-status-design">
+            <strong>⏳ Appointment request is pending review</strong>
+            <p>Date: 2026-06-25</p>
+            <p>Time: 10:20</p>
         </div>
-
-        <div class="appointment-step" id="appointmentInstructionOne">Choose the requested date and time.</div>
-        <div class="appointment-step" id="appointmentInstructionTwo">Write the reason for the appointment clearly.</div>
-        <div class="appointment-step" id="appointmentInstructionThree">The laboratory will review your request.</div>
     </div>
+</div>
+
+<div class="doctor-box">
+    <div class="doctor-box-title">
+        <h2 id="appointmentInstructionsTitle">Appointment Instructions</h2>
+        <span>ⓘ</span>
+    </div>
+
+    <div class="appointment-step" id="appointmentInstructionOne">Choose the requested date and time.</div>
+    <div class="appointment-step" id="appointmentInstructionTwo">Write the reason for the appointment clearly.</div>
+    <div class="appointment-step" id="appointmentInstructionThree">The laboratory will review your request.</div>
+</div>
+```
 
 </section>
 
 <section class="doctor-box appointment-form-box">
 
-    <div class="doctor-section-title">
-        <h2 id="requestNewAppointmentTitle">Request New Appointment</h2>
-        <span>📅</span>
+```
+<div class="doctor-section-title">
+    <h2 id="requestNewAppointmentTitle">Request New Appointment</h2>
+    <span>📅</span>
+</div>
+
+<form id="appointmentForm" class="appointment-modern-form">
+
+    <div class="form-group">
+        <label id="appointmentDateLabel">Requested Date</label>
+        <input type="date" id="appointmentDate" required>
     </div>
 
-    <form id="appointmentForm" class="appointment-modern-form">
+    <div class="form-group">
+        <label id="appointmentTimeLabel">Requested Time</label>
+        <input type="time" id="appointmentTime" required>
+    </div>
 
-        <div class="form-group">
-            <label id="appointmentDateLabel">Requested Date</label>
-            <input type="date" id="appointmentDate" required>
-        </div>
+    <div class="form-group reason-box">
+        <label id="appointmentReasonLabel">Reason</label>
+        <textarea id="appointmentReason" placeholder="Write appointment reason..." required></textarea>
+    </div>
 
-        <div class="form-group">
-            <label id="appointmentTimeLabel">Requested Time</label>
-            <input type="time" id="appointmentTime" required>
-        </div>
+    <div class="appointment-send-row">
+        <button type="submit" class="primary-btn appointment-send-btn" id="sendAppointmentBtn">
+            Send Appointment Request ✈️
+        </button>
+    </div>
 
-        <div class="form-group reason-box">
-            <label id="appointmentReasonLabel">Reason</label>
-            <textarea id="appointmentReason" placeholder="Write appointment reason..." required></textarea>
-        </div>
-
-        <div class="appointment-send-row">
-            <button type="submit" class="primary-btn appointment-send-btn" id="sendAppointmentBtn">
-                Send Appointment Request ✈️
-            </button>
-        </div>
-
-    </form>
+</form>
+```
 
 </section>
 
 <section class="doctor-box appointment-table-box">
 
-    <div class="doctor-section-title">
-        <h2 id="appointmentTableTitle">My Appointment Requests: 0</h2>
-        <span class="appointment-count">1</span>
-    </div>
+```
+<div class="doctor-section-title">
+    <h2 id="appointmentTableTitle">My Appointment Requests: 0</h2>
+    <span class="appointment-count">1</span>
+</div>
 
-    <table class="orders-table appointment-modern-table">
-        <thead>
-            <tr>
-                <th id="appThStatus">Status</th>
-                <th id="appThRequestedDate">Requested Date</th>
-                <th id="appThRequestedTime">Requested Time</th>
-                <th id="appThReason">Reason</th>
-                <th id="appThManagerResponse">Manager Response</th>
-            </tr>
-        </thead>
+<table class="orders-table appointment-modern-table">
+    <thead>
+        <tr>
+            <th id="appThStatus">Status</th>
+            <th id="appThRequestedDate">Requested Date</th>
+            <th id="appThRequestedTime">Requested Time</th>
+            <th id="appThReason">Reason</th>
+            <th id="appThManagerResponse">Manager Response</th>
+        </tr>
+    </thead>
 
-        <tbody id="appointmentTableBody"></tbody>
-    </table>
+    <tbody id="appointmentTableBody"></tbody>
+</table>
+```
 
 </section>
 
@@ -132,27 +140,33 @@
 
 <aside class="right-sidebar">
 
-    <div class="page-title-box">
-        <h2 id="doctorSideTitle">DOCTOR</h2>
-    </div>
+```
+<div class="page-title-box">
+    <h2 id="doctorSideTitle">DOCTOR</h2>
+</div>
 
-    <nav class="doctor-side-menu doctor-menu">
-        <a id="doctorMenuDashboard" href="doctor-dashboard.html">لوحة التحكم</a>
-        <a id="doctorMenuOrders" href="doctor-order-management.html">إدارة طلبات</a>
-        <a id="doctorMenuFinancial" href="doctor-financial.html">المالية</a>
-        <a id="doctorMenuAppointment" class="active" href="doctor-appointment.html">حجز موعد</a>
-    </nav>
+<nav class="doctor-side-menu doctor-menu">
+    <a id="doctorMenuDashboard" href="doctor-dashboard.html">لوحة التحكم</a>
+    <a id="doctorMenuOrders" href="doctor-order-management.html">إدارة طلبات</a>
+    <a id="doctorMenuFinancial" href="doctor-financial.html">المالية</a>
+    <a id="doctorMenuAppointment" class="active" href="doctor-appointment.html">حجز موعد</a>
+</nav>
 
-    <button class="logout-btn" onclick="logout()" id="doctorLogoutBtn">Logout</button>
+<button class="logout-btn" onclick="logout()" id="doctorLogoutBtn">Logout</button>
+```
 
 </aside>
 
 </div>
 
 <script src="../js/auth.js"></script>
+
 <script src="../js/theme.js"></script>
+
 <script src="../js/activity.js"></script>
+
 <script src="../js/doctor-appointment.js"></script>
+
 <script src="../js/doctor-language.js"></script>
 
 </body>

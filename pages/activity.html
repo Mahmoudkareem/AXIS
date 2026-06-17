@@ -14,28 +14,25 @@
     <main class="main-content">
 
         <header class="topbar">
-            <div class="top-logo">
-                <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
+    <div class="top-logo">
+        <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
+    </div>
+
+    <div class="date-box" id="currentDate"></div>
+
+    <div class="top-actions">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">العربية</button>
+        <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+
+        <div class="user-box">
+            <div>
+                <strong>Mahmoud Kareem</strong>
+                <small>Lab Manager</small>
             </div>
-
-            <div class="date-box" id="currentDate"></div>
-
-            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">العربية</button>
-            <button class="theme-btn" onclick="toggleTheme()">🌙</button>
-
-            <div class="top-actions">
-                <span class="icon-badge">🔔 <b>8</b></span>
-                <span>💬</span>
-
-                <div class="user-box">
-                    <div>
-                        <strong>Mahmoud Kareem</strong>
-                        <small>Lab Manager</small>
-                    </div>
-                    <div class="avatar">MK</div>
-                </div>
-            </div>
-        </header>
+            <div class="avatar">MK</div>
+        </div>
+    </div>
+</header>
 
         <section class="orders-header">
             <div>
@@ -125,18 +122,19 @@
         </div>
 
         <nav class="side-menu">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="orders.html">Order Management</a>
-            <a href="doctors.html">Doctors Management</a>
-            <a href="patients.html">Patients Management</a>
-            <a href="employees.html">Employees Management</a>
-            <a href="inventory.html">Inventory</a>
-            <a href="quality.html">Quality Control</a>
-            <a href="notifications.html">Notifications</a>
-            <a href="roles.html">Roles & Permissions</a>
-            <a class="active" href="activity.html">Activity Logs</a>
-            <a href="settings.html">Settings</a>
-        </nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="orders.html">Order Management</a>
+    <a href="doctors.html">Doctors Management</a>
+    <a href="patients.html">Patients Management</a>
+    <a href="employees.html">Employees Management</a>
+    <a href="inventory.html">Inventory</a>
+    <a href="quality.html">Quality Control</a>
+    <a href="notifications.html">Notifications</a>
+    <a href="roles.html">Roles & Permissions</a>
+    <a class="active" href="activity.html">Activity Logs</a>
+    <a href="doctor-appointments.html">Appointments</a>
+    <a href="settings.html">Settings</a>
+</nav>
 
         <button class="logout-btn" onclick="logout()">Logout</button>
 

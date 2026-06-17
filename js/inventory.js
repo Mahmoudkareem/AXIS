@@ -81,7 +81,7 @@ function saveInventory(){
 
 function getStockStatus(item){
     if(Number(item.quantity) <= 0){
-        return "Out Of Stock";
+        return "Out of Stock";
     }
 
     if(Number(item.quantity) <= Number(item.minimum)){
@@ -100,7 +100,7 @@ function getStockClass(status){
         return "progress";
     }
 
-    if(status === "Out Of Stock"){
+    if(status === "Out of Stock"){
         return "new";
     }
 
@@ -142,7 +142,7 @@ function renderInventory(){
             lowStockCount++;
         }
 
-        if(status === "Out Of Stock"){
+        if(status === "Out of Stock"){
             outStockCount++;
         }
 
@@ -175,9 +175,6 @@ function renderInventory(){
 
     filterInventory();
 
-    if(typeof applyLanguage === "function"){
-        applyLanguage();
-    }
 }
 
 function editInventoryItem(index){
@@ -271,18 +268,18 @@ function filterInventory(){
     const searchInput = document.getElementById("inventorySearch");
     const stockFilter = document.getElementById("stockFilter");
 
-    const searchValue = searchInput ? searchInput.value.toLowerCase() : "";
-    const selectedStatus = stockFilter ? stockFilter.value : "All";
+    const searchValue = searchInput ? searchInput.value.toLowerCase().trim() : "";
+    const selectedStatus = stockFilter ? stockFilter.value.toLowerCase().trim() : "all";
 
     const rows = document.querySelectorAll("#inventoryTableBody tr");
 
     rows.forEach(function(row){
         const rowText = row.innerText.toLowerCase();
         const statusElement = row.querySelector(".status");
-        const statusText = statusElement ? statusElement.textContent : "";
+        const statusText = statusElement ? statusElement.textContent.toLowerCase().trim() : "";
 
         const matchSearch = rowText.includes(searchValue);
-        const matchStatus = selectedStatus === "All" || statusText === selectedStatus;
+        const matchStatus = selectedStatus === "all" || statusText === selectedStatus;
 
         row.style.display = matchSearch && matchStatus ? "" : "none";
     });
@@ -298,14 +295,59 @@ function printInventory(){
     window.print();
 }
 
-function exportInventory(){
+function exportInventory() {
+
+    if (!inventoryItems || inventoryItems.length === 0) {
+        alert("No inventory data to export");
+        return;
+    }
+
+    let csvContent =
+        "Item Name,Category,Quantity,Minimum Stock,Unit Price,Total Value,Status,Last Updated,Notes\n";
+
+    inventoryItems.forEach(function(item) {
+
+        const totalValue = Number(item.quantity) * Number(item.price);
+        const status = getStockStatus(item);
+
+        const row = [
+            item.name || "",
+            item.category || "",
+            item.quantity || 0,
+            item.minimum || 0,
+            item.price || 0,
+            totalValue.toFixed(2),
+            status,
+            item.lastUpdated || "",
+            item.notes || ""
+        ].map(function(value) {
+            return `"${String(value).replace(/"/g, '""')}"`;
+        }).join(",");
+
+        csvContent += row + "\n";
+    });
+
+    const blob = new Blob([csvContent], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+
+    link.href = url;
+    link.download = "axis_inventory_export.csv";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
     logActivity(
         "Export",
         "Inventory",
-        "Inventory list export requested"
+        "Inventory exported as CSV file"
     );
-
-    alert("Export feature will be connected later.");
 }
 
 const inventoryModal = document.getElementById("inventoryModal");

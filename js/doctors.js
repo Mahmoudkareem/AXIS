@@ -116,9 +116,6 @@ function renderDoctors(){
 
     filterDoctors();
 
-    if(typeof applyLanguage === "function"){
-        applyLanguage();
-    }
 }
 
 function editDoctor(index){

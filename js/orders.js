@@ -129,21 +129,91 @@ function renderOrders() {
 function filterOrders() {
     const searchInput = document.getElementById("searchInput");
     const statusFilter = document.getElementById("statusFilter");
+    const dateRangeFilter = document.getElementById("dateRangeFilter");
 
     const searchValue = searchInput ? searchInput.value.toLowerCase() : "";
     const selectedStatus = statusFilter ? statusFilter.value : "All";
+    const selectedDateRange = dateRangeFilter ? dateRangeFilter.value : "All";
 
     const rows = document.querySelectorAll(".orders-table tbody tr");
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    function parseAxisDate(value) {
+        if (!value) return null;
+
+        if (value.includes("/")) {
+            const parts = value.split("/");
+            return new Date(
+                parseInt(parts[2], 10),
+                parseInt(parts[1], 10) - 1,
+                parseInt(parts[0], 10)
+            );
+        }
+
+        if (value.includes("-")) {
+            return new Date(value);
+        }
+
+        return null;
+    }
 
     rows.forEach(function(row) {
         const rowText = row.innerText.toLowerCase();
         const statusSelect = row.querySelector(".status-select");
         const rowStatus = statusSelect ? statusSelect.value : "";
 
+        const orderIdCell = row.children[2];
+        const orderId = orderIdCell ? orderIdCell.textContent.trim() : "";
+
+        const order = orders.find(function(item) {
+            return item.id === orderId;
+        });
+
+        let matchDate = true;
+
+        if (selectedDateRange !== "All") {
+            const dateCell = row.children[5];
+            const rowOrderDateText = dateCell ? dateCell.textContent.trim() : "";
+
+            const orderDate = parseAxisDate(
+                order && order.orderDate ? order.orderDate : rowOrderDateText
+            );
+
+            if (!orderDate || isNaN(orderDate.getTime())) {
+                matchDate = false;
+            } else {
+                orderDate.setHours(0, 0, 0, 0);
+
+                if (selectedDateRange === "Today") {
+                    matchDate = orderDate.getTime() === today.getTime();
+                }
+
+                if (selectedDateRange === "This Week") {
+                    const firstDayOfWeek = new Date(today);
+                    firstDayOfWeek.setDate(today.getDate() - today.getDay());
+                    firstDayOfWeek.setHours(0, 0, 0, 0);
+
+                    const lastDayOfWeek = new Date(firstDayOfWeek);
+                    lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
+                    lastDayOfWeek.setHours(23, 59, 59, 999);
+
+                    matchDate = orderDate >= firstDayOfWeek && orderDate <= lastDayOfWeek;
+                }
+
+                if (selectedDateRange === "This Month") {
+                    matchDate =
+                        orderDate.getMonth() === today.getMonth() &&
+                        orderDate.getFullYear() === today.getFullYear();
+                }
+            }
+        }
+
         const matchSearch = rowText.includes(searchValue);
         const matchStatus = selectedStatus === "All" || rowStatus === selectedStatus;
 
-        row.style.display = matchSearch && matchStatus ? "" : "none";
+        row.style.display = matchSearch && matchStatus && matchDate ? "" : "none";
     });
 }
 
@@ -346,5 +416,65 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     renderOrders();
     closeOrderModal();
 });
+const dateFilters = ["fromDate", "dateFrom", "startDate", "toDate", "dateTo", "endDate"];
 
+dateFilters.forEach(function(id) {
+    const input = document.getElementById(id);
+
+    if (input) {
+        input.addEventListener("change", filterOrders);
+        input.addEventListener("input", filterOrders);
+    }
+});
+function exportOrders() {
+    if (!orders || orders.length === 0) {
+        alert("No orders to export");
+        return;
+    }
+
+    let csvContent = "Order ID,Patient Name,Doctor,Work Type,Technician,Order Date,Delivery Date,Priority,Status,Progress,Notes\n";
+
+    orders.forEach(function(order) {
+        const row = [
+            order.id || "",
+            order.patientName || "",
+            order.doctorName || "",
+            order.workType || "",
+            order.technicianName || "",
+            order.orderDate || "",
+            order.deliveryDate || "",
+            order.priority || "",
+            order.status || "",
+            order.progress || "",
+            order.notes || ""
+        ].map(function(value) {
+            return `"${String(value).replace(/"/g, '""')}"`;
+        }).join(",");
+
+        csvContent += row + "\n";
+    });
+
+    const blob = new Blob([csvContent], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", "axis_orders_export.csv");
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+    logActivity(
+        "Export",
+        "Orders",
+        "Orders data exported as CSV file"
+    );
+}
 renderOrders();

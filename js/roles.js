@@ -131,9 +131,6 @@ function renderPermissions(){
         `;
     });
 
-    if(typeof applyLanguage === "function"){
-        applyLanguage();
-    }
 }
 
 function openRoleModal(){

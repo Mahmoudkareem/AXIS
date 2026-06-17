@@ -14,38 +14,24 @@
 <main class="main-content">
 
 <header class="topbar">
+    <div class="top-logo">
+        <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
+    </div>
 
-<div class="top-logo">
-<img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
-</div>
+    <div class="date-box" id="currentDate"></div>
 
-<div class="date-box" id="currentDate"></div>
+    <div class="top-actions">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">العربية</button>
+        <button class="theme-btn" onclick="toggleTheme()">🌙</button>
 
-<button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
-العربية
-</button>
-
-<button class="theme-btn" onclick="toggleTheme()">🌙</button>
-
-<div class="top-actions">
-
-<span class="icon-badge">
-🔔 <b>8</b>
-</span>
-
-<span>💬</span>
-
-<div class="user-box">
-<div>
-<strong>Mahmoud Kareem</strong>
-<small>Lab Manager</small>
-</div>
-
-<div class="avatar">MK</div>
-</div>
-
-</div>
-
+        <div class="user-box">
+            <div>
+                <strong>Mahmoud Kareem</strong>
+                <small>Lab Manager</small>
+            </div>
+            <div class="avatar">MK</div>
+        </div>
+    </div>
 </header>
 
 <section class="orders-header">
@@ -238,6 +224,10 @@ Roles & Permissions
 
 <a href="activity.html">
 Activity Logs
+</a>
+
+<a href="doctor-appointments.html">
+Appointments
 </a>
 
 <a href="settings.html">
