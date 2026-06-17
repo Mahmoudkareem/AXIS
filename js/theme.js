@@ -133,8 +133,7 @@ function applyLanguage(){
     if(typeof translateAppointments === "function"){
         translateAppointments(isAr);
     }
-    translateActivity(isAr);
-    translateAppointments(isAr);
+
     translateSettings(isAr);
 
     if(typeof updateDate === "function") updateDate();
@@ -441,21 +440,7 @@ function toggleLanguage(){
 
     applyLanguage();
 }
-function translateAppointments(isAr){
-    // Appointments Page
 
-    const title = document.querySelector(".appointments-header h1");
-    if(title){
-        title.textContent = isAr ? "المواعيد" : "Appointments";
-    }
-
-    const subtitle = document.querySelector(".appointments-header p");
-    if(subtitle){
-        subtitle.textContent = isAr
-            ? "إدارة مواعيد الأطباء والزيارات"
-            : "Manage doctor appointments and visits";
-    }
-}
 function translateAppointments(isAr){
     if(!document.getElementById("adminAppointmentTableBody")) return;
 
