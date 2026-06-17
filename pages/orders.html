@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AXIS Order Management</title>
-<link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXIS Order Management</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body class="dashboard-page">
@@ -14,25 +14,25 @@
     <main class="main-content">
 
         <header class="topbar">
-    <div class="top-logo">
-        <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
-    </div>
-
-    <div class="date-box" id="currentDate"></div>
-
-    <div class="top-actions">
-        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">العربية</button>
-        <button class="theme-btn" onclick="toggleTheme()">🌙</button>
-
-        <div class="user-box">
-            <div>
-                <strong>Mahmoud Kareem</strong>
-                <small>Lab Manager</small>
+            <div class="top-logo">
+                <img class="moving-logo" src="../assets/logo.png" alt="AXIS Logo">
             </div>
-            <div class="avatar">MK</div>
-        </div>
-    </div>
-</header>
+
+            <div class="date-box" id="currentDate"></div>
+
+            <div class="top-actions">
+                <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">العربية</button>
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+
+                <div class="user-box">
+                    <div>
+                        <strong>Mahmoud Kareem</strong>
+                        <small>Lab Manager</small>
+                    </div>
+                    <div class="avatar">MK</div>
+                </div>
+            </div>
+        </header>
 
         <section class="orders-header">
             <div>
@@ -44,32 +44,32 @@
         </section>
 
         <section class="orders-toolbar">
-    <button>🖨️ Print</button>
-    <button onclick="exportOrders()">⬇️ Export</button>
+            <button type="button">🖨️ Print</button>
+            <button type="button" onclick="exportOrders()">⬇️ Export</button>
 
-    <select id="dateRangeFilter" onchange="filterOrders()">
-        <option value="All">Date Range</option>
-        <option value="Today">Today</option>
-        <option value="This Week">This Week</option>
-        <option value="This Month">This Month</option>
-    </select>
+            <select id="dateRangeFilter" onchange="filterOrders()">
+                <option value="All">Date Range</option>
+                <option value="Today">Today</option>
+                <option value="This Week">This Week</option>
+                <option value="This Month">This Month</option>
+            </select>
 
-    <select id="statusFilter" onchange="filterOrders()">
-        <option value="All">All Status</option>
-        <option value="New">New</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Review">Review</option>
-        <option value="Ready">Ready</option>
-        <option value="Delivered">Delivered</option>
-    </select>
+            <select id="statusFilter" onchange="filterOrders()">
+                <option value="All">All Status</option>
+                <option value="New">New</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Review">Review</option>
+                <option value="Ready">Ready</option>
+                <option value="Delivered">Delivered</option>
+            </select>
 
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Search by patient name or order ID"
-        onkeyup="filterOrders()"
-    >
-</section>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search by patient name or order ID"
+                onkeyup="filterOrders()"
+            >
+        </section>
 
         <section class="orders-table-box">
             <div class="table-title">
@@ -159,72 +159,72 @@
                 <form id="orderForm" class="order-form order-form-grid">
 
                     <div class="form-group">
-                        <label>Patient Name</label>
+                        <label for="patientName">Patient Name</label>
                         <input type="text" id="patientName" placeholder="Enter patient name" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Doctor</label>
+                        <label for="doctorName">Doctor</label>
                         <select id="doctorName" required>
                             <option value="">Select Doctor</option>
-                            <option>Dr. Ahmed</option>
-                            <option>Dr. Samer</option>
-                            <option>Dr. Kareem</option>
-                            <option>Dr. Sara</option>
+                            <option value="Dr. Ahmed">Dr. Ahmed</option>
+                            <option value="Dr. Samer">Dr. Samer</option>
+                            <option value="Dr. Kareem">Dr. Kareem</option>
+                            <option value="Dr. Sara">Dr. Sara</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Type Of Work</label>
+                        <label for="workType">Type Of Work</label>
                         <select id="workType" required>
                             <option value="">Select Type of Work</option>
-                            <option>Zirconia Crown</option>
-                            <option>E-max Crown</option>
-                            <option>Veneer</option>
-                            <option>Bridge</option>
-                            <option>Implant Crown</option>
-                            <option>Implant Bridge</option>
-                            <option>Partial Denture</option>
-                            <option>Complete Denture</option>
-                            <option>Night Guard</option>
-                            <option>Retainer</option>
-                            <option>Repair</option>
+                            <option value="Zirconia Crown">Zirconia Crown</option>
+                            <option value="E-max Crown">E-max Crown</option>
+                            <option value="Veneer">Veneer</option>
+                            <option value="Bridge">Bridge</option>
+                            <option value="Implant Crown">Implant Crown</option>
+                            <option value="Implant Bridge">Implant Bridge</option>
+                            <option value="Partial Denture">Partial Denture</option>
+                            <option value="Complete Denture">Complete Denture</option>
+                            <option value="Night Guard">Night Guard</option>
+                            <option value="Retainer">Retainer</option>
+                            <option value="Repair">Repair</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Technician</label>
+                        <label for="technicianName">Technician</label>
                         <select id="technicianName" required>
                             <option value="">Select Technician</option>
-                            <option>Ahmed Khaled</option>
-                            <option>Mohammad Ali</option>
-                            <option>Yousef Omar</option>
-                            <option>Laila Hassan</option>
+                            <option value="Ahmed Khaled">Ahmed Khaled</option>
+                            <option value="Mohammad Ali">Mohammad Ali</option>
+                            <option value="Yousef Omar">Yousef Omar</option>
+                            <option value="Laila Hassan">Laila Hassan</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Delivery Date</label>
+                        <label for="deliveryDate">Delivery Date</label>
                         <input type="date" id="deliveryDate" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Priority</label>
+                        <label for="priority">Priority</label>
                         <select id="priority" required>
                             <option value="">Select Priority</option>
-                            <option>Normal</option>
-                            <option>Urgent</option>
-                            <option>Low</select>option>
+                            <option value="Normal">Normal</option>
+                            <option value="Urgent">Urgent</option>
+                            <option value="Low">Low</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Case Images</label>
+                        <label for="caseImages">Case Images</label>
                         <input type="file" id="caseImages" multiple>
                     </div>
 
                     <div class="form-group">
-                        <label>Notes</label>
+                        <label for="orderNotes">Notes</label>
                         <textarea id="orderNotes" placeholder="Write notes here"></textarea>
                     </div>
 
@@ -247,19 +247,19 @@
         </div>
 
         <nav class="side-menu">
-    <a href="dashboard.html">Dashboard</a>
-    <a class="active" href="orders.html">Order Management</a>
-    <a href="doctors.html">Doctors Management</a>
-    <a href="patients.html">Patients Management</a>
-    <a href="employees.html">Employees Management</a>
-    <a href="inventory.html">Inventory</a>
-    <a href="quality.html">Quality Control</a>
-    <a href="notifications.html">Notifications</a>
-    <a href="roles.html">Roles & Permissions</a>
-    <a href="activity.html">Activity Logs</a>
-    <a href="doctor-appointments.html">Appointments</a>
-    <a href="settings.html">Settings</a>
-</nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a class="active" href="orders.html">Order Management</a>
+            <a href="doctors.html">Doctors Management</a>
+            <a href="patients.html">Patients Management</a>
+            <a href="employees.html">Employees Management</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="quality.html">Quality Control</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="roles.html">Roles & Permissions</a>
+            <a href="activity.html">Activity Logs</a>
+            <a href="doctor-appointments.html">Appointments</a>
+            <a href="settings.html">Settings</a>
+        </nav>
 
         <button class="logout-btn" onclick="logout()">Logout</button>
 
@@ -271,5 +271,6 @@
 <script src="../js/theme.js"></script>
 <script src="../js/activity.js"></script>
 <script src="../js/orders.js"></script>
+
 </body>
 </html>
