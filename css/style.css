@@ -2926,3 +2926,431 @@ body.new-login-page{
 .user-box{
     margin-right:15px;
 }
+.appointment-demo-form{
+    display: grid;
+    gap: 18px;
+}
+
+.slot-legend{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 10px 0 14px;
+    font-size: 13px;
+    color: #666;
+}
+
+.dot{
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.available-dot{
+    background: #18b26b;
+}
+
+.booked-dot{
+    background: #ff4d4d;
+}
+
+.off-dot{
+    background: #b8b8b8;
+}
+
+.time-slots{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.time-slot{
+    border: none;
+    border-radius: 14px;
+    padding: 12px 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.time-slot.available{
+    background: #e9fff3;
+    color: #139957;
+    border: 1px solid #bdf0d2;
+}
+
+.time-slot.available:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(19, 153, 87, 0.18);
+}
+
+.time-slot.booked{
+    background: #ffecec;
+    color: #d93025;
+    border: 1px solid #ffc9c9;
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+.time-slot.selected{
+    background: linear-gradient(135deg, #8e2de2, #d62846);
+    color: #fff;
+    border: none;
+    box-shadow: 0 10px 25px rgba(142, 45, 226, 0.3);
+}
+
+.selected-slot-text{
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #8e2de2;
+}
+
+body.dark-mode .slot-legend{
+    color: #ddd;
+}
+
+body.dark-mode .time-slot.available{
+    background: rgba(24, 178, 107, 0.15);
+    color: #70f0ae;
+}
+
+body.dark-mode .time-slot.booked{
+    background: rgba(255, 77, 77, 0.15);
+    color: #ff9a9a;
+}
+/* ===== AXIS Appointment Booking Demo Design ===== */
+
+.axis-appointment-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin:0 0 24px;
+}
+
+.axis-app-stat{
+    background:#fff;
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+    border:1px solid #eee;
+}
+
+.axis-app-stat span{
+    font-size:28px;
+}
+
+.axis-app-stat p{
+    margin:12px 0 8px;
+    color:#6b7280;
+    font-weight:800;
+}
+
+.axis-app-stat strong{
+    font-size:30px;
+    color:#8e2de2;
+}
+
+.axis-booking-board{
+    display:grid !important;
+    grid-template-columns:1fr 1.2fr 1fr !important;
+    gap:22px !important;
+    align-items:stretch !important;
+}
+
+.axis-booking-card{
+    background:#fff;
+    border:1px solid #ececf3;
+    border-radius:24px;
+    padding:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+}
+
+.axis-card-head{
+    margin-bottom:18px;
+}
+
+.axis-card-head h3{
+    font-size:20px;
+    font-weight:900;
+    color:#111827;
+}
+
+.axis-card-head small{
+    color:#6b7280;
+    font-weight:700;
+}
+
+.axis-date-input,
+.axis-details-card select,
+.axis-details-card textarea{
+    width:100%;
+    border:1px solid #ddd;
+    border-radius:14px;
+    padding:14px;
+    font-weight:800;
+    margin-bottom:16px;
+    background:#fff;
+}
+
+.axis-mini-calendar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:8px;
+    margin-top:12px;
+}
+
+.axis-mini-calendar div{
+    background:#f7f3ff;
+    color:#8e2de2;
+    padding:10px 0;
+    text-align:center;
+    border-radius:10px;
+    font-weight:900;
+    font-size:12px;
+}
+
+.axis-slot-legend{
+    display:flex;
+    gap:15px;
+    margin-bottom:15px;
+    font-size:13px;
+    font-weight:800;
+}
+
+.axis-dot{
+    width:10px;
+    height:10px;
+    display:inline-block;
+    border-radius:50%;
+    margin-right:6px;
+}
+
+.axis-dot.green{
+    background:#10b981;
+}
+
+.axis-dot.red{
+    background:#ef4444;
+}
+
+.axis-time-slots{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.axis-time-slots .time-slot{
+    height:48px;
+    border-radius:14px;
+    font-weight:900;
+}
+
+.axis-selected-slot{
+    margin-top:15px;
+    color:#8e2de2;
+    font-weight:900;
+}
+
+.axis-details-card label{
+    font-weight:900;
+    color:#111827;
+    margin-bottom:8px;
+}
+
+.axis-details-card textarea{
+    min-height:110px;
+    resize:none;
+}
+
+.axis-send-appointment{
+    width:100%;
+    height:52px;
+    border-radius:14px !important;
+    margin-top:8px;
+}
+
+body.dark-mode .axis-app-stat,
+body.dark-mode .axis-booking-card{
+    background:#1f2937 !important;
+    border-color:#374151 !important;
+}
+
+body.dark-mode .axis-card-head h3,
+body.dark-mode .axis-details-card label{
+    color:#f9fafb !important;
+}
+
+body.dark-mode .axis-card-head small,
+body.dark-mode .axis-app-stat p{
+    color:#d1d5db !important;
+}
+
+body.dark-mode .axis-mini-calendar div{
+    background:#111827 !important;
+    color:#c084fc !important;
+}
+
+@media(max-width:1100px){
+    .axis-booking-board,
+    .axis-appointment-stats{
+        grid-template-columns:1fr !important;
+    }
+}
+/* ===== AXIS Appointment Compact Fix ===== */
+
+.appointment-form-box{
+    padding:24px !important;
+}
+
+.axis-booking-board{
+    display:grid !important;
+    grid-template-columns:1fr 1.05fr 1fr !important;
+    gap:18px !important;
+}
+
+.axis-booking-card{
+    min-height:310px !important;
+    padding:20px !important;
+    border-radius:18px !important;
+}
+
+.axis-card-head{
+    margin-bottom:12px !important;
+}
+
+.axis-card-head h3{
+    font-size:18px !important;
+}
+
+.axis-card-head small{
+    font-size:13px !important;
+}
+
+.axis-date-input{
+    height:48px !important;
+    font-size:14px !important;
+    margin-bottom:14px !important;
+}
+
+.axis-mini-calendar{
+    margin-top:10px !important;
+    gap:6px !important;
+}
+
+.axis-mini-calendar div{
+    padding:8px 0 !important;
+    font-size:11px !important;
+}
+
+.axis-time-slots{
+    grid-template-columns:repeat(4,1fr) !important;
+    gap:10px !important;
+    margin-top:12px !important;
+}
+
+.axis-time-slots .time-slot{
+    height:42px !important;
+    font-size:14px !important;
+    border-radius:10px !important;
+}
+
+.axis-selected-slot{
+    font-size:13px !important;
+    margin-top:12px !important;
+}
+
+.axis-details-card select{
+    height:48px !important;
+    font-size:14px !important;
+}
+
+.axis-details-card textarea{
+    min-height:82px !important;
+    height:82px !important;
+    font-size:14px !important;
+}
+
+.axis-send-appointment{
+    height:48px !important;
+    margin-top:4px !important;
+}
+
+.axis-details-card label{
+    font-size:13px !important;
+    margin-bottom:6px !important;
+}
+
+.axis-slot-legend{
+    margin-bottom:10px !important;
+}
+/* ===== AXIS Appointment Final Polish ===== */
+
+.axis-app-stat:nth-child(1){
+    background:linear-gradient(135deg,#fff,#f7ecff) !important;
+    border-color:#e9d5ff !important;
+}
+
+.axis-app-stat:nth-child(2){
+    background:linear-gradient(135deg,#fff,#fff4e6) !important;
+    border-color:#ffd8a8 !important;
+}
+
+.axis-app-stat:nth-child(3){
+    background:linear-gradient(135deg,#fff,#ecfff6) !important;
+    border-color:#bbf7d0 !important;
+}
+
+.axis-app-stat:nth-child(4){
+    background:linear-gradient(135deg,#fff,#fff0f0) !important;
+    border-color:#fecaca !important;
+}
+
+.axis-app-stat:nth-child(1) strong{color:#8e2de2 !important;}
+.axis-app-stat:nth-child(2) strong{color:#f59e0b !important;}
+.axis-app-stat:nth-child(3) strong{color:#10b981 !important;}
+.axis-app-stat:nth-child(4) strong{color:#ef4444 !important;}
+
+.axis-time-slots{
+    grid-template-columns:repeat(4,1fr) !important;
+}
+
+.time-slot.selected{
+    background:linear-gradient(135deg,#8e2de2,#d62846) !important;
+    color:#fff !important;
+    border:none !important;
+    box-shadow:0 10px 22px rgba(142,45,226,.28) !important;
+}
+
+.next-appointment-card{
+    background:linear-gradient(135deg,#eef6ff,#ffffff) !important;
+    border-radius:16px !important;
+    padding:18px !important;
+    border:1px solid #dbeafe !important;
+}
+
+.next-appointment-card strong{
+    display:block !important;
+    color:#2563eb !important;
+    font-size:18px !important;
+    margin-bottom:8px !important;
+}
+
+.next-appointment-card p{
+    margin:6px 0 !important;
+    font-weight:800 !important;
+    color:#111827 !important;
+}
+
+.next-appointment-card .approved-label{
+    display:inline-block !important;
+    margin-top:8px !important;
+    padding:7px 12px !important;
+    border-radius:10px !important;
+    background:#dcfce7 !important;
+    color:#16a34a !important;
+    font-weight:900 !important;
+}

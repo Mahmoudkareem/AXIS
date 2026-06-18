@@ -39,6 +39,32 @@
             <p id="doctorAppointmentPageDesc">Request an appointment with the laboratory manager</p>
         </section>
 
+        <section class="axis-appointment-stats">
+            <div class="axis-app-stat">
+                <span>📅</span>
+                <p>Total Requests</p>
+                <strong id="statTotalAppointments">0</strong>
+            </div>
+
+            <div class="axis-app-stat">
+                <span>⏳</span>
+                <p>Pending</p>
+                <strong id="statPendingAppointments">0</strong>
+            </div>
+
+            <div class="axis-app-stat">
+                <span>✅</span>
+                <p>Approved</p>
+                <strong id="statApprovedAppointments">0</strong>
+            </div>
+
+            <div class="axis-app-stat">
+                <span>❌</span>
+                <p>Rejected</p>
+                <strong id="statRejectedAppointments">0</strong>
+            </div>
+        </section>
+
         <section class="doctor-appointment-top">
 
             <div class="doctor-box">
@@ -63,7 +89,7 @@
                 </div>
 
                 <div class="appointment-step" id="appointmentInstructionOne">Choose the requested date and time.</div>
-                <div class="appointment-step" id="appointmentInstructionTwo">Write the reason for the appointment clearly.</div>
+                <div class="appointment-step" id="appointmentInstructionTwo">Choose only available time slots.</div>
                 <div class="appointment-step" id="appointmentInstructionThree">The laboratory will review your request.</div>
             </div>
 
@@ -76,26 +102,69 @@
                 <span>📅</span>
             </div>
 
-            <form id="appointmentForm" class="appointment-modern-form">
+            <form id="appointmentForm" class="axis-booking-board">
 
-                <div class="form-group">
-                    <label for="appointmentDate" id="appointmentDateLabel">Requested Date</label>
-                    <input type="date" id="appointmentDate" required>
+                <div class="axis-booking-card">
+                    <div class="axis-card-head">
+                        <h3>📅 Select Date</h3>
+                        <small>Choose appointment day</small>
+                    </div>
+
+                    <input type="date" id="appointmentDate" class="axis-date-input" required>
+
+                    <div class="axis-mini-calendar">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="appointmentTime" id="appointmentTimeLabel">Requested Time</label>
-                    <input type="time" id="appointmentTime" required>
+                <div class="axis-booking-card">
+                    <div class="axis-card-head">
+                        <h3>⏰ Available Time</h3>
+                        <small>Booked times are private</small>
+                    </div>
+
+                    <div class="axis-slot-legend">
+                        <span><b class="axis-dot green"></b>Available</span>
+                        <span><b class="axis-dot red"></b>Booked</span>
+                    </div>
+
+                    <input type="hidden" id="appointmentTime" required>
+
+                    <div id="timeSlots" class="axis-time-slots"></div>
+
+                    <p id="selectedSlotText" class="axis-selected-slot">
+                        Select a date first
+                    </p>
                 </div>
 
-                <div class="form-group reason-box">
+                <div class="axis-booking-card axis-details-card">
+                    <div class="axis-card-head">
+                        <h3>📝 Appointment Details</h3>
+                        <small>Write clear details</small>
+                    </div>
+
+                    <label for="appointmentType">Appointment Type</label>
+                    <select id="appointmentType" required>
+                        <option value="">Select Type</option>
+                        <option>Case Review</option>
+                        <option>Work Delivery</option>
+                        <option>Work Receiving</option>
+                        <option>Financial Meeting</option>
+                        <option>Manager Meeting</option>
+                        <option>Other</option>
+                    </select>
+
                     <label for="appointmentReason" id="appointmentReasonLabel">Reason</label>
                     <textarea id="appointmentReason" placeholder="Write appointment reason..." required></textarea>
-                </div>
 
-                <div class="appointment-send-row">
-                    <button type="submit" class="primary-btn appointment-send-btn" id="sendAppointmentBtn">
-                        Send Appointment Request ✈️
+                    <button type="submit" class="primary-btn axis-send-appointment" id="sendAppointmentBtn">
+                        Send Request ✈️
                     </button>
                 </div>
 
@@ -107,7 +176,7 @@
 
             <div class="doctor-section-title">
                 <h2 id="appointmentTableTitle">My Appointment Requests: 0</h2>
-                <span class="appointment-count">1</span>
+                <span class="appointment-count">0</span>
             </div>
 
             <table class="orders-table appointment-modern-table">
@@ -116,6 +185,7 @@
                         <th id="appThStatus">Status</th>
                         <th id="appThRequestedDate">Requested Date</th>
                         <th id="appThRequestedTime">Requested Time</th>
+                        <th>Type</th>
                         <th id="appThReason">Reason</th>
                         <th id="appThManagerResponse">Manager Response</th>
                     </tr>
